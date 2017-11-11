@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.getinstaapp.instaapp.Categories"
+    tools:showIn="@layout/app_bar_categories">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent">
+    <EditText
+        android:id="@+id/edcat_search"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="15dp"
+        android:shadowColor="#ffffff"
+        android:shadowDx="1.2"
+        android:shadowDy="1.2"
+        android:shadowRadius="1.5"
+      android:textAlignment="viewStart"
+        android:hint="   Search for services"
+        android:paddingRight="15dp"
+android:textColor="#FFF"
+        android:textColorHint="#fff"
+        android:background="@drawable/rounded_edittextred"
+      android:paddingLeft="10dp"
+        android:drawableLeft="@drawable/black_search"/>
+
+        <Button
+            android:id="@+id/home_searchbut"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+android:layout_marginTop="7dp"
+            android:layout_alignEnd="@+id/edcat_search"
+            android:layout_alignTop="@+id/edcat_search"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_mic_black_24dp" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="9dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="17dp"
+        android:text="Recommended Services"/>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_add"
+
+
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        >
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+      android:layout_below="@+id/edcat_search"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+    </android.support.v4.view.ViewPager>
+    </android.support.v7.widget.CardView>
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/home_gridview"
+        android:numColumns="3"
+       android:layout_margin="19dp"
+     android:verticalSpacing="20dp"
+        android:horizontalSpacing="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:scrollbars="none"
+        android:layout_below="@+id/pager" />
+</LinearLayout>

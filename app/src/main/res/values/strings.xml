@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Instaapp</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_signup">SignupActivity</string>
+    <string name="title_activity_otpverify">OTPVerify</string>
+
+    <string name="pin_content_desc">PIN input field</string>
+    <string name="pin_label_text">PIN</string>
+    <string name="title_activity_terms_and_conditions">Terms And Conditions</string>
+    <string name="title_activity_categories">Categories</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_home_location">HomeLocation</string>
+    <string name="title_activity_introslider">IntrosliderActivity</string>
+    <string name="title_activity_forgot_password">ForgotPassword</string>
+    <string name="title_activity_reset_password">ResetPassword</string>
+    <string name="title_activity_second">Second</string>
+    <string name="title_activity_all_search">AllSearch</string>
+</resources>

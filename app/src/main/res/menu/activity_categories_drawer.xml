@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/search"
+            android:title="Search" />
+
+    </group>
+
+    <item android:title="My Dashboard">
+        <menu>
+            <item
+                android:id="@+id/nav_services"
+                android:icon="@drawable/my_services"
+                android:title="My Services" />
+            <item
+                android:id="@+id/nav_notifications"
+                android:icon="@drawable/notification"
+                android:title="Notifications" />
+            <item
+                android:id="@+id/nav_favourites"
+                android:icon="@drawable/favorite"
+                android:title="Favourites" />
+        </menu>
+    </item>
+    <item android:title="Contact Us">
+        <menu>
+            <item
+                android:id="@+id/nav_call"                android:icon="@drawable/call"
+                android:title="Call" />
+            <item
+                android:id="@+id/nav_chat"
+                android:icon="@drawable/comments"
+                android:title="Chat" />
+        </menu>
+    </item>
+    <item android:title="My Profile">
+        <menu>
+            <item
+                android:id="@+id/nav_account"
+                android:icon="@drawable/account"
+                android:title="Account" />
+            <item
+                android:id="@+id/nav_feedback"
+                android:icon="@drawable/feedback"
+                android:title="Feedbaack" />
+            <item
+                android:id="@+id/nav_rateus"
+                android:icon="@drawable/rate_us"
+                android:title="Rate Us" />
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/share"
+                android:title="Share" />
+        </menu>
+    </item>
+    <item android:title="About Us">
+        <menu>
+            <item
+                android:id="@+id/nav_whorwe"
+                android:icon="@drawable/about_us"
+                android:title="Who are We?" />
+
+        </menu>
+    </item>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="Logout" />
+
+
+    </group>
+</menu>

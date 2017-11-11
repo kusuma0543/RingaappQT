@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.getinstaapp.instaapp">
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".AppController"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
+        <activity
+            android:name=".HomeScreen"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".HomeScreen"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.getinstaapp.instaapp.HomeScreen" />
+        </activity>
+        <activity
+            android:name=".SignupActivity"
+            android:label="@string/title_activity_signup"
+            android:parentActivityName=".HomeScreen"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.getinstaapp.instaapp.HomeScreen" />
+        </activity>
+        <activity
+            android:name=".OTPVerify"
+            android:label="@string/title_activity_otpverify"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.getinstaapp.instaapp.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".TermsAndConditions"
+            android:label="@string/title_activity_terms_and_conditions"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Categories"
+            android:label="@string/title_activity_categories"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HomeLocation"
+            android:label="@string/title_activity_home_location"
+            android:parentActivityName=".Categories"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.getinstaapp.instaapp.Categories" />
+        </activity>
+        <activity
+            android:name=".IntrosliderActivity"
+            android:label="@string/title_activity_introslider"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Splash"
+            android:theme="@style/SplashTheme">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".ForgotPassword"
+            android:label="@string/title_activity_forgot_password"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.getinstaapp.instaapp.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".ResetPassword"
+            android:label="@string/title_activity_reset_password"
+            android:parentActivityName=".ForgotPassword"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.getinstaapp.instaapp.ForgotPassword" />
+        </activity>
+        <activity
+            android:name=".Second"
+            android:label="@string/title_activity_second"
+            android:parentActivityName=".Categories"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.getinstaapp.instaapp.Categories" />
+        </activity>
+        <activity
+            android:name=".AllSearch"
+            android:label="@string/title_activity_all_search"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.getinstaapp.instaapp.Second"
+    tools:showIn="@layout/activity_second">
+    <RelativeLayout
+        android:id="@+id/relative_second"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent">
+        <EditText
+            android:id="@+id/edsubcat_search"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="15dp"
+            android:shadowColor="#ffffff"
+            android:shadowDx="1.2"
+            android:shadowDy="1.2"
+            android:shadowRadius="1.5"
+            android:textAlignment="viewStart"
+            android:hint="   Search for services"
+            android:paddingRight="15dp"
+            android:textColor="#FFF"
+            android:textColorHint="#fff"
+            android:background="@drawable/rounded_edittextred"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/black_search"/>
+
+        <!--<Button-->
+            <!--android:id="@+id/second_searchbut"-->
+            <!--android:layout_width="29dp"-->
+            <!--android:layout_height="29dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_alignEnd="@+id/edsubcat_search"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:background="@drawable/ic_mic_black_24dp" />-->
+    </RelativeLayout>
+    <ListView
+        android:layout_below="@+id/relative_second"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/second_listview"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        />
+</RelativeLayout>
