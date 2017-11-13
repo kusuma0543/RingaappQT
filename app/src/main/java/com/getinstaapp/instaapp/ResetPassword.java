@@ -126,30 +126,7 @@ private EditText edresetpswd,edconfirmpswd;
     public void resetpassword(final String s1, final String s2) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_resetpassword, new Response.Listener<String>() {
             public void onResponse(String response) {
-//                try {
-//                    JSONObject jObj = new JSONObject(response);
-//                    boolean abc = jObj.getBoolean("exits");
-//                    System.out.print(abc);
-//                    if (abc)
-//                    {
-//                      //  JSONObject users = jObj.getJSONObject("user_det");
-//                       // String uname1 = users.getString("mobile_number");
-//
-//                        Intent intent=new Intent(ResetPassword.this,OTPVerify.class);
-//                        intent.putExtra("mobile_number",sreset_mobile);
-//
-//
-//                        startActivity(intent);
-//
-//                    }
-//                    else
-//                    {
-//                        Toast.makeText(getApplicationContext(),"Please enter correct number",Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+
             }
 
         }, new Response.ErrorListener() {

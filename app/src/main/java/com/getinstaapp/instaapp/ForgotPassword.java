@@ -60,8 +60,8 @@ private EditText edforgotpswd;
                 sforgot_mobile=edforgotpswd.getText().toString();
                 forgot_updateotp(sforgot_mobile);
                 Intent intent=new Intent(ForgotPassword.this,OTPVerify.class);
-String fromforgot="fromforgot";
-intent.putExtra("fromforgot",fromforgot);
+                String fromforgot="fromforgot";
+                intent.putExtra("fromforgot",fromforgot);
                intent.putExtra("mobile_number",sforgot_mobile);
 
                 startActivity(intent);

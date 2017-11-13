@@ -132,17 +132,7 @@ String s1=mPinFirstDigitEditText.getText().toString().trim();
                 String s4=mPinForthDigitEditText.getText().toString().trim();
                 String s=s1+s2+s3+s4;
                 otp_check(last_number,s);
-//                if(s.equals(otp) || s.equals(value))
-//                {
-//                    Intent intent=new Intent(OTPVerify.this,Categories.class);
-//                    startActivity(intent);
-//                finish();
-//
-//                }
-//                else
-//                {
-//                    Toast.makeText(OTPVerify.this,"Please enter valid OTP",Toast.LENGTH_LONG).show();
-//                }
+
 
             }
         });
@@ -336,7 +326,7 @@ String s1=mPinFirstDigitEditText.getText().toString().trim();
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean abc = jObj.getBoolean("exits");
-                    System.out.print(abc);
+
                     if (abc)
                     {
                         JSONObject users = jObj.getJSONObject("user_det");
@@ -347,7 +337,7 @@ String s1=mPinFirstDigitEditText.getText().toString().trim();
     Intent intent=new Intent(OTPVerify.this,Categories.class);
                         intent.putExtra("mobile_number",uname1);
     intent.putExtra("otp_identification",uname2);
-    if (fromforgot.equals("fromforgot"))
+    if (fromforgot=="fromforgot")
     {
         Intent intent1=new Intent(OTPVerify.this,ResetPassword.class);
         intent.putExtra("mobile_number",uname1);
@@ -404,6 +394,9 @@ String s1=mPinFirstDigitEditText.getText().toString().trim();
                 return insert;
 
             }
+
+
+
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
 
