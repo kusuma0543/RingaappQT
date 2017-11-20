@@ -210,7 +210,7 @@ public class AllSearch extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         subcatelist item = movieMode.get(position);
-                        Intent intent = new Intent(AllSearch.this,HomeLocation.class);
+                        Intent intent = new Intent(AllSearch.this,Categories.class);
 //                        intent.putExtra("code",item.getScode());
 
 

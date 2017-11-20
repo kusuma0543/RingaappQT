@@ -62,6 +62,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import me.relex.circleindicator.CircleIndicator;
 
 public class Categories extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,AdapterView.OnItemSelectedListener {
@@ -72,8 +73,8 @@ public class Categories extends AppCompatActivity
     private ArrayList<String> students;
     private ProgressDialog dialog;
     private JSONArray result;
-    private Button home_searchbut;
-    private EditText edcat_search;
+   // private Button home_searchbut;
+    private Button edcat_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,26 +91,29 @@ public class Categories extends AppCompatActivity
 
         setTitle("INSTA");
         home_gridview=(GridView) findViewById(R.id.home_gridview);
-        home_searchbut=(Button) findViewById(R.id.home_searchbut);
-        edcat_search=(EditText) findViewById(R.id.edcat_search);
+        edcat_search=(Button) findViewById(R.id.edcat_search);
         mCustomPagerAdapter = new CustomPagerAdapter(this);
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mCustomPagerAdapter);
 
+
+        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
+        mViewPager.setAdapter(mCustomPagerAdapter);
+        indicator.setViewPager(mViewPager);
         students = new ArrayList<String>();
         home_tspinner=(Spinner) findViewById(R.id.home_tspinner);
         home_tspinner.setOnItemSelectedListener(this);
 
 getData();
-home_searchbut.setOnClickListener(new View.OnClickListener() {
+
+        edcat_search.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        String sed_home=edcat_search.getText().toString();
-        Intent intent=new Intent(Categories.this,AllSearch.class);
-        intent.putExtra("edkeyword",sed_home);
-       intent.putExtra("edkeywords","words");
-       // intent.putExtra("edkeyword", Categories.class.toString());
-        startActivity(intent);
+//        String sed_home=edcat_search.getText().toString();
+//        Intent intent=new Intent(Categories.this,AllSearch.class);
+//        intent.putExtra("edkeyword",sed_home);
+//       intent.putExtra("edkeywords","words");
+//       // intent.putExtra("edkeyword", Categories.class.toString());
+//        startActivity(intent);
 
     }
 });
@@ -409,4 +413,10 @@ home_searchbut.setOnClickListener(new View.OnClickListener() {
             private TextView menuname;
         }
     }
+
+
+
+
+
+
 }

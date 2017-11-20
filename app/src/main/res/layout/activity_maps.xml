@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+
+        tools:context="com.getinstaapp.instaapp.MapsActivity" >
+    </fragment>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_below="@+id/map"
+    android:layout_marginLeft="7dp"
+    android:layout_marginRight="7dp"
+    android:layout_marginTop="7dp"
+    android:orientation="horizontal"
+    android:id="@+id/filter_deta"
+    android:weightSum="5">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/ic_filter_list_black_24dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Filter By"
+        android:layout_weight="0"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/colorAccent"/>
+    <Button
+        android:id="@+id/maps_butlocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:text="Location"
+        android:layout_weight="1"
+
+        android:textColor="#FFFF"
+        android:background="@drawable/filter_shape"/>
+    <Button
+        android:id="@+id/map_butrating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:text="Rating"
+        android:layout_weight="1"
+        android:textColor="#FFFF"
+        android:background="@drawable/filter_shape"/>
+    <Button
+        android:id="@+id/map_butranking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:text="Ranking"
+        android:layout_weight="1"
+        android:textColor="#FFFF"
+        android:background="@drawable/filter_shape"/>
+</LinearLayout>
+
+    <ListView
+        android:layout_below="@+id/relative_second"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map_listviewone"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_marginTop="320dp"
+        >
+
+    </ListView>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map_listview"
+        android:visibility="invisible">
+
+    </ListView>
+</RelativeLayout>

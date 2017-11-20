@@ -15,5 +15,7 @@ class GlobalUrl {
     public static String user_spinnerdataret="http://quaticstech.in/projecti1andro/android_users_placesret.php";
     public static String user_sliderdataret="http://quaticstech.in/projecti1andro/android_users_slider.php";
 
+    public static String user_mapdetails="http://quaticstech.in/projecti1andro/geolocationtracker.php";
+
 }
 

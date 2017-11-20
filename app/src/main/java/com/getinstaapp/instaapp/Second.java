@@ -268,7 +268,7 @@ public class Second extends AppCompatActivity implements View.OnClickListener, V
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         subcatelist item = movieMode.get(position);
-                        Intent intent = new Intent(Second.this,HomeLocation.class);
+                        Intent intent = new Intent(Second.this,MapsActivity.class);
 //                        intent.putExtra("code",item.getScode());
 
 
