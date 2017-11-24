@@ -20,8 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,11 +106,7 @@ private EditText edresetpswd,edconfirmpswd;
 
                                 sreset_password=edconfirmpswd.getText().toString();
                                 resetpassword(sreset_mobile,sreset_password);
-                                Intent intent=new Intent(ResetPassword.this,Categories.class);
-                                intent.putExtra("mobile_number",sreset_mobile);
-                                Toast.makeText(getApplicationContext(),sreset_mobile,Toast.LENGTH_SHORT).show();
 
-                                startActivity(intent);
                             }
                         });
                     }
@@ -126,8 +121,37 @@ private EditText edresetpswd,edconfirmpswd;
     public void resetpassword(final String s1, final String s2) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_resetpassword, new Response.Listener<String>() {
             public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean abc = jObj.getBoolean("exits");
 
+
+                    if (abc)
+                    {
+                        JSONObject users = jObj.getJSONObject("users_detail");
+                        String uname1 = users.getString("user_mobile_number");
+                        String uname2=users.getString("user_uid");
+
+
+                        Intent intent=new Intent(ResetPassword.this,Categories.class);
+                        intent.putExtra("mobile_number",uname1);
+                        intent.putExtra("oneuid",uname2);
+
+                        startActivity(intent);
+
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Account already exists!",Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
+
 
         }, new Response.ErrorListener() {
             @Override
@@ -137,8 +161,8 @@ private EditText edresetpswd,edconfirmpswd;
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("mobile_number", s1);
-                params.put("password", s2);
+                params.put("user_mobile_number", s1);
+                params.put("user_password", s2);
 
 
 

@@ -19,4 +19,12 @@
     <string name="title_activity_second">Second</string>
     <string name="title_activity_all_search">AllSearch</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_profile_edit">ProfileEdit</string>
+    <string name="title_activity_otpverifys">OTPVerifys</string>
+    <string name="msg">please enable all permissions</string>
+    <string name="title_activity_user_map">UserMap</string>
+    <string name="title_activity_user_map_loc">UserMapLoc</string>
+    <string name="title_activity_user_sel_map">Map</string>
+
 </resources>

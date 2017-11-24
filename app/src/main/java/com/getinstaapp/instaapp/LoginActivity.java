@@ -29,10 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -45,15 +42,12 @@ import org.w3c.dom.Text;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     private Button butlogin_login;
     private EditText edlogin_mobile,edlogin_pswd;
     private TextView tvlogin_forgot,tvlogin_singnup;
 private String sphone,spassword;
-    private LinearLayout prof_section;
-    private SignInButton signin;
-    private GoogleApiClient googleApiClient;
-    private static final int REQ_CODE=9001;
+
     CatLoadingView mView;
 
     @Override
@@ -61,9 +55,6 @@ private String sphone,spassword;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        prof_section=(LinearLayout) findViewById(R.id.prof_section);
-        signin=(SignInButton) findViewById(R.id.butlogin_glogin);
 
         butlogin_login=(Button) findViewById(R.id.butlogin_login);
         edlogin_mobile=(EditText)findViewById(R.id.edlogin_num);
@@ -101,9 +92,7 @@ tvlogin_forgot.setOnClickListener(new View.OnClickListener() {
             }
         });
 
-        GoogleSignInOptions signInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        googleApiClient=new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
-        signin.setOnClickListener(this);
+
         butlogin_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,73 +140,12 @@ tvlogin_forgot.setOnClickListener(new View.OnClickListener() {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
-            case R.id.butlogin_glogin:
-                signin();
-                break;
 
-
-
-        }
 
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-    }
-    private void signin()
-    {
-        Intent intent=Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        startActivityForResult(intent,REQ_CODE);
 
-    }
-    private void handleResult(GoogleSignInResult result)
-    {
-
-        if(result.isSuccess())
-        {
-            GoogleSignInAccount account=result. getSignInAccount();
-            String name=account.getDisplayName();
-            String email=account.getEmail();
-            setContentView(R.layout.google_data);
-            TextView one=(TextView) findViewById(R.id.one);
-            TextView second=(TextView) findViewById(R.id.seon);
-
-            one.setText(name);//setting name and email to textviews
-            second.setText(email);
-            updateUI(true);
-
-        }
-        else {
-            updateUI(false);
-        }
-    }
-    private void updateUI(boolean isLogin)
-    {
-        if(isLogin)
-        {
-            prof_section.setVisibility(View.VISIBLE);
-            signin.setVisibility(View.GONE);
-        }
-        else
-        {
-            prof_section.setVisibility(View.GONE);
-            signin.setVisibility(View.VISIBLE);
-
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode,int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode, data);
-        if(requestCode==REQ_CODE)
-        {
-            GoogleSignInResult result=Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleResult(result);
-        }
-    }
     public void logininto(final String sphone1,final String sphone2) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_login, new Response.Listener<String>() {
             @Override
@@ -229,7 +157,7 @@ tvlogin_forgot.setOnClickListener(new View.OnClickListener() {
                     if (abc)
                     {
                         JSONObject users = jObj.getJSONObject("user_det");
-                        String uname1 = users.getString("mobile_number");
+                        String uname1 = users.getString("user_mobile_number");
 
                         Intent intent=new Intent(LoginActivity.this,OTPVerify.class);
                    intent.putExtra("mobile_number",uname1);
@@ -259,8 +187,8 @@ tvlogin_forgot.setOnClickListener(new View.OnClickListener() {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> insert = new HashMap<String, String>();
-                insert.put("mobile_number", sphone1);
-                insert.put("password", sphone2);
+                insert.put("user_mobile_number", sphone1);
+                insert.put("user_password", sphone2);
                 return insert;
 
             }

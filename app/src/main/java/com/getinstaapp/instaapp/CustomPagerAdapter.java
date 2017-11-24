@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +12,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
+
+import java.util.List;
+
 /**
  * Created by sweety on 10/12/2017.
  */
 
 public class CustomPagerAdapter extends PagerAdapter {
-    int[] mResources = {
-            R.drawable.home,
-            R.drawable.search,
-            R.drawable.refer,
-            R.drawable.call,
-            R.drawable.comments,
-            R.drawable.logout
-    };
+
+    private List<Sliderlist> sliderimg;
+    private ImageLoader imageLoader;
+
+//    int[] mResources = {
+//            R.drawable.home, R.drawable.search,R.drawable.refer,R.drawable.call,R.drawable.comments,R.drawable.logout
+//    };
     Context mContext;
     LayoutInflater mLayoutInflater;
 
-    public CustomPagerAdapter(Context context) {
+    public CustomPagerAdapter(List<Sliderlist>sliderimg,Context context) {
+        this.sliderimg=sliderimg;
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -35,7 +40,7 @@ public class CustomPagerAdapter extends PagerAdapter {
     @Override
     public int getCount() {
 
-        return mResources.length;
+        return sliderimg.size();
     }
 
     @Override
@@ -47,8 +52,17 @@ public class CustomPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
 
+
+        Sliderlist utils=sliderimg.get(position);
+
+
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imagesView);
-        imageView.setImageResource(mResources[position]);
+        imageLoader=CustomVolleyRequest.getInstance(mContext).getImageLoader();
+        imageLoader.get(utils.getBanner_images(),ImageLoader.getImageListener(imageView, R.mipmap.ic_launcher,android.R.drawable.ic_menu_search));
+
+
+
+        //imageView.setImageResource(mResources[position]);
         container.addView(itemView);
         itemView.setOnClickListener(new View.OnClickListener() {
     @Override

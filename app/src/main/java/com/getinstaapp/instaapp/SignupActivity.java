@@ -25,15 +25,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -46,20 +44,17 @@ import org.w3c.dom.Text;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignupActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener{
+public class SignupActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText edsignup_name,edsignup_mobile,edsignup_mail,edsignup_pswd;
     private String sname,semail,smobile,spassword;
     private String emailInput,emailPattern;
     private TextView tvsignup_tc,tvsignup_signin;
     private Button butsingnup_signup;
     private CheckBox checkbox;
-    String uname3;
-    private LinearLayout profil_section;
-    private SignInButton signin;
-    private GoogleApiClient googleApiClient;
-    private static final int REQ_CODE=9001;
+
+
     CatLoadingView mView;
-    private static final String PREFRENCES_NAME = "myprefrences";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +62,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_signup);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        profil_section=(LinearLayout) findViewById(R.id.poo);
         edsignup_name=(EditText) findViewById(R.id.edsignup_name);
         edsignup_mail=(EditText) findViewById(R.id.edsignup_mail);
         edsignup_mobile=(EditText) findViewById(R.id.edsignup_mobile);
@@ -75,13 +69,18 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         checkbox=(CheckBox) findViewById(R.id.checkBox);
         tvsignup_tc=(TextView) findViewById(R.id.tvsignup_tc);
         butsingnup_signup=(Button) findViewById(R.id.butsignup_signup);
-        signin=(SignInButton) findViewById(R.id.butsignup_gsignup);
+
         tvsignup_signin=(TextView) findViewById(R.id.tvsignup_signin);
 
-        GoogleSignInOptions signInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-      googleApiClient=new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
+        final RippleView rippleView = (RippleView) findViewById(R.id.more);
+        rippleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nsignin();
+            }
+        });
 
-        signin.setOnClickListener(this);
+
         butsingnup_signup.setOnClickListener(this);
 
         edsignup_name.setOnFocusChangeListener( new View.OnFocusChangeListener(){
@@ -154,9 +153,7 @@ tvsignup_tc.setOnClickListener(new View.OnClickListener() {
     public void onClick(View view) {
         switch (view.getId())
         {
-            case R.id.butsignup_gsignup:
-                signin();
-                break;
+
             case R.id.butsignup_signup:
                 nsignin();
                 mView = new CatLoadingView();
@@ -201,7 +198,7 @@ tvsignup_tc.setOnClickListener(new View.OnClickListener() {
 
                             startActivity(intent);
                         } else {
-                            Toast.makeText(SignupActivity.this, "Please check the Terms & Comditions m", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "Please check the Terms & Comditions", Toast.LENGTH_SHORT).show();
 
 
                         }
@@ -232,64 +229,7 @@ tvsignup_tc.setOnClickListener(new View.OnClickListener() {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-    }
-    private void signin()
-    {
-        Intent intent=Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        startActivityForResult(intent,REQ_CODE);
-
-    }
-    private void handleResult(GoogleSignInResult result)
-    {
-
-        if(result.isSuccess())
-        {
-            GoogleSignInAccount account=result. getSignInAccount();
-            String name=account.getDisplayName();
-            String email=account.getEmail();
-//            String img_url=account.getPhotoUrl().toString();
-            setContentView(R.layout.google_data);
-            TextView one=(TextView) findViewById(R.id.one);
-            TextView second=(TextView) findViewById(R.id.seon);
-
-            one.setText(name);
-            second.setText(email);
-            updateUI(true);
-
-        }
-        else {
-            updateUI(false);
-        }
-    }
-    private void updateUI(boolean isLogin)
-    {
-        if(isLogin)
-        {
-            profil_section.setVisibility(View.VISIBLE);
-            signin.setVisibility(View.GONE);
-
-        }
-        else
-        {
-            profil_section.setVisibility(View.GONE);
-            signin.setVisibility(View.VISIBLE);
-
-
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode,int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode, data);
-        if(requestCode==REQ_CODE)
-        {
-            GoogleSignInResult result=Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleResult(result);
-        }
-    }
 
     public void insertme(final String s1, final String s2,final String s3,final String s4) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_signup, new Response.Listener<String>() {
@@ -302,7 +242,7 @@ tvsignup_tc.setOnClickListener(new View.OnClickListener() {
                     if (abc)
                     {
                         JSONObject users = jObj.getJSONObject("users_detail");
-                       String uname1 = users.getString("mobile_number");
+                       String uname1 = users.getString("user_mobile_number");
 
 
 
@@ -332,10 +272,10 @@ tvsignup_tc.setOnClickListener(new View.OnClickListener() {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", s1);
-                params.put("email", s2);
-                params.put("mobile_number",s3);
-                params.put("password",s4);
+                params.put("user_name", s1);
+                params.put("user_email", s2);
+                params.put("user_mobile_number",s3);
+                params.put("user_password",s4);
 
 
                 return params;

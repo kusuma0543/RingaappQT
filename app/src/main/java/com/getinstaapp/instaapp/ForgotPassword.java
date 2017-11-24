@@ -19,8 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +58,7 @@ private EditText edforgotpswd;
             public void onClick(View v) {
                 sforgot_mobile=edforgotpswd.getText().toString();
                 forgot_updateotp(sforgot_mobile);
-                Intent intent=new Intent(ForgotPassword.this,OTPVerify.class);
+                Intent intent=new Intent(ForgotPassword.this,OTPVerifys.class);
                 String fromforgot="fromforgot";
                 intent.putExtra("fromforgot",fromforgot);
                intent.putExtra("mobile_number",sforgot_mobile);
@@ -85,7 +84,7 @@ private EditText edforgotpswd;
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("mobile_number", s1);
+                params.put("user_mobile_number", s1);
 
 
 

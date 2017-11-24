@@ -38,9 +38,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -57,7 +60,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import android.widget.AdapterView.OnItemSelectedListener;
 
 
@@ -68,13 +74,21 @@ public class Categories extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,AdapterView.OnItemSelectedListener {
     private CustomPagerAdapter mCustomPagerAdapter;
     private ViewPager mViewPager;
+    CircleIndicator indicator;
     private GridView home_gridview;
     private Spinner home_tspinner;
     private ArrayList<String> students;
     private ProgressDialog dialog;
     private JSONArray result;
-   // private Button home_searchbut;
+
     private Button edcat_search;
+
+private String firstuid;
+    RequestQueue rq;
+    List<Sliderlist> sliderimg;
+    String request_url=GlobalUrl.user_sliderdataret;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,16 +103,22 @@ public class Categories extends AppCompatActivity
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
 
+       //sendRequest();
         setTitle("INSTA");
+        Intent intent=getIntent();
+        firstuid=intent.getStringExtra("oneuid");
+        Toast.makeText(getApplicationContext(),firstuid,Toast.LENGTH_SHORT).show();
+updatelastseen(firstuid);
+
         home_gridview=(GridView) findViewById(R.id.home_gridview);
         edcat_search=(Button) findViewById(R.id.edcat_search);
-        mCustomPagerAdapter = new CustomPagerAdapter(this);
+
+        rq=Volley.newRequestQueue(this);
+        sliderimg=new ArrayList<>();
         mViewPager = (ViewPager) findViewById(R.id.pager);
+       indicator = (CircleIndicator) findViewById(R.id.indicator);
 
 
-        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
-        mViewPager.setAdapter(mCustomPagerAdapter);
-        indicator.setViewPager(mViewPager);
         students = new ArrayList<String>();
         home_tspinner=(Spinner) findViewById(R.id.home_tspinner);
         home_tspinner.setOnItemSelectedListener(this);
@@ -128,6 +148,8 @@ getData();
         new JSONTask().execute(GlobalUrl.user_categoriesret);
 
     }
+
+
 
     private void getData(){
         StringRequest stringRequest = new StringRequest(GlobalUrl.user_spinnerdataret,
@@ -222,6 +244,9 @@ getData();
         } else if (id == R.id.nav_chat) {
 
         } else if (id == R.id.nav_account) {
+            Intent intent=new Intent(Categories.this,ProfileActivity.class);
+            intent.putExtra("twouid",firstuid);
+            startActivity(intent);
 
         } else if (id == R.id.nav_feedback) {
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
@@ -247,6 +272,7 @@ getData();
 
         }else if (id == R.id.nav_logout) {
             Intent intent=new Intent(Categories.this,LoginActivity.class);
+            logmeout(firstuid);
             startActivity(intent);
         }
 
@@ -414,9 +440,124 @@ getData();
         }
     }
 
+public  void sendRequest()
+{
+//    JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, request_url,null, new Response.Listener<JSONArray>() {
+//        @Override
+//        public void onResponse(JSONArray response) {
+//            for(int i=0;i<response.length();i++)
+//            {
+//                Sliderlist sliderlist=new Sliderlist();
+//
+//                try {
+//                    JSONObject jsonObject=response.getJSONObject(i);
+//                    sliderlist.setBanner_images(jsonObject.getString("banner_images"));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//sliderimg.add(sliderlist);
+//            }
+//            mCustomPagerAdapter = new CustomPagerAdapter(sliderimg,Categories.this);
+//
+//            mViewPager.setAdapter(mCustomPagerAdapter);
+//            indicator.setViewPager(mViewPager);
+//
+//        }
+//    }, new Response.ErrorListener() {
+//        @Override
+//        public void onErrorResponse(VolleyError error) {
+//
+//        }
+//    });
+// rq.add(jsonArrayRequest);
+//   // AppController.getInstance().addToRequestQueue(jsonArrayRequest);
+//
+//}
+    StringRequest stringRequest = new StringRequest(Request.Method.GET, request_url, new Response.Listener<String>() {
+        public void onResponse(String response) {
+            for(int i=0;i<response.length();i++)
+            {
+                Sliderlist sliderlist=new Sliderlist();
+
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    sliderlist.setBanner_images(jsonObject.getString("banner_images"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+sliderimg.add(sliderlist);
+            }
+            mCustomPagerAdapter = new CustomPagerAdapter(sliderimg,Categories.this);
+
+            mViewPager.setAdapter(mCustomPagerAdapter);
+            indicator.setViewPager(mViewPager);
+
+        }
 
 
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error)
+        { }
+    }) {
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+            Map<String, String> params = new HashMap<String, String>();
+            return params;
+        }
+    };
+    //rq.add(stringRequest);
+    AppController.getInstance().addToRequestQueue(stringRequest);
+}
 
+    public void logmeout(final String s1) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_logoutmode, new Response.Listener<String>() {
+            public void onResponse(String response) {
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            { }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("user_uid",s1);
+
+
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    public void updatelastseen(final String s1) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_updatelastseen, new Response.Listener<String>() {
+            public void onResponse(String response) {
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            { }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("user_uid",s1);
+
+
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
 
 
 }

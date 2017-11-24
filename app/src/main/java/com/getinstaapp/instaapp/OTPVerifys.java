@@ -1,32 +1,23 @@
 package com.getinstaapp.instaapp;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,20 +29,14 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import swarajsaaj.smscodereader.interfaces.OTPListener;
-import swarajsaaj.smscodereader.receivers.OtpReader;
 
-public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeListener,View.OnClickListener,View.OnKeyListener,TextWatcher, OTPListener {
+public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeListener,View.OnClickListener,View.OnKeyListener,TextWatcher, OTPListener {
     private EditText mPinFirstDigitEditText;
     private EditText mPinSecondDigitEditText;
     private EditText mPinThirdDigitEditText;
@@ -71,12 +56,12 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otpverify);
         Intent intent=getIntent();
-       // pref=getApplication().getSharedPreferences("Options", MODE_PRIVATE);
+        // pref=getApplication().getSharedPreferences("Options", MODE_PRIVATE);
 
         last_number=intent.getStringExtra("mobile_number");
         fromforgot=intent.getStringExtra("fromforgot");
 
-       // int_mobile=pref.getString("mobile_number", "");
+        // int_mobile=pref.getString("mobile_number", "");
 
 
         mPinFirstDigitEditText = (EditText) findViewById(R.id.pinone);
@@ -85,7 +70,9 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
         mPinForthDigitEditText = (EditText) findViewById(R.id.pinfour);
         mPinHiddenEditText = (EditText) findViewById(R.id.pin_hidden_edittext);
         tvotp_mobile=(TextView) findViewById(R.id.tvotp_mobile);
-       // int_mobile=intent.getStringExtra("mobile_number");
+        // int_mobile=intent.getStringExtra("mobile_number");
+        tvotp_mobile.setText(last_number);
+
         tvotp_resend=(TextView) findViewById(R.id.tvotp_resend);
         tvotp_resend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,15 +80,12 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
                 insert(last_number);
             }
         });
-        tvotp_mobile.setText(last_number);
-
-
         final TextView countdown = (TextView) findViewById(R.id.countdown);
         butotp_verify=(Button) findViewById(R.id.butotp_verify);
 
 
 
-      bb= new CountDownTimer(50000,1000) { // adjust the milli seconds here
+        bb= new CountDownTimer(50000,1000) { // adjust the milli seconds here
             public void onTick(long millisUntilFinished) {
                 countdown.setText(""+String.format(FORMAT,
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
@@ -113,10 +97,10 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
 
             public void onFinish() {
                 bb.cancel();
-                Toast.makeText(OTPVerify.this, "Please click Resend to get OTP", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(OTPVerify.this,LoginActivity.class);
+                Toast.makeText(OTPVerifys.this, "Please click Resend to get OTP", Toast.LENGTH_SHORT).show();
+                //  Intent intent=new Intent(OTPVerify.this,LoginActivity.class);
 
-                startActivity(intent);
+                // startActivity(intent);
                 finish();
 
 
@@ -133,7 +117,7 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
             @Override
             public void onClick(View view) {
 
-String s1=mPinFirstDigitEditText.getText().toString().trim();
+                String s1=mPinFirstDigitEditText.getText().toString().trim();
                 String s2=mPinSecondDigitEditText.getText().toString().trim();
                 String s3=mPinThirdDigitEditText.getText().toString().trim();
                 String s4=mPinForthDigitEditText.getText().toString().trim();
@@ -153,14 +137,14 @@ String s1=mPinFirstDigitEditText.getText().toString().trim();
             case R.id.pinone:
                 if (hasFocus) {
                     setFocus(mPinHiddenEditText);
-                 showSoftKeyboard(mPinHiddenEditText);
+                    showSoftKeyboard(mPinHiddenEditText);
                 }
                 break;
 
             case R.id.pintwo:
                 if (hasFocus) {
                     setFocus(mPinHiddenEditText);
-                   showSoftKeyboard(mPinHiddenEditText);
+                    showSoftKeyboard(mPinHiddenEditText);
                 }
                 break;
 
@@ -336,17 +320,19 @@ String s1=mPinFirstDigitEditText.getText().toString().trim();
 
                     if (abc)
                     {
+
                         JSONObject users = jObj.getJSONObject("user_det");
-                       String uname1 = users.getString("user_mobile_number");
+                        String uname1 = users.getString("user_mobile_number");
                         String uname2 = users.getString("user_otp_identification");
                         String uname3=users.getString("user_uid");
 
-                        Intent intent=new Intent(OTPVerify.this,Categories.class);
+                        Intent intent=new Intent(OTPVerifys.this,ResetPassword.class);
                         intent.putExtra("mobile_number",uname1);
-                         intent.putExtra("otp_identification",uname2);
-                         intent.putExtra("oneuid",uname3);
-                            startActivity(intent);
-                               finish();
+                        intent.putExtra("otp_identification",uname2);
+                        intent.putExtra("oneuid",uname3);
+                        startActivity(intent);
+                        finish();
+
 
 
                     }

@@ -72,7 +72,7 @@ map_butlocation.setOnClickListener(new View.OnClickListener() {
         list29=(ListView)findViewById(R.id.map_listview);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.maps);
         mapFragment.getMapAsync(this);
 
 
@@ -105,169 +105,169 @@ map_butlocation.setOnClickListener(new View.OnClickListener() {
 
     }
 
-    public class MovieAdap extends ArrayAdapter {
-
-        private List<GeoLocate> movieModelList;
-        private int resource;
-        Context context;
-        private LayoutInflater inflater;
-        MovieAdap(Context context, int resource, List<GeoLocate> objects) {
-            super(context, resource, objects);
-            movieModelList = objects;
-            this.context =context;
-            this.resource = resource;
-            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        }
-        @Override
-        public int getViewTypeCount() {
-            return 1;
-        }
-        @Override
-        public int getItemViewType(int position) {
-            return position;
-        }
-        @Override
-        public View getView(final int position, View view, ViewGroup parent) {
-            final ViewHolder holder;
-            if(view == null){
-                view = inflater.inflate(resource,null);
-                holder = new ViewHolder();
-                holder.textid=(TextView) view.findViewById(R.id.textView);
-                holder.textname=(TextView) view.findViewById(R.id.textView2);
-                view.setTag(holder);
-            }
-            else {
-                holder = (ViewHolder) view.getTag();
-            }
-            GeoLocate ccitac=movieModelList.get(position);
-            holder.textid.setText(ccitac.getGlati());
-            holder.textname.setText(ccitac.getGlongi());
-            lat=Double.parseDouble(ccitac.getGlati());
-            lng=Double.parseDouble(ccitac.getGlongi());
-
-            mMap.addMarker(new MarkerOptions().position(new LatLng(lat,lng))
-                    .title(ccitac.getGname())
-                    .icon(BitmapDescriptorFactory
-                            .fromResource(R.drawable.destloc)));
-
-
-
-
-
-
-            //  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),6.5f));
-
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
-            mMap.setMaxZoomPreference(14.5f);
-            mMap.setMinZoomPreference(6.5f);
-
-
-
-            // TrackGPS location;
-
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-            return view;
-        }
-        class ViewHolder{
-            public TextView textid,textname;
-        }
-    }
-    public class kilomilo extends AsyncTask<String,String, List<GeoLocate>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-        @Override
-        protected List<GeoLocate> doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuilder buffer = new StringBuilder();
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-                String finalJson = buffer.toString();
-                JSONObject parentObject = new JSONObject(finalJson);
-                JSONArray parentArray = parentObject.getJSONArray("result");
-                List<GeoLocate> milokilo = new ArrayList<>();
-                Gson gson = new Gson();
-                for (int i = 0; i < parentArray.length(); i++) {
-                    JSONObject finalObject = parentArray.getJSONObject(i);
-                    GeoLocate catego = gson.fromJson(finalObject.toString(), GeoLocate.class);
-                    milokilo.add(catego);
-                }
-                return milokilo;
-            } catch (JSONException | IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(final List<GeoLocate> movieMode) {
-            super.onPostExecute(movieMode);
-            if (movieMode!=null)
-            {
-                MovieAdap adapter = new MovieAdap(getApplicationContext(), R.layout.list_mapdetails, movieMode);
-                list29.setAdapter(adapter);
-
-
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),"Check your internet connection",Toast.LENGTH_SHORT).show();
-            }
-        }
-
-    }
+//    public class MovieAdap extends ArrayAdapter {
+//
+//        private List<GeoLocate> movieModelList;
+//        private int resource;
+//        Context context;
+//        private LayoutInflater inflater;
+//        MovieAdap(Context context, int resource, List<GeoLocate> objects) {
+//            super(context, resource, objects);
+//            movieModelList = objects;
+//            this.context =context;
+//            this.resource = resource;
+//            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+//        }
+//        @Override
+//        public int getViewTypeCount() {
+//            return 1;
+//        }
+//        @Override
+//        public int getItemViewType(int position) {
+//            return position;
+//        }
+//        @Override
+//        public View getView(final int position, View view, ViewGroup parent) {
+//            final ViewHolder holder;
+//            if(view == null){
+//                view = inflater.inflate(resource,null);
+//                holder = new ViewHolder();
+//                holder.textid=(TextView) view.findViewById(R.id.textView);
+//                holder.textname=(TextView) view.findViewById(R.id.textView2);
+//                view.setTag(holder);
+//            }
+//            else {
+//                holder = (ViewHolder) view.getTag();
+//            }
+//            GeoLocate ccitac=movieModelList.get(position);
+//            holder.textid.setText(ccitac.getGlati());
+//            holder.textname.setText(ccitac.getGlongi());
+//            lat=Double.parseDouble(ccitac.getGlati());
+//            lng=Double.parseDouble(ccitac.getGlongi());
+//
+//            mMap.addMarker(new MarkerOptions().position(new LatLng(lat,lng))
+//                    .title(ccitac.getGname())
+//                    .icon(BitmapDescriptorFactory
+//                            .fromResource(R.drawable.destloc)));
+//
+//
+//
+//
+//
+//
+//            //  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),6.5f));
+//
+//            mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
+//            mMap.setMaxZoomPreference(14.5f);
+//            mMap.setMinZoomPreference(6.5f);
+//
+//
+//
+//            // TrackGPS location;
+//
+//            mMap.getUiSettings().setZoomControlsEnabled(true);
+//            return view;
+//        }
+//        class ViewHolder{
+//            public TextView textid,textname;
+//        }
+//    }
+//    public class kilomilo extends AsyncTask<String,String, List<GeoLocate>> {
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//        @Override
+//        protected List<GeoLocate> doInBackground(String... params) {
+//            HttpURLConnection connection = null;
+//            BufferedReader reader = null;
+//            try {
+//                URL url = new URL(params[0]);
+//                connection = (HttpURLConnection) url.openConnection();
+//                connection.connect();
+//                InputStream stream = connection.getInputStream();
+//                reader = new BufferedReader(new InputStreamReader(stream));
+//                StringBuilder buffer = new StringBuilder();
+//                String line = "";
+//                while ((line = reader.readLine()) != null) {
+//                    buffer.append(line);
+//                }
+//                String finalJson = buffer.toString();
+//                JSONObject parentObject = new JSONObject(finalJson);
+//                JSONArray parentArray = parentObject.getJSONArray("result");
+//                List<GeoLocate> milokilo = new ArrayList<>();
+//                Gson gson = new Gson();
+//                for (int i = 0; i < parentArray.length(); i++) {
+//                    JSONObject finalObject = parentArray.getJSONObject(i);
+//                    GeoLocate catego = gson.fromJson(finalObject.toString(), GeoLocate.class);
+//                    milokilo.add(catego);
+//                }
+//                return milokilo;
+//            } catch (JSONException | IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                if (connection != null) {
+//                    connection.disconnect();
+//                }
+//                try {
+//                    if (reader != null) {
+//                        reader.close();
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            return null;
+//        }
+//        @Override
+//        protected void onPostExecute(final List<GeoLocate> movieMode) {
+//            super.onPostExecute(movieMode);
+//            if (movieMode!=null)
+//            {
+//                MovieAdap adapter = new MovieAdap(getApplicationContext(), R.layout.list_mapdetails, movieMode);
+//                list29.setAdapter(adapter);
+//
+//
+//            }
+//            else
+//            {
+//                Toast.makeText(getApplicationContext(),"Check your internet connection",Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//
+//    }
 
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap = googleMap;
+
         gps = new TrackGps(MapsActivity.this);
 
         Double lat = gps.getLatitude();
         Double lng=gps.getLongitude();
         LatLng sydney = new LatLng(lat,lng);
         float zoomLevel =10;
-        new kilomilo().execute(GlobalUrl.user_mapdetails+"?glati="+lat+"&glongi="+lng);
+    //    new kilomilo().execute(global_url.URLGEO+"?glati="+lat+"&glongi="+lng);
 
-//        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-//
-//        List<Address> addresses  = null;
-//        try {
-//            addresses = geocoder.getFromLocation(lat,lng, 1);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+        List<Address> addresses  = null;
+        try {
+            addresses = geocoder.getFromLocation(lat,lng, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 //        String state = addresses.get(0).getAdminArea();
-
-
-
-        //Toast.makeText(getApplicationContext(),state,Toast.LENGTH_SHORT).show();
+//
+//
+//
+//Toast.makeText(getApplicationContext(),state,Toast.LENGTH_SHORT).show();
         mMap.addMarker(new MarkerOptions()
-                .title("state").position(new LatLng(lat,lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ourloc
+                .position(new LatLng(lat,lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ourloc
                 )));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,6.5f));
