@@ -8,16 +8,16 @@ import android.os.Parcelable;
  */
 
 public class Categorieslist implements Parcelable{
-    String fid;
-    String cid;
-    String category_name;
-    String category_thumbnail_image;
+    String rid;
+    String service_categ_uid;
+    String service_categ_name;
+    String service_categ_fullimage;
 
     protected Categorieslist(Parcel in) {
-        fid = in.readString();
-        cid = in.readString();
-        category_name = in.readString();
-        category_thumbnail_image = in.readString();
+        rid = in.readString();
+        service_categ_uid = in.readString();
+        service_categ_name = in.readString();
+        service_categ_fullimage = in.readString();
     }
 
     public static final Creator<Categorieslist> CREATOR = new Creator<Categorieslist>() {
@@ -32,36 +32,36 @@ public class Categorieslist implements Parcelable{
         }
     };
 
-    public String getFid() {
-        return fid;
+    public String getRid() {
+        return rid;
     }
 
-    public void setFid(String fid) {
-        this.fid = fid;
+    public void setRid(String rid) {
+        this.rid = rid;
     }
 
-    public String getCid() {
-        return cid;
+    public String getService_categ_uid() {
+        return service_categ_uid;
     }
 
-    public void setCid(String cid) {
-        this.cid = cid;
+    public void setService_categ_uid(String service_categ_uid) {
+        this.service_categ_uid = service_categ_uid;
     }
 
-    public String getCategory_name() {
-        return category_name;
+    public String getService_categ_name() {
+        return service_categ_name;
     }
 
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+    public void setService_categ_name(String service_categ_name) {
+        this.service_categ_name = service_categ_name;
     }
 
-    public String getCategory_thumbnail_image() {
-        return category_thumbnail_image;
+    public String getService_categ_fullimage() {
+        return service_categ_fullimage;
     }
 
-    public void setCategory_thumbnail_image(String category_thumbnail_image) {
-        this.category_thumbnail_image = category_thumbnail_image;
+    public void setService_categ_fullimage(String service_categ_fullimage) {
+        this.service_categ_fullimage = service_categ_fullimage;
     }
 
     @Override
@@ -71,9 +71,9 @@ public class Categorieslist implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(fid);
-        dest.writeString(cid);
-        dest.writeString(category_name);
-        dest.writeString(category_thumbnail_image);
+        dest.writeString(rid);
+        dest.writeString(service_categ_uid);
+        dest.writeString(service_categ_name);
+        dest.writeString(service_categ_fullimage);
     }
 }

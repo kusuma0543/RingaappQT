@@ -103,12 +103,12 @@
             android:name=".Splash"
             android:theme="@style/SplashTheme">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity
             android:name=".ForgotPassword"
@@ -137,10 +137,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.getinstaapp.instaapp.Categories" />
         </activity>
-        <activity
-            android:name=".AllSearch"
-            android:label="@string/title_activity_all_search"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps">
@@ -178,11 +174,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.getinstaapp.instaapp.OTPVerify" />
 
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
 
         </activity>
     </application>

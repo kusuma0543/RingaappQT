@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -133,7 +134,8 @@ private EditText edresetpswd,edconfirmpswd;
                         String uname2=users.getString("user_uid");
 
 
-                        Intent intent=new Intent(ResetPassword.this,Categories.class);
+
+                        Intent intent=new Intent(ResetPassword.this,LoginActivity.class);
                         intent.putExtra("mobile_number",uname1);
                         intent.putExtra("oneuid",uname2);
 

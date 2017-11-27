@@ -25,12 +25,12 @@
 android:weightSum="2">
    <ImageView
        android:id="@+id/second_imageview"
-       android:layout_width="10dp"
+       android:layout_width="60dp"
        android:layout_height="56dp"
        android:background="@drawable/second_cardbg"
 
        android:layout_gravity="center"
-       android:layout_weight="0.4"
+
        android:padding="4dp"/>
         <TextView
             android:id="@+id/second_texttitle"

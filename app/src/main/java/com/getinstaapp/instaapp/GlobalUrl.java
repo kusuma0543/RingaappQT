@@ -14,6 +14,7 @@ class GlobalUrl {
     public static String user_resend_otp="http://quaticstech.in/projecti1andro/android_users_resendotp.php";
    public static String user_logoutmode="http://quaticstech.in/projecti1andro/android_users_logoutmode.php";
    public static String user_updatelastseen="http://quaticstech.in/projecti1andro/android_users_updatelastseen.php";
+    public static String users_place="http://quaticstech.in/projecti1andro/android_user_placepick.php";
 
     public static String user_categoriesret="http://quaticstech.in/projecti1andro/android_users_categoriesret.php";
     public static String user_spinnerdataret="http://quaticstech.in/projecti1andro/android_users_placesret.php";

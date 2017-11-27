@@ -15,6 +15,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +51,7 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
     String fromforgot,last_number;
     private static final String FORMAT = "%02d:%02d";
     int seconds , minutes;
-
+    private TextView k,secondk;
     SharedPreferences pref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +74,13 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
         tvotp_mobile=(TextView) findViewById(R.id.tvotp_mobile);
         // int_mobile=intent.getStringExtra("mobile_number");
         tvotp_mobile.setText(last_number);
-
+        k=(TextView) findViewById(R.id.k);
+        secondk=(TextView) findViewById(R.id.secondk);
         tvotp_resend=(TextView) findViewById(R.id.tvotp_resend);
         tvotp_resend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insert(last_number);
+                didTapButton(v);
             }
         });
         final TextView countdown = (TextView) findViewById(R.id.countdown);
@@ -97,11 +100,9 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
 
             public void onFinish() {
                 bb.cancel();
-                Toast.makeText(OTPVerifys.this, "Please click Resend to get OTP", Toast.LENGTH_SHORT).show();
-                //  Intent intent=new Intent(OTPVerify.this,LoginActivity.class);
-
-                // startActivity(intent);
-                finish();
+                countdown.setVisibility(View.GONE);
+                k.setVisibility(View.GONE);
+                secondk.setVisibility(View.GONE);
 
 
             }
@@ -128,6 +129,17 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
             }
         });
     }
+    public final void didTapButton(View view) {
+
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+
+        // Use bounce interpolator with amplitude 0.2 and frequency 20
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 20);
+        myAnim.setInterpolator(interpolator);
+
+        tvotp_resend.startAnimation(myAnim);
+        insert(last_number);
+    };
 
 
     @Override

@@ -113,6 +113,7 @@ public class Second extends AppCompatActivity implements View.OnClickListener, V
         Intent intent = getIntent();
         String name = intent.getStringExtra("categoryname");
         String catiids = intent.getStringExtra("categorysid");
+        String homeloca=intent.getStringExtra("homeloc");
 //        String sedkeyword = intent.getStringExtra("edkeyword");
 //        String mykeyword = intent.getStringExtra("edkeywords");
 //String b="words";
@@ -125,7 +126,7 @@ public class Second extends AppCompatActivity implements View.OnClickListener, V
 //        }
 //else{
         setTitle(name);
-        String URLL = "http://quaticstech.in/projecti1andro/android_users_subcayret.php?cid_categ_sub=" + catiids;
+        String URLL = "http://quaticstech.in/projecti1andro/android_users_subcayret.php?service_categ_uid="+catiids+"&district_place="+homeloca;
         new kilomilo().execute(URLL);
 //    }
 
@@ -190,9 +191,9 @@ public class Second extends AppCompatActivity implements View.OnClickListener, V
                 holder = (ViewHolder) convertView.getTag();
             }
             subcatelist ccitacc = movieModelList.get(position);
-            holder.textone.setText(ccitacc.getSubcategory_name());
+            holder.textone.setText(ccitacc.getService_subcateg_name());
 
-            Picasso.with(context).load(ccitacc.getSubcategory_thumbnail()).fit().error(R.drawable.load).fit().into(holder.menuimage);
+            Picasso.with(context).load(ccitacc.getService_subcateg_fullimage()).fit().error(R.drawable.load).fit().into(holder.menuimage);
 
             return convertView;
         }

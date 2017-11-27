@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,12 +48,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -62,12 +73,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android.widget.AdapterView.OnItemSelectedListener;
 
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.relex.circleindicator.CircleIndicator;
 
 public class Categories extends AppCompatActivity
@@ -76,14 +87,14 @@ public class Categories extends AppCompatActivity
     private ViewPager mViewPager;
     CircleIndicator indicator;
     private GridView home_gridview;
-    private Spinner home_tspinner;
+    private TextView home_tspinner;
     private ArrayList<String> students;
     private ProgressDialog dialog;
     private JSONArray result;
-
+    String hcityName;
     private Button edcat_search;
 
-private String firstuid;
+private String firstuid,locationuser;
     RequestQueue rq;
     List<Sliderlist> sliderimg;
     String request_url=GlobalUrl.user_sliderdataret;
@@ -96,22 +107,30 @@ private String firstuid;
         setContentView(R.layout.activity_categories);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        toolbar.setTitle("INSTA");
         dialog = new ProgressDialog(this);
         dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
-
-       //sendRequest();
-        setTitle("INSTA");
-        Intent intent=getIntent();
-        firstuid=intent.getStringExtra("oneuid");
-        Toast.makeText(getApplicationContext(),firstuid,Toast.LENGTH_SHORT).show();
-updatelastseen(firstuid);
-
+        home_tspinner=(TextView) findViewById(R.id.home_tspinner);
         home_gridview=(GridView) findViewById(R.id.home_gridview);
         edcat_search=(Button) findViewById(R.id.edcat_search);
+        autocompletesearch();
+        //sendRequest();
+
+        Intent intent=getIntent();
+        firstuid=intent.getStringExtra("oneuid");
+        locationuser=intent.getStringExtra("user_city");
+        home_tspinner.setText(locationuser);
+        String users_updatedloc_servm="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+locationuser;
+        new JSONTask().execute(users_updatedloc_servm);
+        Toast.makeText(getApplicationContext(),locationuser,Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(getApplicationContext(),firstuid,Toast.LENGTH_SHORT).show();
+        updatelastseen(firstuid);
+
+
 
         rq=Volley.newRequestQueue(this);
         sliderimg=new ArrayList<>();
@@ -120,20 +139,15 @@ updatelastseen(firstuid);
 
 
         students = new ArrayList<String>();
-        home_tspinner=(Spinner) findViewById(R.id.home_tspinner);
-        home_tspinner.setOnItemSelectedListener(this);
 
-getData();
+
+
+//getData();
 
         edcat_search.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-//        String sed_home=edcat_search.getText().toString();
-//        Intent intent=new Intent(Categories.this,AllSearch.class);
-//        intent.putExtra("edkeyword",sed_home);
-//       intent.putExtra("edkeywords","words");
-//       // intent.putExtra("edkeyword", Categories.class.toString());
-//        startActivity(intent);
+
 
     }
 });
@@ -145,56 +159,56 @@ getData();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        new JSONTask().execute(GlobalUrl.user_categoriesret);
+
 
     }
 
 
 
-    private void getData(){
-        StringRequest stringRequest = new StringRequest(GlobalUrl.user_spinnerdataret,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        JSONObject j = null;
-                        try {
-                            j = new JSONObject(response);
-                            result = j.getJSONArray("result");
-                            getStudents(result);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+//    private void getData(){
+//        StringRequest stringRequest = new StringRequest(GlobalUrl.user_spinnerdataret,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        JSONObject j = null;
+//                        try {
+//                            j = new JSONObject(response);
+//                            result = j.getJSONArray("result");
+//                            getStudents(result);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//
+//                    }
+//                });
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        requestQueue.add(stringRequest);
+//    }
 
-                    }
-                });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-
-    private void getStudents(JSONArray j){
-        for(int i=0;i<j.length();i++){
-            try {
-                JSONObject json = j.getJSONObject(i);
-                students.add(json.getString("place_name"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        home_tspinner.setAdapter(new ArrayAdapter<String>(Categories.this, android.R.layout.simple_spinner_dropdown_item, students));
-    }
+//    private void getStudents(JSONArray j){
+//        for(int i=0;i<j.length();i++){
+//            try {
+//                JSONObject json = j.getJSONObject(i);
+//                students.add(json.getString("place_name"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        home_tspinner.setAdapter(new ArrayAdapter<String>(Categories.this, android.R.layout.simple_spinner_dropdown_item, students));
+//    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         String selected = parent.getItemAtPosition(position).toString();
         Toast.makeText(getApplicationContext(), "you selected location is "+selected, Toast.LENGTH_SHORT).show();
-        String users_updatedloc_serv="http://quaticstech.in/projecti1andro/android_users_spiner.php?place_id="+selected;
-        new JSONTask().execute(users_updatedloc_serv);
+        String users_updatedloc_servm="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+locationuser;
+        new JSONTask().execute(users_updatedloc_servm);
 
     }
 
@@ -376,8 +390,10 @@ getData();
                       //  SharedPreferences preferences = getSharedPreferences("Preferences", 0);
                      //   SharedPreferences.Editor editor = preferences.edit();
                         Intent intent = new Intent(Categories.this, Second.class);
-                        intent.putExtra("categoryname",categorieslist.getCategory_name());
-                         intent.putExtra("categorysid", categorieslist.getCid());
+                        intent.putExtra("categoryname",categorieslist.getService_categ_name());
+                         intent.putExtra("categorysid", categorieslist.getService_categ_uid());
+                         String tvloc=home_tspinner.getText().toString();
+                         intent.putExtra("homeloc",tvloc);
                       //  editor.commit();
                         startActivity(intent);
                     }
@@ -427,8 +443,8 @@ getData();
                 holder = (ViewHolder) convertView.getTag();
             }
             Categorieslist categorieslist= movieModelList.get(position);
-            Picasso.with(context).load(categorieslist.getCategory_thumbnail_image()).fit().error(R.drawable.load).fit().into(holder.menuimage);
-            holder.menuname.setText(categorieslist.getCategory_name());
+            Picasso.with(context).load(categorieslist.getService_categ_fullimage()).fit().error(R.drawable.load).fit().into(holder.menuimage);
+            holder.menuname.setText(categorieslist.getService_categ_name());
 
 
 
@@ -440,77 +456,7 @@ getData();
         }
     }
 
-public  void sendRequest()
-{
-//    JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, request_url,null, new Response.Listener<JSONArray>() {
-//        @Override
-//        public void onResponse(JSONArray response) {
-//            for(int i=0;i<response.length();i++)
-//            {
-//                Sliderlist sliderlist=new Sliderlist();
-//
-//                try {
-//                    JSONObject jsonObject=response.getJSONObject(i);
-//                    sliderlist.setBanner_images(jsonObject.getString("banner_images"));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//sliderimg.add(sliderlist);
-//            }
-//            mCustomPagerAdapter = new CustomPagerAdapter(sliderimg,Categories.this);
-//
-//            mViewPager.setAdapter(mCustomPagerAdapter);
-//            indicator.setViewPager(mViewPager);
-//
-//        }
-//    }, new Response.ErrorListener() {
-//        @Override
-//        public void onErrorResponse(VolleyError error) {
-//
-//        }
-//    });
-// rq.add(jsonArrayRequest);
-//   // AppController.getInstance().addToRequestQueue(jsonArrayRequest);
-//
-//}
-    StringRequest stringRequest = new StringRequest(Request.Method.GET, request_url, new Response.Listener<String>() {
-        public void onResponse(String response) {
-            for(int i=0;i<response.length();i++)
-            {
-                Sliderlist sliderlist=new Sliderlist();
 
-                try {
-                    JSONObject jsonObject=new JSONObject(response);
-                    sliderlist.setBanner_images(jsonObject.getString("banner_images"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-sliderimg.add(sliderlist);
-            }
-            mCustomPagerAdapter = new CustomPagerAdapter(sliderimg,Categories.this);
-
-            mViewPager.setAdapter(mCustomPagerAdapter);
-            indicator.setViewPager(mViewPager);
-
-        }
-
-
-    }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error)
-        { }
-    }) {
-        @Override
-        protected Map<String, String> getParams() throws AuthFailureError {
-            Map<String, String> params = new HashMap<String, String>();
-            return params;
-        }
-    };
-    //rq.add(stringRequest);
-    AppController.getInstance().addToRequestQueue(stringRequest);
-}
 
     public void logmeout(final String s1) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_logoutmode, new Response.Listener<String>() {
@@ -559,5 +505,47 @@ sliderimg.add(sliderlist);
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
+public void autocompletesearch()
+{
+    PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+            getFragmentManager().findFragmentById(R.id.place_autocomplete_fragments);
+    AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+            .setCountry("IN")
+            .build();
 
+    autocompleteFragment.setFilter(typeFilter);
+    autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        @Override
+        public void onPlaceSelected(Place place) {
+           LatLng latilongi=place.getLatLng();
+           Double lath=latilongi.latitude;
+           Double longh=latilongi.longitude;
+Toast.makeText(getApplicationContext(), "Place: " + place.getLatLng(), Toast.LENGTH_SHORT).show();
+            Geocoder geocoder = new Geocoder(Categories.this, Locale.getDefault());
+            try {
+                List<Address> addresses = geocoder.getFromLocation(lath, longh, 1);
+
+                hcityName = addresses.get(0).getLocality();
+                String users_updatedloc_serv="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+hcityName;
+                new JSONTask().execute(users_updatedloc_serv);
+
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+home_tspinner.setText(hcityName);
+
+
+        }
+
+        @Override
+        public void onError(Status status) {
+
+            Toast.makeText(getApplicationContext(), "An error occurred: " + status, Toast.LENGTH_SHORT).show();
+
+        }
+    });
+}
 }

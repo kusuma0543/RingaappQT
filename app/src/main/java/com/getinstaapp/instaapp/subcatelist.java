@@ -8,18 +8,18 @@ import android.os.Parcelable;
  */
 
 public class subcatelist implements Parcelable{
-    String fid;
-    String subid;
-    String subcategory_name;
-    String subcategory_thumbnail;
-    String cid_categ_sub;
+    String rid;
+    String 	service_categ_uid;
+    String service_subcateg_uid;
+    String service_subcateg_name;
+    String service_subcateg_fullimage;
 
     protected subcatelist(Parcel in) {
-        fid = in.readString();
-        subid = in.readString();
-        subcategory_name = in.readString();
-        subcategory_thumbnail = in.readString();
-        cid_categ_sub = in.readString();
+        rid = in.readString();
+        service_categ_uid = in.readString();
+        service_subcateg_uid = in.readString();
+        service_subcateg_name = in.readString();
+        service_subcateg_fullimage = in.readString();
     }
 
     public static final Creator<subcatelist> CREATOR = new Creator<subcatelist>() {
@@ -34,44 +34,44 @@ public class subcatelist implements Parcelable{
         }
     };
 
-    public String getFid() {
-        return fid;
+    public String getRid() {
+        return rid;
     }
 
-    public void setFid(String fid) {
-        this.fid = fid;
+    public void setRid(String rid) {
+        this.rid = rid;
     }
 
-    public String getSubid() {
-        return subid;
+    public String getService_categ_uid() {
+        return service_categ_uid;
     }
 
-    public void setSubid(String subid) {
-        this.subid = subid;
+    public void setService_categ_uid(String service_categ_uid) {
+        this.service_categ_uid = service_categ_uid;
     }
 
-    public String getSubcategory_name() {
-        return subcategory_name;
+    public String getService_subcateg_uid() {
+        return service_subcateg_uid;
     }
 
-    public void setSubcategory_name(String subcategory_name) {
-        this.subcategory_name = subcategory_name;
+    public void setService_subcateg_uid(String service_subcateg_uid) {
+        this.service_subcateg_uid = service_subcateg_uid;
     }
 
-    public String getSubcategory_thumbnail() {
-        return subcategory_thumbnail;
+    public String getService_subcateg_name() {
+        return service_subcateg_name;
     }
 
-    public void setSubcategory_thumbnail(String subcategory_thumbnail) {
-        this.subcategory_thumbnail = subcategory_thumbnail;
+    public void setService_subcateg_name(String service_subcateg_name) {
+        this.service_subcateg_name = service_subcateg_name;
     }
 
-    public String getCid_categ_sub() {
-        return cid_categ_sub;
+    public String getService_subcateg_fullimage() {
+        return service_subcateg_fullimage;
     }
 
-    public void setCid_categ_sub(String cid_categ_sub) {
-        this.cid_categ_sub = cid_categ_sub;
+    public void setService_subcateg_fullimage(String service_subcateg_fullimage) {
+        this.service_subcateg_fullimage = service_subcateg_fullimage;
     }
 
     @Override
@@ -81,10 +81,10 @@ public class subcatelist implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(fid);
-        dest.writeString(subid);
-        dest.writeString(subcategory_name);
-        dest.writeString(subcategory_thumbnail);
-        dest.writeString(cid_categ_sub);
+        dest.writeString(rid);
+        dest.writeString(service_categ_uid);
+        dest.writeString(service_subcateg_uid);
+        dest.writeString(service_subcateg_name);
+        dest.writeString(service_subcateg_fullimage);
     }
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -23,6 +25,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,12 +39,17 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.maps.model.LatLng;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -64,8 +73,9 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
     String fromforgot,last_number;
     private static final String FORMAT = "%02d:%02d";
     int seconds , minutes;
-
+    private TrackGps gps;
     SharedPreferences pref;
+    private TextView k,secondk;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,11 +96,14 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
         mPinHiddenEditText = (EditText) findViewById(R.id.pin_hidden_edittext);
         tvotp_mobile=(TextView) findViewById(R.id.tvotp_mobile);
        // int_mobile=intent.getStringExtra("mobile_number");
+k=(TextView) findViewById(R.id.k);
+secondk=(TextView) findViewById(R.id.secondk);
         tvotp_resend=(TextView) findViewById(R.id.tvotp_resend);
         tvotp_resend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insert(last_number);
+didTapButton(v);
+                //insert(last_number);
             }
         });
         tvotp_mobile.setText(last_number);
@@ -114,10 +127,10 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
             public void onFinish() {
                 bb.cancel();
                 Toast.makeText(OTPVerify.this, "Please click Resend to get OTP", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(OTPVerify.this,LoginActivity.class);
-
-                startActivity(intent);
-                finish();
+            bb.cancel();
+            countdown.setVisibility(View.GONE);
+k.setVisibility(View.GONE);
+secondk.setVisibility(View.GONE);
 
 
             }
@@ -145,6 +158,17 @@ String s1=mPinFirstDigitEditText.getText().toString().trim();
         });
     }
 
+    public final void didTapButton(View view) {
+
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+
+        // Use bounce interpolator with amplitude 0.2 and frequency 20
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 20);
+        myAnim.setInterpolator(interpolator);
+
+        tvotp_resend.startAnimation(myAnim);
+        insert(last_number);
+    };
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
@@ -341,13 +365,13 @@ String s1=mPinFirstDigitEditText.getText().toString().trim();
                         String uname2 = users.getString("user_otp_identification");
                         String uname3=users.getString("user_uid");
 
-                        Intent intent=new Intent(OTPVerify.this,Categories.class);
-                        intent.putExtra("mobile_number",uname1);
-                         intent.putExtra("otp_identification",uname2);
-                         intent.putExtra("oneuid",uname3);
-                            startActivity(intent);
-                               finish();
-
+//                        Intent intent=new Intent(OTPVerify.this,UserSelMap.class);
+//                        intent.putExtra("mobile_number",uname1);
+//                         intent.putExtra("otp_identification",uname2);
+//                         intent.putExtra("oneuid",uname3);
+//                            startActivity(intent);
+//                               finish();
+verifyclick(uname1,uname2,uname3);
 
                     }
                     else
@@ -407,5 +431,72 @@ String s1=mPinFirstDigitEditText.getText().toString().trim();
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
+public void verifyclick(final String s1,final String s2,final String s3)
+{
+    new SweetAlertDialog(OTPVerify.this, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Location Selection")
+            .setContentText("Are you sure to use your location?")
+            .setCancelText("No,Select New ")
+            .setConfirmText("Yes,use it!")
+            .showCancelButton(true)
+            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+                    gps = new TrackGps(OTPVerify.this);
 
+                    Double lat = gps.getLatitude();
+                    Double lng = gps.getLongitude();
+                    LatLng sydney = new LatLng(lat, lng);
+                    Geocoder geocoder = new Geocoder(OTPVerify.this, Locale.getDefault());
+                    // List<Address> addresses = null;
+                    try {
+                        List<Address> addresses = geocoder.getFromLocation(lat,lng, 1);
+                        final String addressn = addresses.get(0).getSubLocality();
+                        final String cityName = addresses.get(0).getLocality();
+                        String stateName = addresses.get(0).getAdminArea();
+//                        Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
+//
+//                        Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
+                        new SweetAlertDialog(OTPVerify.this, SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Your Location").setContentText(addressn).setConfirmText("OK")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        Intent intentmm=new Intent(OTPVerify.this,Categories.class);
+
+                                        intentmm.putExtra("mobile_number",s1);
+                                         intentmm.putExtra("otp_identification",s2);
+                                        intentmm.putExtra("oneuid",s3);
+                                        intentmm.putExtra("user_city", cityName);
+                                        intentmm.putExtra("user_area", addressn);
+                                        startActivity(intentmm);
+
+                                    }
+                                })
+                                .show();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    //  Toast.makeText(getApplicationContext(), "Your Location was ", Toast.LENGTH_SHORT).show();
+                    sDialog.cancel();
+                }
+            }).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+        @Override
+        public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+            Intent intentm=new Intent(OTPVerify.this,UserSelMap.class);
+
+            intentm.putExtra("mobile_number",s1);
+            intentm.putExtra("otp_identification",s2);
+            intentm.putExtra("oneuid",s3);
+
+            startActivity(intentm);
+            finish();
+
+
+        }
+    })
+            .show();
+}
 }
