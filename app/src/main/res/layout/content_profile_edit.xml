@@ -5,15 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.getinstaapp.instaapp.ProfileEdit"
+    tools:context="com.ringaapp.ringauser.ProfileEdit"
     tools:showIn="@layout/activity_profile_edit">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="248dp"
             android:background="@drawable/userback"
             android:orientation="vertical">
 
@@ -35,18 +38,21 @@
             android:layout_marginRight="15dp"
 
             android:orientation="horizontal">
+
             <Button
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_redperson"
-                />
+                android:fontFamily="@font/nunito" />
+
             <EditText
                 android:id="@+id/profileedit_tvname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:text="Name"/>
+                android:fontFamily="@font/nunito"
+                android:hint="Entere your Name"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -58,47 +64,55 @@
 
             android:orientation="horizontal"
             >
+
             <Button
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_call_black_24dp"
-                />
+                android:fontFamily="@font/nunito" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:text="+91"/>
+                android:fontFamily="@font/nunito"
+                android:text="+91"
+                android:textSize="20sp" />
+
             <TextView
-                android:id="@+id/profile_tvnumber"
+                android:id="@+id/profileedit_tvnumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:text="9939409823409"/>
+                android:fontFamily="@font/nunito"
+                android:text="9939409823409"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
 
             android:orientation="horizontal">
+
             <Button
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_mail_black_24dp"
-                />
+                android:fontFamily="@font/nunito" />
+
             <EditText
-                android:id="@+id/profile_tvemail"
+                android:id="@+id/profileedit_tvemail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:text="insta@gmail.com"/>
+                android:fontFamily="@font/nunito"
+                android:hint="Enter Email"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -109,18 +123,73 @@
             android:layout_marginRight="15dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
+
             <Button
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_location_on_black_24dp"
-                />
+                android:fontFamily="@font/nunito" />
+
             <TextView
-                android:id="@+id/profile_tvaddress"
+                android:id="@+id/profileedit_tvaddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:text="Address"/>
+                android:fontFamily="@font/nunito"
+                android:text="Address"
+                android:textSize="20sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/profile_tvgender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nunito"
+                android:text="Select Gender  "
+                android:textSize="20sp" />
+            <RadioGroup
+                android:id="@+id/radiogroup_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/sradio_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
+                    android:text="Male" />
+
+                <RadioButton
+                    android:id="@+id/sradio_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:fontFamily="@font/nunito"
+                    android:text="Female" />
+
+                <RadioButton
+                    android:id="@+id/sradio_trans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:fontFamily="@font/nunito"
+                    android:text="Trans" />
+            </RadioGroup>
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Instaapp</string>
+    <string name="app_name">RingaApp</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_signup">SignupActivity</string>
@@ -26,5 +26,10 @@
     <string name="title_activity_user_map">UserMap</string>
     <string name="title_activity_user_map_loc">UserMapLoc</string>
     <string name="title_activity_user_sel_map">Map</string>
+    <string name="title_activity_all_cat_search">AllCatSearch</string>
+    <string name="title_activity_service_provider_details">ServiceProviderDetails</string>
+    <string name="title_activity_confirm_booking">ConfirmBooking</string>
+    <string name="title_activity_booking_confirmation">BookingConfirmation</string>
+    <string name="title_activity_serv_booking_confirmation">ServBookingConfirmation</string>
 
 </resources>

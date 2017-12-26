@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.getinstaapp.instaapp.Categories"
+    tools:context="com.ringaapp.ringauser.Categories"
     tools:showIn="@layout/app_bar_categories">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,75 +20,84 @@
             android:weightSum="2">
 
 
-    <Button
-        android:id="@+id/edcat_search"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-android:layout_marginLeft="9dp"
-        android:shadowColor="@color/colorAccent"
-android:layout_weight="0.7"
-      android:textAlignment="viewStart"
-        android:hint="   Search for services"
-        android:paddingRight="15dp"
-        android:textColor="@color/colorAccent"
-        android:textColorHint="@color/colorAccent"
-        android:background="@drawable/rounded_edittextred"
-        android:paddingLeft="10dp"
-        android:drawableLeft="@drawable/search"/>
             <Button
-                android:id="@+id/butforgorpswd_otp"
+                android:id="@+id/homebut_search"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="10dp"
-                android:shadowColor="@color/colorPrimary"
-                android:layout_weight="1.3"
+                android:layout_marginLeft="9dp"
+                android:layout_weight="0.7"
+                android:background="@drawable/rounded_edittextred"
+                android:drawableLeft="@drawable/search"
+                android:fontFamily="@font/nunito"
+                android:hint="   Search for services"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:shadowColor="@color/colorAccent"
                 android:textAlignment="viewStart"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
+
+            <Button
+                android:id="@+id/homebut_buy"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_weight="1.3"
+                android:background="@drawable/rounded_edittextred"
+                android:drawableLeft="@drawable/buy"
+                android:fontFamily="@font/nunito"
                 android:hint="   BUY"
-                android:textSize="22sp"
-android:layout_marginTop="3dp"
+                android:paddingLeft="10dp"
+                android:shadowColor="@color/colorPrimary"
+                android:textAlignment="viewStart"
                 android:textColor="@color/colorAccent"
                 android:textColorHint="@color/colorAccent"
-                android:background="@drawable/rounded_edittextred"
-                android:paddingLeft="10dp"
-                android:drawableLeft="@drawable/buy"/>
+                android:textSize="22sp" />
         </LinearLayout>
 
     </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="9dp"
+        android:fontFamily="@font/nunito"
+        android:text="Recommended Services"
         android:textColor="@color/colorAccent"
-        android:textSize="17dp"
-        android:text="Recommended Services"/>
+        android:textSize="17dp" />
     <android.support.v7.widget.CardView
         android:id="@+id/cv_add"
-
-
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         app:cardCornerRadius="6dp"
         app:cardElevation="4dp"
-        app:cardUseCompatPadding="true"
-        >
-    <android.support.v4.view.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pager"
-      android:layout_below="@+id/edcat_search"
-        android:layout_width="match_parent"
-        android:layout_height="180dp">
-    </android.support.v4.view.ViewPager>
+        app:cardUseCompatPadding="true">
 
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
-            android:layout_marginTop="130dp"
+        <ListView
+            android:id="@+id/s"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:visibility="invisible" />
 
-            android:layout_height="40dp"
-            />
+        <technolifestyle.com.imageslider.FlipperLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
 
+            android:id="@+id/flipper_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            android:background="#000000">
+
+        </technolifestyle.com.imageslider.FlipperLayout>
 
     </android.support.v7.widget.CardView>
     <GridView android:layout_height="match_parent"
@@ -101,6 +110,7 @@ android:layout_marginTop="3dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:numColumns="3"
+
         android:layout_marginBottom="15dp"
         android:layout_marginTop="10dp"/>
 </LinearLayout>

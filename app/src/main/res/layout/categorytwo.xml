@@ -32,15 +32,17 @@ android:weightSum="2">
        android:layout_gravity="center"
 
        android:padding="4dp"/>
-        <TextView
-            android:id="@+id/second_texttitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.6"
-            android:layout_gravity="center"
-            android:paddingLeft="15dp"
 
-            android:textSize="20sp" />
+    <TextView
+        android:id="@+id/second_texttitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1.6"
+        android:fontFamily="@font/nunito"
+
+        android:paddingLeft="15dp"
+        android:textSize="20sp" />
 </LinearLayout>
 
 

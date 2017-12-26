@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.getinstaapp.instaapp.ProfileActivity"
+    tools:context="com.ringaapp.ringauser.ProfileActivity"
     tools:showIn="@layout/activity_profile">
 <LinearLayout
     android:layout_width="match_parent"
@@ -13,56 +13,64 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="248dp"
         android:background="@drawable/userback"
         android:orientation="vertical">
 
 <ImageView
+    android:id="@+id/imageuser"
     android:layout_width="90dp"
     android:layout_height="90dp"
     android:layout_marginTop="60dp"
     android:layout_marginLeft="20dp"
 android:background="@drawable/userbackcode"
   android:src="@drawable/ic_person_black_24dp" />
+
         <TextView
             android:id="@+id/profile_tvusername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="19dp"
+            android:fontFamily="@font/nunito"
             android:text="Name of the user"
             android:textColor="#FFF"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="19dp"
-            android:layout_marginLeft="10dp"/>
+            android:textStyle="bold" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="38dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
+
         android:orientation="horizontal"
         >
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ic_call_black_24dp"
-            />
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
 
-          android:textSize="20sp"
-          android:layout_marginLeft="20dp"
-          android:text="+91"/>
+        <Button
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_call_black_24dp"
+            android:fontFamily="@font/nunito" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/nunito"
+            android:text="+91"
+            android:textSize="20sp" />
+
         <TextView
             android:id="@+id/profile_tvnumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:layout_marginLeft="20dp"
-            android:text="9939409823409"/>
+            android:fontFamily="@font/nunito"
+            android:text="9939409823409"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <View
@@ -78,20 +86,23 @@ android:background="@drawable/userbackcode"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
+
         android:orientation="horizontal">
+
         <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/ic_mail_black_24dp"
-            />
+            android:fontFamily="@font/nunito" />
+
         <TextView
             android:id="@+id/profile_tvemail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:layout_marginLeft="20dp"
-            android:text="insta@gmail.com"/>
+            android:fontFamily="@font/nunito"
+            android:text="insta@gmail.com"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <View
@@ -109,18 +120,29 @@ android:background="@drawable/userbackcode"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
+
         <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/ic_location_on_black_24dp"
-            />
+            android:fontFamily="@font/nunito" />
+
         <TextView
             android:id="@+id/profile_tvaddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:layout_marginLeft="20dp"
-            android:text="Address"/>
+            android:fontFamily="@font/nunito"
+            android:text="Address"
+            android:textSize="20sp" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#848282"/>
+
     </LinearLayout>
 </RelativeLayout>

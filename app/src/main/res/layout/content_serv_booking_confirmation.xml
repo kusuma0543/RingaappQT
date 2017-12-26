@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ringaapp.ringauser.ServBookingConfirmation"
+    tools:showIn="@layout/activity_serv_booking_confirmation">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/colorPrimary">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="70dp"
+                android:weightSum="2">
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:gravity="end"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_alarm_black_24dp"
+                    android:layout_weight="0.5"
+                    />
+
+                <TextView
+                    android:id="@+id/booking_countdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1.5"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="start"
+
+                    android:text="1.0"
+                    android:textColor="#FFF"
+                    android:textSize="19pt" />
+            </LinearLayout>
+
+    <ImageView
+        android:id="@+id/test_image"
+        android:layout_width="160dp"
+        android:layout_height="130dp"
+        android:scaleType="fitXY"
+        android:layout_gravity="center" />
+
+        </LinearLayout>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+               app:cardUseCompatPadding="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="Waiting for service provider to accept request"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <Button
+
+                                android:layout_width="130dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="25dp"
+                                android:background="@drawable/rounded_editsecond"
+                                android:fontFamily="@font/nunito"
+                                android:hint="Cancel"
+                                android:textColorHint="#fff"
+                                android:textSize="18sp" />
+                            <Button
+                                android:id="@+id/directto_home"
+                                android:layout_width="130dp"
+
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="25dp"
+                                android:layout_marginLeft="20dp"
+                                android:background="@drawable/home_butonborder"
+                                android:fontFamily="@font/nunito"
+
+                                android:text="Home"
+                                android:textColor="@color/colorPrimary"
+                                android:textColorHint="#fff"
+                                android:textSize="18sp" />
+
+                        </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</LinearLayout>
