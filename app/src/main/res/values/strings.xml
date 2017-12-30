@@ -31,5 +31,6 @@
     <string name="title_activity_confirm_booking">ConfirmBooking</string>
     <string name="title_activity_booking_confirmation">BookingConfirmation</string>
     <string name="title_activity_serv_booking_confirmation">ServBookingConfirmation</string>
+    <string name="signup">SIGNUP</string>
 
 </resources>

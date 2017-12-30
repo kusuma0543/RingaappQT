@@ -24,18 +24,25 @@
         android:src="@drawable/qt_tick"/>
 
     <TextView
+        android:id="@+id/confirm_partnername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
+        android:textColor="#000"
+        android:layout_gravity="center"
         android:text="Name of the provider"
         android:textStyle="bold"
         android:textSize="17sp" />
     <TextView
+        android:id="@+id/confirm_partneraddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
         android:layout_marginTop="5dp"
-        android:text="Medavakkam,Chennai,Tamil Nadu,600087"
+        android:text="Address"
+        android:layout_gravity="center"
+        android:textColor="#000"
+
         android:textSize="14sp" />
     <TextView
         android:layout_width="wrap_content"
@@ -48,14 +55,15 @@
         android:textSize="16sp" />
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="130dp"
         android:layout_gravity="center_horizontal"
         app:cardCornerRadius="13dp"
 
-        app:cardElevation="8dp"
+        app:cardElevation="9dp"
+        android:layout_margin="20dp"
         app:cardUseCompatPadding="true">
     <TextView
-        android:background="@drawable/imagebutton_border"
+        android:id="@+id/confirm_partnerbudgetfeatures"
         android:layout_width="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1.7"
@@ -81,7 +89,7 @@
         app:cardElevation="8dp"
         app:cardUseCompatPadding="true">
         <EditText
-            android:id="@+id/description_booking"
+            android:id="@+id/confirm_partnerdescription"
             android:background="@drawable/imagebutton_border"
             android:layout_width="match_parent"
             android:layout_gravity="center"

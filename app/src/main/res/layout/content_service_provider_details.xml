@@ -77,13 +77,16 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
                     android:text="Name Of the Provider"
-                    android:textSize="15sp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
                     android:fontFamily="@font/nunito"
                     android:text="Address Of the Provider" />
             </LinearLayout>
@@ -96,6 +99,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/nunito"
             android:text="Introduction"
+            android:textColor="@color/colorBlack"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -105,8 +109,9 @@
             android:layout_marginLeft="14dp"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/nunito"
+            android:textColor="@color/colorBlack"
             android:text="I a here to provide you like a saloon experience in comfort at ur home"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
@@ -121,6 +126,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/nunito"
             android:text="Ratings"
+            android:textColor="@color/colorBlack"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -133,13 +139,15 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="1dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorBlack"
                     android:fontFamily="@font/nunito"
                     android:text="Over all Rating" />
 
@@ -149,7 +157,9 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/nunito"
                     android:text="4.0"
-                    android:textSize="23sp" />
+                    android:textSize="43sp"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"/>
 
                 <RatingBar
                     android:id="@+id/ratingBar"
@@ -161,14 +171,15 @@
                     android:rating="3.5"
                     android:scaleX=".5"
                     android:scaleY=".5"
-                    android:transformPivotX="0dp"
-                    android:transformPivotY="0dp" />
+       />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/nunito"
-                    android:text="Over all Rating" />
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10sp"
+                    android:text="Based on 221 reviews" />
             </LinearLayout>
 
             <View
@@ -177,8 +188,11 @@
                 android:background="#848282" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="163dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/rating_userp"/>
         </LinearLayout>
 
         <TextView
@@ -188,6 +202,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/nunito"
             android:text="Reviews"
+            android:textColor="@color/colorBlack"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -217,13 +232,16 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
                     android:text="Name Of the Provider"
-                    android:textSize="15sp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorBlack"
                     android:fontFamily="@font/nunito"
                     android:text="Address Of the Provider" />
             </LinearLayout>
@@ -253,6 +271,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
                     android:text="Name Of the Provider"
+                    android:textColor="@color/colorBlack"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -260,6 +279,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorBlack"
                     android:fontFamily="@font/nunito"
                     android:text="Address Of the Provider" />
             </LinearLayout>
@@ -275,6 +296,7 @@
     android:layout_marginTop="20dp"
     android:textColor="#FFF"
     android:textStyle="bold"
+    android:textSize="17sp"
     android:background="@drawable/filter_shape"
     android:layout_marginBottom="20dp"
     />

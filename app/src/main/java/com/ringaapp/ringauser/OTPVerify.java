@@ -154,7 +154,7 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
 
         tvotp_resend.startAnimation(myAnim);
         insert(last_number);
-    };
+    }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {

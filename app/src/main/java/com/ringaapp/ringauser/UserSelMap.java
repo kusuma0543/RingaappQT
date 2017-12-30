@@ -55,7 +55,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class UserSelMap extends FragmentActivity implements LocationListener, OnMapReadyCallback {
-
+private Button mylocationnav;
     private GoogleMap mMap;
     private TrackGps gps;
 
@@ -87,6 +87,13 @@ uidthree=intk.getStringExtra("oneuid");
 
         list29 = (ListView) findViewById(R.id.listview);
         ridenow=(Button) findViewById(R.id.ride);
+        mylocationnav=findViewById(R.id.mylocnav);
+        mylocationnav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onMapReady(mMap);
+            }
+        });
         ridenow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,7 +215,7 @@ uidthree=intk.getStringExtra("oneuid");
 
 
                 mMap.clear();
-                getmygps();
+               // getmygps();
                 try {
 
                     Location mLocation = new Location("");
@@ -222,14 +229,15 @@ uidthree=intk.getStringExtra("oneuid");
                         address = addresses.get(0).getSubLocality();
                         cityName = addresses.get(0).getLocality();
                         stateName = addresses.get(0).getAdminArea();
-                       // Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
 
-                       // Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
 
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -244,7 +252,7 @@ uidthree=intk.getStringExtra("oneuid");
 
     protected void startIntentService(Location mLocation) {
 
-        getmygps();
+       // getmygps();
 
         Intent intent = new Intent(this, FetchAddressIntentService.class);
 
@@ -273,7 +281,7 @@ uidthree=intk.getStringExtra("oneuid");
             getmygps();
             displayAddressOutput();
 
-            getmygps();
+           // getmygps();
 
             if (resultCode == AppUtils.LocationConstants.SUCCESS_RESULT) {
 
@@ -355,9 +363,7 @@ uidthree=intk.getStringExtra("oneuid");
         } catch (IOException e) {
             e.printStackTrace();
         }
-      mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.mop
-        ))
-                .position(new LatLng(lat,lng)));
+
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,6.5f));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
@@ -365,12 +371,6 @@ uidthree=intk.getStringExtra("oneuid");
         mMap.setMinZoomPreference(6.5f);
 
 
-        mMap.addCircle(new CircleOptions()
-                .center(new LatLng(lat,lng))
-                .radius(1000)
-                .fillColor(Color.argb(20, 255, 0, 255))
-                .strokeColor(Color.BLUE)
-                .strokeWidth(2.0f));
 
     }
 

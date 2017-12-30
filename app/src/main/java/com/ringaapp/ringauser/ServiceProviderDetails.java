@@ -19,6 +19,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -32,7 +37,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import technolifestyle.com.imageslider.FlipperLayout;
 import technolifestyle.com.imageslider.FlipperView;
@@ -41,6 +48,8 @@ public class ServiceProviderDetails extends AppCompatActivity {
     private ListView listview_service;
     FlipperLayout flipperLayout_service;
     private Button serprov_bookbut;
+    String  userid_book,partnerid_book,categid_book,subcateg_book,alladdress_book,alllatitude_book,alllongitude_book;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,22 +57,30 @@ public class ServiceProviderDetails extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
             }
-        });
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+            toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        userid_book=preferences.getString("useruidentire","");
+
+        categid_book=preferences.getString("sel_categid","");
+        subcateg_book=preferences.getString("sel_subcategid","");
+        alladdress_book=preferences.getString("usersseladdressfull","");
+        alllatitude_book=preferences.getString("usersellatitude","");
+        alllongitude_book=preferences.getString("usersellongitude","");
         final Intent intent=getIntent();
         final String sel_servicepid=intent.getStringExtra("selservice_providerid");
         String sel_servicepname=intent.getStringExtra("selservice_providername");
@@ -77,12 +94,14 @@ public class ServiceProviderDetails extends AppCompatActivity {
         serprov_bookbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent intent1=new Intent(ServiceProviderDetails.this,ConfirmBooking.class);
+                    Intent intent1=new Intent(ServiceProviderDetails.this,ServBookingConfirmation.class);
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ServiceProviderDetails.this);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("confirm_bookingid",sel_servicepid);
                 editor.apply();
-                    startActivity(intent1);
+                insertmes(userid_book,sel_servicepid,categid_book,subcateg_book,alladdress_book,alllatitude_book,alllongitude_book);
+
+                startActivity(intent1);
             }
         });
     }
@@ -220,5 +239,33 @@ public class ServiceProviderDetails extends AppCompatActivity {
     {
         super.onBackPressed();
         finish();
+    }
+    public void insertmes(final String ss1, final String ss2,final String ss3,final String ss4, final String ss6,final String ss7,final String ss8) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_booking, new Response.Listener<String>() {
+            public void onResponse(String response) {
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            { }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_uid", ss1);
+                params.put("partner_uid", ss2);
+                params.put("service_categ_uid",ss3);
+                params.put("service_subcateg_uid",ss4);
+
+                params.put("service_booking_address", ss6);
+                params.put("service_latitude",ss7);
+                params.put("service_longitude",ss8);
+
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
     }
 }

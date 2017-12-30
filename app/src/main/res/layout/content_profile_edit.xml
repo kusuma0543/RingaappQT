@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:fontFamily="@font/nunito"
-                android:hint="Entere your Name"
+                android:hint="Enter your Name"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -143,40 +143,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/profile_tvgender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nunito"
-                android:text="Select Gender  "
-                android:textSize="20sp" />
             <RadioGroup
                 android:id="@+id/radiogroup_gender"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-
-                android:orientation="vertical">
+android:weightSum="3"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/sradio_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
+                    android:layout_weight="1"
                     android:text="Male" />
 
                 <RadioButton
                     android:id="@+id/sradio_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+android:layout_weight="1"
                     android:fontFamily="@font/nunito"
                     android:text="Female" />
 
@@ -184,7 +176,7 @@
                     android:id="@+id/sradio_trans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+android:layout_weight="1"
                     android:fontFamily="@font/nunito"
                     android:text="Trans" />
             </RadioGroup>

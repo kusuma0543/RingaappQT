@@ -75,6 +75,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 if(hasfocus){
                     edsignup_name.setTextColor(Color.RED);
                     edsignup_name.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    edsignup_mail.setBackgroundResource(R.drawable.rounded_edittextred);
+                    edsignup_mobile.setBackgroundResource(R.drawable.rounded_edittextred);
+                    edsignup_pswd.setBackgroundResource(R.drawable.rounded_edittextred);
+
                     edsignup_mail.setTextColor(Color.BLACK);
                     edsignup_mobile.setTextColor(Color.BLACK);
                     edsignup_pswd.setTextColor(Color.BLACK);
@@ -87,6 +91,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 if(hasfocus){
                     edsignup_mail.setTextColor(Color.RED);
                     edsignup_mail.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    edsignup_name.setBackgroundResource(R.drawable.rounded_edittextred);
+                    edsignup_mobile.setBackgroundResource(R.drawable.rounded_edittextred);
+                    edsignup_pswd.setBackgroundResource(R.drawable.rounded_edittextred);
+
                     edsignup_name.setTextColor(Color.BLACK);
                     edsignup_mobile.setTextColor(Color.BLACK);
                     edsignup_pswd.setTextColor(Color.BLACK);
@@ -99,6 +107,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 if(hasfocus){
                     edsignup_mobile.setTextColor(Color.RED);
                     edsignup_mobile.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    edsignup_mail.setBackgroundResource(R.drawable.rounded_edittextred);
+                    edsignup_name.setBackgroundResource(R.drawable.rounded_edittextred);
+                    edsignup_pswd.setBackgroundResource(R.drawable.rounded_edittextred);
+
                     edsignup_mail.setTextColor(Color.BLACK);
                     edsignup_name.setTextColor(Color.BLACK);
                     edsignup_pswd.setTextColor(Color.BLACK);
@@ -111,6 +123,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 if(hasfocus){
                     edsignup_pswd.setTextColor(Color.RED);
                     edsignup_pswd.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    edsignup_mail.setBackgroundResource(R.drawable.rounded_edittextred);
+                    edsignup_mobile.setBackgroundResource(R.drawable.rounded_edittextred);
+                    edsignup_name.setBackgroundResource(R.drawable.rounded_edittextred);
+
                     edsignup_mail.setTextColor(Color.BLACK);
                     edsignup_mobile.setTextColor(Color.BLACK);
 

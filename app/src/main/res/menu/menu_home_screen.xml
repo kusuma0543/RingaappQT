@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ringaapp.ringauser.HomeScreen">
     <item
-        android:id="@+id/action_close"
+        android:id="@+id/action_check"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_assignment_late_black_24dp"
+        android:icon="@drawable/ic_check_black_24dp"
         android:title="JDPay"
 
         app:showAsAction="ifRoom" />

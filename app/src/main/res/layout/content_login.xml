@@ -19,99 +19,104 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="130dp"
-       android:background="@mipmap/login_logo"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="55dp"
-        android:layout_marginRight="55dp"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/edlogin_num"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/rounded_edittextred"
-            android:fontFamily="@font/nunito"
-            android:hint="Mobile Number"
-            android:imeOptions="actionNext"
-            android:inputType="number"
-            android:maxLength="10"
-            android:paddingLeft="15dp"
-            android:singleLine="true"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="#4b4b4b"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/edlogin_pswd"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_edittextred"
-            android:fontFamily="@font/nunito"
-            android:hint="Password"
-            android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            android:paddingLeft="15dp"
-            android:singleLine="true"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="#4b4b4b"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tvlogin_forgot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/nunito"
-          android:text="FORGOT PASSWORD?"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/butlogin_login"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_editsecond"
-            android:fontFamily="@font/nunito"
-            android:hint="LOGIN"
-            android:textColorHint="#fff"
-            android:textSize="18sp" />
+       android:background="@drawable/login_logo"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2"
-            android:gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="50dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="55dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edlogin_num"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/rounded_edittextred"
+                android:fontFamily="@font/nunito"
+                android:hint="Mobile Number"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="10"
+                android:paddingLeft="15dp"
+                android:singleLine="true"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorHint"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edlogin_pswd"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_edittextred"
+                android:fontFamily="@font/nunito"
+                android:hint="Password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:paddingLeft="15dp"
+                android:singleLine="true"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorHint"
+                android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/tvlogin_forgot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/nunito"
-                android:gravity="center"
-                android:text="Dont have an Account?" />
+                android:text="FORGOT PASSWORD?"
+                android:textColor="@color/colorHint"
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/tvlogin_signup"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/butlogin_login"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_gravity="center"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/rounded_editsecond"
                 android:fontFamily="@font/nunito"
+                android:hint="SIGN IN"
+                android:textStyle="bold"
+                android:textColorHint="#fff"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="55dp"
                 android:gravity="center"
-                android:text="SIGN UP"
-                android:textColor="@color/colorAccent" />
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center"
+                    android:text="Dont have an Account?"
+                    android:textColor="@color/colorHint" />
+
+                <TextView
+                    android:id="@+id/tvlogin_signup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center"
+                    android:text="SIGN UP"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

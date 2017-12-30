@@ -23,7 +23,7 @@
                  android:layout_height="110dp"
                  android:paddingTop="5dp"
                  android:layout_marginLeft="35dp"
-                 android:src="@drawable/logi_ap"/>
+                 android:src="@drawable/logis_ap"/>
 
     </LinearLayout>
 
@@ -36,7 +36,9 @@
         android:layout_marginTop="50dp"
         android:background="@drawable/rounded_edittext"
         android:fontFamily="@font/nunito"
-        android:hint="LOGIN"
+        android:text="SIGN IN"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         android:padding="10dip"
         android:textColorHint="@color/colorPrimary"
         android:textSize="21sp" />
@@ -50,7 +52,9 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/rounded_editetxtnobg"
         android:fontFamily="@font/nunito"
-        android:hint="SIGN UP"
+      android:text="@string/signup"
+        android:textColor="@color/colorBackgound"
+        android:textStyle="bold"
         android:padding="10dip"
         android:textColorHint="#FFF"
         android:textSize="21sp" />

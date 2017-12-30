@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -27,9 +28,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConfirmBooking extends AppCompatActivity {
-private Button serprov_confirmbookbut;
-private EditText description_book;
-String sdescription_book;
+    private TextView tvconfirm_partnername,tvconfirm_partneraddress,tvconfirm_partnerbudgetfeatures;
+    String sconfirm_partnerid,sconfirm_partnername,sconfirm_partneraddress,sconfirm_partnerbudget,sconfirm_partnerfeatures;
+    private Button serprov_confirmbookbut;
+    private EditText description_book;
+    String sdescription_book;
     String  userid_book,partnerid_book,categid_book,subcateg_book,alladdress_book,alllatitude_book,alllongitude_book;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,24 +58,29 @@ String sdescription_book;
                 onBackPressed();
             }
         });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        description_book=findViewById(R.id.confirm_partnerdescription);
+        serprov_confirmbookbut=findViewById(R.id.serprov_confirmbookbut);
+        tvconfirm_partnername=findViewById(R.id.confirm_partnername);
+        tvconfirm_partneraddress=findViewById(R.id.confirm_partneraddress);
+        tvconfirm_partnerbudgetfeatures=findViewById(R.id.confirm_partnerbudgetfeatures);
+
+
         Intent intent1=getIntent();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         userid_book=preferences.getString("useruidentire","");
         partnerid_book =preferences.getString("confirm_bookingid","");
-
+        insertmybbokingdetails(partnerid_book);
         categid_book=preferences.getString("sel_categid","");
          subcateg_book=preferences.getString("sel_subcategid","");
          alladdress_book=preferences.getString("usersseladdressfull","");
          alllatitude_book=preferences.getString("usersellatitude","");
           alllongitude_book=preferences.getString("usersellongitude","");
-       // Toast.makeText(getApplicationContext(),"my id was"+userid_book,Toast.LENGTH_SHORT).show();
-       // Toast.makeText(getApplicationContext(),"my address was"+alladdress_book,Toast.LENGTH_SHORT).show();
-      //  Toast.makeText(getApplicationContext(),"my address was"+alllatitude_book,Toast.LENGTH_SHORT).show();
         Toast.makeText(getApplicationContext(),"my address was"+partnerid_book,Toast.LENGTH_SHORT).show();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        description_book=findViewById(R.id.description_booking);
-        serprov_confirmbookbut=findViewById(R.id.serprov_confirmbookbut);
+
+
         serprov_confirmbookbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +105,53 @@ String sdescription_book;
     {
         super.onBackPressed();
         finish();
+    }
+    public void insertmybbokingdetails(final String s1) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_bookingdetret, new Response.Listener<String>() {
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean abc = jObj.getBoolean("exits");
+
+
+                    if (abc)
+                    {
+                        JSONObject users = jObj.getJSONObject("users_detail");
+                     sconfirm_partnername = users.getString("partner_name");
+
+                        sconfirm_partneraddress= users.getString("partner_address");
+                        sconfirm_partnerbudget= users.getString("partner_budget");
+                        sconfirm_partnerfeatures= users.getString("partner_features");
+                        tvconfirm_partnername.setText(sconfirm_partnername);
+                       tvconfirm_partneraddress.setText(sconfirm_partneraddress);
+                       tvconfirm_partnerbudgetfeatures.setText(sconfirm_partnerbudget+sconfirm_partnerfeatures);
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Account already exists!",Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            { }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("partner_uid", s1);
+
+
+
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
     }
     public void insertmes(final String ss1, final String ss2,final String ss3,final String ss4,final String ss5, final String ss6,final String ss7,final String ss8) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_booking, new Response.Listener<String>() {
@@ -126,4 +181,5 @@ String sdescription_book;
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
+
 }

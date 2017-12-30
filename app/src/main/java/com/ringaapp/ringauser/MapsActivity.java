@@ -55,7 +55,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,LocationListener {
-
+String mappagelat,mappagelng,mappageloc;
     private GoogleMap mMap;
     private TrackGps gps;
     int PERMISSION_ALL = 1;
@@ -146,6 +146,7 @@ selcategid=intent.getStringExtra("categid");
                 holder = new ViewHolder();
                 holder.textid= view.findViewById(R.id.mappage_sername);
                 holder.textname= view.findViewById(R.id.mappage_seradd);
+                holder.textvisiting=view.findViewById(R.id.visitingcahrge);
                 view.setTag(holder);
             }
             else {
@@ -154,6 +155,7 @@ selcategid=intent.getStringExtra("categid");
             GeoLocate ccitac=movieModelList.get(position);
             holder.textid.setText(ccitac.getPartner_name());
             holder.textname.setText(ccitac.getPartner_locality());
+            holder.textvisiting.setText(ccitac.getPartner_budget());
             lat=Double.parseDouble(ccitac.getPartner_latitude());
             lng=Double.parseDouble(ccitac.getPartner_longitude());
 
@@ -217,7 +219,7 @@ selcategid=intent.getStringExtra("categid");
             return view;
         }
         class ViewHolder{
-            public TextView textid,textname;
+            public TextView textid,textname,textvisiting;
         }
     }
     public class kilomilo extends AsyncTask<String,String, List<GeoLocate>> {
@@ -313,7 +315,14 @@ selcategid=intent.getStringExtra("categid");
         Double lng=gps.getLongitude();
         LatLng sydney = new LatLng(lat,lng);
         float zoomLevel =10;
-   new kilomilo().execute(GlobalUrl.user_mapdetails+"?partner_latitude="+lat+"&partner_longitude="+lng);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mappageloc= preferences.getString("presentlocationstore", "");
+        mappagelat= preferences.getString("presentlocationlat", "");
+        mappagelng= preferences.getString("presentlocationlng", "");
+        Double maplat=Double.parseDouble(mappagelat);
+        Double maplng=Double.parseDouble(mappagelng);
+
+        new kilomilo().execute(GlobalUrl.user_mapdetails+"?partner_latitude="+mappagelat+"&partner_longitude="+mappagelng);
 
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
@@ -330,22 +339,20 @@ selcategid=intent.getStringExtra("categid");
 
 
     Toast.makeText(getApplicationContext(),state,Toast.LENGTH_SHORT).show();
+
+
+
         mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(lat,lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ourloc
+                .position(new LatLng(maplat,maplng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ourloc
                 )));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,6.5f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(maplat,maplng) ,6.5f));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
         mMap.setMaxZoomPreference(15.5f);
         mMap.setMinZoomPreference(6.5f);
 
 
-        mMap.addCircle(new CircleOptions()
-                .center(new LatLng(lat,lng))
-                .radius(1000)
-                .fillColor(Color.argb(20, 255, 0, 255))
-                .strokeColor(Color.BLUE)
-                .strokeWidth(2.0f));
+
 
 
     }

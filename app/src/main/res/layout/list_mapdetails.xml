@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:background="#efebeb"
-    android:layout_height="match_parent"
+
+    android:layout_height="wrap_content"
 
     >
 
@@ -16,6 +16,7 @@
         android:background="@drawable/basic_ripple"
 
         android:layout_width="wrap_content"
+        android:layout_marginBottom="5dp"
 
         app:cardCornerRadius="10dp"
         android:layout_height="wrap_content"
@@ -118,11 +119,36 @@
                         android:focusable="false"
                         android:clickable="false"
                         android:textColor="@color/colorAccent" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
+
+                        android:fontFamily="@font/nunito"
+                        android:text="Visiting Charges"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:textColor="#000"
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/visitingcahrge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:fontFamily="@font/nunito"
+                        android:text="Rs 100 to Rs 500"
+                        android:layout_gravity="center"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:textColor="#000"
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
                         android:fontFamily="@font/nunito"
                         android:text="Book Now"
                         android:focusable="false"

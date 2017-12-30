@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="#efebeb">
+    android:background="#fafafa">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -15,16 +15,17 @@
 
         tools:context="com.ringaapp.ringauser.MapsActivity" >
     </fragment><FrameLayout
-    android:layout_width="200dp"
+    android:layout_width="match_parent"
     android:layout_centerHorizontal="true"
-    android:layout_height="30dp"
-    android:background="#FFF"
+    android:layout_height="47dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/search_rounded"
 
         android:orientation="horizontal" >
     <fragment
         android:id="@+id/place_autocomplete_fragmentsk"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="47dp"
 
         android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
         />
@@ -41,8 +42,8 @@
     android:id="@+id/filter_deta"
     android:weightSum="5">
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:background="@drawable/ic_filter_list_black_24dp"/>
@@ -65,7 +66,7 @@
         android:layout_margin="7dp"
         android:layout_weight="1"
         android:background="@drawable/filter_shape"
-
+android:textSize="13sp"
         android:fontFamily="@font/nunito"
         android:text="Location"
         android:textColor="#FFFF" />
@@ -76,6 +77,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="7dp"
         android:layout_weight="1"
+        android:textSize="13sp"
+
         android:background="@drawable/filter_shape"
         android:fontFamily="@font/nunito"
         android:text="Rating"
@@ -86,10 +89,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="7dp"
+        android:textSize="13sp"
+
         android:layout_weight="1"
         android:background="@drawable/filter_shape"
         android:fontFamily="@font/nunito"
-        android:text="Ranking"
+        android:text="Pricing"
         android:textColor="#FFFF" />
 </LinearLayout>
 

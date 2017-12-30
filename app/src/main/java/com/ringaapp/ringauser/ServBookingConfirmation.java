@@ -26,6 +26,7 @@ public class ServBookingConfirmation extends AppCompatActivity {
     private Button alldirecttohome_but;
     CountDownTimer booking_c;
     private static final String FORMAT = "%02d:%02d";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

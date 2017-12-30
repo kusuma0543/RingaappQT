@@ -69,7 +69,7 @@ import technolifestyle.com.imageslider.FlipperView;
 
 public class Categories extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,AdapterView.OnItemSelectedListener {
-
+    Double lath_cat,lng_cat;
     private GridView home_gridview;
     private TextView home_tspinner,home_navusername;
     private ProgressDialog dialog;
@@ -101,7 +101,6 @@ public class Categories extends AppCompatActivity
         homebut_buy=(Button) findViewById(R.id.homebut_buy);
         flipperLayout = (FlipperLayout) findViewById(R.id.flipper_layout);
         second_listview = (ListView) findViewById(R.id.s);
-        autocompletesearch();
 
 
 
@@ -114,7 +113,11 @@ public class Categories extends AppCompatActivity
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedhomeloc= preferences.getString("user_city", "");
         categuid=preferences.getString("useruidentire","");
-//        user_profilepic=preferences.getString("sharedprofileimages","");
+        lath_cat=Double.parseDouble(preferences.getString("usersellatitude",""));
+        lng_cat=Double.parseDouble(preferences.getString("usersellongitude",""));
+        autocompletesearch();
+
+        //        user_profilepic=preferences.getString("sharedprofileimages","");
 //        shareduid_home=preferences.getString("shareduidd","");
       sharedhomeloc=intent.getStringExtra("user_city");
         home_tspinner.setText(sharedhomeloc);
@@ -132,7 +135,7 @@ public class Categories extends AppCompatActivity
 
         homebut_search.setOnClickListener(new View.OnClickListener() {
     @Override
-    public void onClick(View v) {
+     public void onClick(View v) {
                 Intent intent1=new Intent(Categories.this,AllCatSearch.class);
                 intent1.putExtra("sharedhomelocm",sharedhomeloc);
                  startActivity(intent1);
@@ -205,10 +208,11 @@ public class Categories extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-          startActivity(new Intent(Categories.this,Categories.class));
 
         } else if (id == R.id.nav_search) {
-            //startActivity(new Intent(Categories.this,AllCategories.class));
+            Intent intent1=new Intent(Categories.this,AllCatSearch.class);
+            intent1.putExtra("sharedhomelocm",sharedhomeloc);
+            startActivity(intent1);
 
         } else if (id == R.id.nav_services) {
 
@@ -230,7 +234,7 @@ public class Categories extends AppCompatActivity
 
         } else if (id == R.id.nav_feedback) {
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto","appchitvish@gmail.com", null));
+                    "mailto","ringaapp@gmail.com", null));
             intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
             intent.putExtra(Intent.EXTRA_TEXT, "send your feedback here... ");
             startActivity(Intent.createChooser(intent, "Choose an Email client :"));
@@ -274,11 +278,21 @@ public class Categories extends AppCompatActivity
                     .setConfirmText("Yes exit").setCancelText("No Dont").showCancelButton(true).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    new SweetAlertDialog(Categories.this,SweetAlertDialog.SUCCESS_TYPE).setContentText("cancled").show();
-                    Intent intent=new Intent(Categories.this,Categories.class);
-                    startActivity(intent);
-                    String users_updatedloc_servm="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+sharedhomeloc;
-                    new JSONTask().execute(users_updatedloc_servm);
+                    sweetAlertDialog.dismiss();
+
+               // new SweetAlertDialog(Categories.this,SweetAlertDialog.SUCCESS_TYPE).setContentText("cancled").show();
+
+                   // Intent intent=new Intent(Categories.this,Categories.class);
+//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
+//                    SharedPreferences.Editor editor = preferences.edit();
+//                    editor.putString("useruidentire",s3);
+//                    editor.putString("user_city", cityName);
+//                    //   editor.putString("user_area", addressn);
+//                    //   editor.putString("sharedaddress",addressn);
+//                    // editor.putString("sharedprofileimages",user_sharedimage);
+//                    editor.apply();
+                    //startActivity(intent);
+
                 }
             }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
@@ -360,6 +374,15 @@ public class Categories extends AppCompatActivity
                       //  SharedPreferences preferences = getSharedPreferences("Preferences", 0);
                      //   SharedPreferences.Editor editor = preferences.edit();
                         Intent intent = new Intent(Categories.this, Second.class);
+
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Categories.this);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("presentlocationstore",hcityName);
+                        editor.putString("presentlocationlat",Double.toString(lath_cat));
+                        editor.putString("presentlocationlng",Double.toString(lng_cat));
+
+
+                        editor.apply();
 
                         intent.putExtra("categoryname",categorieslist.getService_categ_name());
                          intent.putExtra("categorysid", categorieslist.getService_categ_uid());
@@ -489,12 +512,12 @@ public void autocompletesearch()
         @Override
         public void onPlaceSelected(Place place) {
            LatLng latilongi=place.getLatLng();
-           Double lath=latilongi.latitude;
-           Double longh=latilongi.longitude;
+            lath_cat=latilongi.latitude;
+          lng_cat=latilongi.longitude;
         Toast.makeText(getApplicationContext(), "Place: " + place.getLatLng(), Toast.LENGTH_SHORT).show();
             Geocoder geocoder = new Geocoder(Categories.this, Locale.getDefault());
             try {
-                List<Address> addresses = geocoder.getFromLocation(lath, longh, 1);
+                List<Address> addresses = geocoder.getFromLocation(lath_cat, lng_cat, 1);
 
                 hcityName = addresses.get(0).getLocality();
                 String users_updatedloc_serv="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+hcityName;

@@ -15,6 +15,7 @@ String partner_cityname;
 String partner_locality;
 String partner_latitude;
 String partner_longitude;
+String partner_budget;
 
     protected GeoLocate(Parcel in) {
         partner_uid = in.readString();
@@ -24,6 +25,24 @@ String partner_longitude;
         partner_locality = in.readString();
         partner_latitude = in.readString();
         partner_longitude = in.readString();
+        partner_budget = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(partner_uid);
+        dest.writeString(partner_name);
+        dest.writeString(partner_address);
+        dest.writeString(partner_cityname);
+        dest.writeString(partner_locality);
+        dest.writeString(partner_latitude);
+        dest.writeString(partner_longitude);
+        dest.writeString(partner_budget);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<GeoLocate> CREATOR = new Creator<GeoLocate>() {
@@ -94,20 +113,12 @@ String partner_longitude;
         this.partner_longitude = partner_longitude;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getPartner_budget() {
+        return partner_budget;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(partner_uid);
-        dest.writeString(partner_name);
-        dest.writeString(partner_address);
-        dest.writeString(partner_cityname);
-        dest.writeString(partner_locality);
-        dest.writeString(partner_latitude);
-        dest.writeString(partner_longitude);
+    public void setPartner_budget(String partner_budget) {
+        this.partner_budget = partner_budget;
     }
 }
 

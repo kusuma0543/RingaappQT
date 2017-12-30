@@ -11,29 +11,28 @@
         android:id="@+id/relative_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent">
+        android:background="@color/colorPrimaryDark">
 
         <EditText
             android:id="@+id/edsubcat_search"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_margin="15dp"
-            android:background="@drawable/rounded_edittextred"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/second_search"
             android:drawableLeft="@drawable/black_search"
             android:fontFamily="@font/nunito"
             android:textCursorDrawable="@color/colorBackgound"
-            android:hint="   Search for services"
+            android:hint="Electrician,Plumber,2 Bhk,Mobiles,Cars"
             android:imeOptions="actionDone"
             android:paddingLeft="10dp"
             android:paddingRight="15dp"
-            android:shadowColor="#ffffff"
             android:shadowDx="1.2"
             android:shadowDy="1.2"
             android:shadowRadius="1.5"
             android:singleLine="true"
             android:textAlignment="viewStart"
             android:textColor="#FFF"
-            android:textColorHint="#fff" />
+            android:textColorHint="#f5f3f3" />
 
         <!--<Button-->
             <!--android:id="@+id/second_searchbut"-->

@@ -13,6 +13,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,46 +86,20 @@ public class ProfileEdit extends AppCompatActivity {
         profie_email=intent.getStringExtra("profileedit_email");
         profie_mobile=intent.getStringExtra("profileedit_mobile");
         profie_uid=intent.getStringExtra("profileedit_uid");
-profie_address=intent.getStringExtra("profileeditlocation");
-tv_profileeditmobile.setText(profie_mobile);
-tv_profileeditaddress.setText(profie_address);
+        profie_address=intent.getStringExtra("profileeditlocation");
+        tv_profileeditmobile.setText(profie_mobile);
+        tv_profileeditaddress.setText(profie_address);
         Toast.makeText(getApplicationContext(),profie_uid,Toast.LENGTH_SHORT).show();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.profileedit_fab);
         profileedit_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFileChooser();
             }
         });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                if (et_profileeditname.getText().toString().equals("") && et_profileeditemail.getText().toString().equals("")&&radio_male.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please enter fields", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    snamesel=et_profileeditname.getText().toString();
-                    semailsel=et_profileeditemail.getText().toString();
-
-                    uploadImage();
-                    Intent intent1=new Intent(ProfileEdit.this,Categories.class);
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ProfileEdit.this);
-                   String sharedhomeloc= preferences.getString("user_city", "");
-                    intent1.putExtra("oneuid",profie_uid);
-                    intent1.putExtra("user_uname",snamesel);
-                    intent1.putExtra("profileedit_email",semailsel);
-                    intent1.putExtra("updtaedimage", getStringImage(bitmap).getBytes().toString());
-                    intent1.putExtra("user_city",sharedhomeloc);
-                  //  Toast.makeText(getApplicationContext(), "please relogin to save your changes", Toast.LENGTH_SHORT).show();
-                    startActivity(intent1);
-                }
-
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
     private void showFileChooser() {
         Intent intent = new Intent();
@@ -226,6 +202,52 @@ tv_profileeditaddress.setText(profie_address);
 
         startActivity(intent1);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_home_screen, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_check) {
+            checkupdate();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    public void checkupdate()
+    {
+
+        if (et_profileeditname.getText().toString().equals("") && et_profileeditemail.getText().toString().equals("")&&radio_male.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter fields", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            snamesel=et_profileeditname.getText().toString();
+            semailsel=et_profileeditemail.getText().toString();
+
+            uploadImage();
+            Intent intent1=new Intent(ProfileEdit.this,Categories.class);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ProfileEdit.this);
+            String sharedhomeloc= preferences.getString("user_city", "");
+            intent1.putExtra("oneuid",profie_uid);
+            intent1.putExtra("user_uname",snamesel);
+            intent1.putExtra("profileedit_email",semailsel);
+            intent1.putExtra("updtaedimage", getStringImage(bitmap).getBytes().toString());
+            intent1.putExtra("user_city",sharedhomeloc);
+            //  Toast.makeText(getApplicationContext(), "please relogin to save your changes", Toast.LENGTH_SHORT).show();
+            startActivity(intent1);
+        }
     }
 
 }

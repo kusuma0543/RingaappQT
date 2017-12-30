@@ -61,6 +61,8 @@ private String sphone,spassword;
                     edlogin_mobile.setTextColor(Color.RED);
 
                     edlogin_mobile.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    edlogin_pswd.setBackgroundResource(R.drawable.rounded_edittextred);
+
                     edlogin_pswd.setTextColor(Color.BLACK);
 
                 }
@@ -74,6 +76,8 @@ private String sphone,spassword;
                     edlogin_pswd.setTextColor(Color.RED);
 
                     edlogin_pswd.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    edlogin_mobile.setBackgroundResource(R.drawable.rounded_edittextred);
+
                     edlogin_mobile.setTextColor(Color.BLACK);
                 }
             }
