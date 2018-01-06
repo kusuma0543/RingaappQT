@@ -30,6 +30,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.model.LatLng;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +63,11 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
     private TextView k,secondk;
     String user_uname,user_sharedimage;
     String uname4,uname5;
+    String authuid,authlati,authlongi,authcityname,stremail;
     Double ulat,ulng;
+
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +104,8 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
         final TextView countdown = (TextView) findViewById(R.id.countdown);
         butotp_verify=(Button) findViewById(R.id.butotp_verify);
 
-
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
 
       bb= new CountDownTimer(50000,1000) { // adjust the milli seconds here
             public void onTick(long millisUntilFinished) {
@@ -352,8 +359,45 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
                         String uname2 = users.getString("user_otp_identification");
                         String uname3=users.getString("user_uid");
                         uname4 = users.getString("user_name");
+                        stremail=users.getString("user_email");
                         uname5 = users.getString("user_profile_image");
-                        verifyclick(uname1,uname2,uname3);
+                         authuid=users.getString("user_address_home");
+                         authlati=users.getString("user_address_latitude");
+                         authlongi=users.getString("user_address_longitude");
+                         authcityname=users.getString("user_address_cityname");
+
+                            if(authuid.equals(""))
+                            {
+                                verifyclick(uname1,uname2,uname3);
+
+                            }
+                            else {
+
+
+                                session.setLogin(true);
+                                Intent intentmm=new Intent(OTPVerify.this,Categories.class);
+                                intentmm.putExtra("mobile_number",uname1);
+                                intentmm.putExtra("otp_identification",uname2);
+                                intentmm.putExtra("oneuid",uname3);
+                                intentmm.putExtra("user_unamehome",user_uname);
+                                intentmm.putExtra("user_city", authcityname);
+                                intentmm.putExtra("user_unamehome",uname4);
+                                intentmm.putExtra("updtaedimage",uname5);
+                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("useruidentire",uname3);
+                                editor.putString("usersseladdressfull",authuid);
+                                editor.putString("usersellatitude",authlati);
+                                editor.putString("usersellongitude",authlongi);
+
+                                editor.putString("user_city", authcityname);
+
+                                editor.apply();
+                                db.addUser(uname4, stremail, uname3, uname1,authuid,authcityname,authlati,authlongi);
+                                startActivity(intentmm);
+                                finish();
+
+                            }
 
                     }
                     else
@@ -413,96 +457,103 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
-public void verifyclick(final String s1,final String s2,final String s3)
-{
-    new SweetAlertDialog(OTPVerify.this, SweetAlertDialog.WARNING_TYPE)
-            .setTitleText("Location Selection")
-            .setContentText("Are you sure to use your location?")
-            .setCancelText("No,Select New ")
-            .setConfirmText("Yes,use it!")
-            .showCancelButton(true)
-            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sDialog) {
-                    gps = new TrackGps(OTPVerify.this);
+            public void verifyclick(final String s1,final String s2,final String s3)
+            {
+                new SweetAlertDialog(OTPVerify.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Location Selection")
+                        .setContentText("Are you sure to use your location?")
+                        .setCancelText("No,Select New ")
+                        .setConfirmText("Yes,use it!")
+                        .showCancelButton(true)
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
 
-                     ulat = gps.getLatitude();
-                     ulng = gps.getLongitude();
-                    LatLng sydney = new LatLng(ulat, ulng);
-                    Geocoder geocoder = new Geocoder(OTPVerify.this, Locale.getDefault());
-                    // List<Address> addresses = null;
-                    try {
-                        List<Address> addresses = geocoder.getFromLocation(ulat,ulng, 1);
-                        final String addressn = addresses.get(0).getSubLocality();
-                        final String cityName = addresses.get(0).getLocality();
-                        String stateName = addresses.get(0).getAdminArea();
-                        final String adminArea = addresses.get(0).getAddressLine(0);
-                        final String pincode=addresses.get(0).getPostalCode();
+                                gps = new TrackGps(OTPVerify.this);
 
-//                        Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
-                        final String alladd=adminArea+" "+addressn+" "+cityName+" "+pincode;
+                                 ulat = gps.getLatitude();
+                                 ulng = gps.getLongitude();
+                                LatLng sydney = new LatLng(ulat, ulng);
+                                Geocoder geocoder = new Geocoder(OTPVerify.this, Locale.getDefault());
+                                // List<Address> addresses = null;
+                                try {
+                                    List<Address> addresses = geocoder.getFromLocation(ulat,ulng, 1);
+                                    final String addressn = addresses.get(0).getSubLocality();
+                                    final String cityName = addresses.get(0).getLocality();
+                                    String stateName = addresses.get(0).getAdminArea();
+                                    final String adminArea = addresses.get(0).getAddressLine(0);
+                                    final String pincode=addresses.get(0).getPostalCode();
 
-//                        Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
-                        new SweetAlertDialog(OTPVerify.this, SweetAlertDialog.SUCCESS_TYPE)
-                                .setTitleText("Your Location").setContentText(addressn).setConfirmText("OK")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        Intent intentmm=new Intent(OTPVerify.this,Categories.class);
-                                        rideme(s3,alladd);
+            //                        Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
+                                    final String alladd=adminArea+" "+addressn+" "+cityName+" "+pincode;
 
-                                        intentmm.putExtra("mobile_number",s1);
-                                         intentmm.putExtra("otp_identification",s2);
-                                        intentmm.putExtra("oneuid",s3);
-                                        intentmm.putExtra("user_unamehome",user_uname);
-                                        intentmm.putExtra("user_city", cityName);
-                                        intentmm.putExtra("user_area", addressn);
-                                        intentmm.putExtra("user_unamehome",uname4);
-                                        intentmm.putExtra("updtaedimage",uname5);
-                                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
-                                        SharedPreferences.Editor editor = preferences.edit();
-                                        editor.putString("useruidentire",s3);
-                                        editor.putString("usersseladdressfull",alladd);
-                                        editor.putString("usersellatitude",Double.toString(ulat));
-                                        editor.putString("usersellongitude",Double.toString(ulng));
+            //                        Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
+                                    new SweetAlertDialog(OTPVerify.this, SweetAlertDialog.SUCCESS_TYPE)
+                                            .setTitleText("Your Location").setContentText(addressn).setConfirmText("OK")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                    session.setLogin(true);
 
-                                        editor.putString("user_city", cityName);
-                                     //   editor.putString("user_area", addressn);
-                                     //   editor.putString("sharedaddress",addressn);
-                                       // editor.putString("sharedprofileimages",user_sharedimage);
-                                        editor.apply();
-                                        startActivity(intentmm);
-                                        finish();
-                                    }
-                                })
-                                .show();
+                                                    db.addUser(uname4, stremail, s3, s1,alladd,cityName,Double.toString(ulat),Double.toString(ulng));
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                                                    Intent intentmm=new Intent(OTPVerify.this,Categories.class);
+                                                    rideme(s3,alladd);
+
+                                                    intentmm.putExtra("mobile_number",s1);
+                                                     intentmm.putExtra("otp_identification",s2);
+                                                    intentmm.putExtra("oneuid",s3);
+                                                    intentmm.putExtra("user_unamehome",user_uname);
+                                                    intentmm.putExtra("user_city", cityName);
+                                                    intentmm.putExtra("user_area", addressn);
+                                                    intentmm.putExtra("user_unamehome",uname4);
+                                                    intentmm.putExtra("updtaedimage",uname5);
+                                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
+                                                    SharedPreferences.Editor editor = preferences.edit();
+                                                    editor.putString("useruidentire",s3);
+                                                    editor.putString("usersseladdressfull",alladd);
+                                                    editor.putString("usersellatitude",Double.toString(ulat));
+                                                    editor.putString("usersellongitude",Double.toString(ulng));
+
+                                                    editor.putString("user_city", cityName);
+                                                 //   editor.putString("user_area", addressn);
+                                                 //   editor.putString("sharedaddress",addressn);
+                                                   // editor.putString("sharedprofileimages",user_sharedimage);
+                                                    editor.apply();
+                                                    startActivity(intentmm);
+                                                    finish();
+                                                }
+                                            })
+                                            .show();
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                //  Toast.makeText(getApplicationContext(), "Your Location was ", Toast.LENGTH_SHORT).show();
+                                sDialog.cancel();
+
+                            }
+                        }).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                        Intent intentm=new Intent(OTPVerify.this,UserSelMap.class);
+
+                        intentm.putExtra("mobile_number",s1);
+                        intentm.putExtra("otp_identification",s2);
+                        intentm.putExtra("usrmapmobile",s1);
+                        intentm.putExtra("usrmapemail",stremail);
+                        intentm.putExtra("oneuid",s3);
+
+                        startActivity(intentm);
+                        finish();
+
+
                     }
-                    //  Toast.makeText(getApplicationContext(), "Your Location was ", Toast.LENGTH_SHORT).show();
-                    sDialog.cancel();
+                })
+                        .show();
 
-                }
-            }).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-        @Override
-        public void onClick(SweetAlertDialog sweetAlertDialog) {
-
-            Intent intentm=new Intent(OTPVerify.this,UserSelMap.class);
-
-            intentm.putExtra("mobile_number",s1);
-            intentm.putExtra("otp_identification",s2);
-            intentm.putExtra("oneuid",s3);
-
-            startActivity(intentm);
-            finish();
-
-
-        }
-    })
-            .show();
-
-}
+            }
     public void rideme(final String uidthree, final String s1) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.users_autolocation, new Response.Listener<String>() {
             public void onResponse(String response) {

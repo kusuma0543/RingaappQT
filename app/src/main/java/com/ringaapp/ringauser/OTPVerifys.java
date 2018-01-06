@@ -25,6 +25,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +52,9 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
     int seconds , minutes;
     private TextView k,secondk;
     SharedPreferences pref;
+    private SessionManager session;
+    private SQLiteHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +88,8 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
         final TextView countdown = (TextView) findViewById(R.id.countdown);
         butotp_verify=(Button) findViewById(R.id.butotp_verify);
 
-
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
 
         bb= new CountDownTimer(50000,1000) { // adjust the milli seconds here
             public void onTick(long millisUntilFinished) {

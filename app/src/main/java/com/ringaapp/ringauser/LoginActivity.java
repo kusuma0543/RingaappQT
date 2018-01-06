@@ -19,8 +19,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONException;
@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 private String sphone,spassword;
 
     CatLoadingView mView;
+    private SessionManager session;
+    private SQLiteHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,14 @@ private String sphone,spassword;
         edlogin_pswd=(EditText) findViewById(R.id.edlogin_pswd);
         tvlogin_forgot=(TextView) findViewById(R.id.tvlogin_forgot);
         tvlogin_singnup=(TextView) findViewById(R.id.tvlogin_signup);
+
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+
+        if (session.isLoggedIn()) {
+            Intent intent = new Intent(LoginActivity.this, Categories.class);
+            startActivity(intent);
+        }
             tvlogin_forgot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -3,26 +3,25 @@ package com.ringaapp.ringauser;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -45,6 +44,8 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -63,24 +64,25 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-
 import technolifestyle.com.imageslider.FlipperLayout;
 import technolifestyle.com.imageslider.FlipperView;
 
 public class Categories extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,AdapterView.OnItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
     Double lath_cat,lng_cat;
     private GridView home_gridview;
     private TextView home_tspinner,home_navusername;
     private ProgressDialog dialog;
     private Button homebut_search,homebut_buy;
-    public  String sharedhomeloc,hcityName,firstuid,locationuser,user_profilepic,categuid;
+    public  String sharedhomeloc,hcityName,firstuid,user_profilepic,categuid,name_nav;
     private ImageView nav_head_image;
     RequestQueue rq;
     List<Sliderlist> sliderimg;
     Context context;
     private ListView second_listview;
     FlipperLayout flipperLayout;
+    private SessionManager session;
+    private SQLiteHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,33 +104,47 @@ public class Categories extends AppCompatActivity
         flipperLayout = (FlipperLayout) findViewById(R.id.flipper_layout);
         second_listview = (ListView) findViewById(R.id.s);
 
-
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
 
         String URLL = "http://quaticstech.in/projecti1andro/android_users_slider.php";
         new kilomilo().execute(URLL);
         Intent intent=getIntent();
-        firstuid=intent.getStringExtra("oneuid");
-        String user_uname=intent.getStringExtra("user_unamehome");
-        user_profilepic=intent.getStringExtra("updtaedimage");
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedhomeloc= preferences.getString("user_city", "");
-        categuid=preferences.getString("useruidentire","");
-        lath_cat=Double.parseDouble(preferences.getString("usersellatitude",""));
-        lng_cat=Double.parseDouble(preferences.getString("usersellongitude",""));
+
+//        firstuid=intent.getStringExtra("oneuid");
+//        String user_uname=intent.getStringExtra("user_unamehome");
+//        user_profilepic=intent.getStringExtra("updtaedimage");
+//        sharedhomeloc=intent.getStringExtra("user_city");
+
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        sharedhomeloc= preferences.getString("user_city", "");
+//        categuid=preferences.getString("useruidentire","");
+//        lath_cat=Double.parseDouble(preferences.getString("usersellatitude",""));
+//        lng_cat=Double.parseDouble(preferences.getString("usersellongitude",""));
+
+
+        final HashMap<String, String> user = db.getUserDetails();
+        sharedhomeloc=user.get("user_city");
+        categuid=user.get("uid");
+        name_nav=user.get("name");
+//        lath_cat=Double.parseDouble(user.get("user_latitude"));
+  //      lng_cat=Double.parseDouble(user.get("user_longitude"));
+
+
         autocompletesearch();
 
         //        user_profilepic=preferences.getString("sharedprofileimages","");
 //        shareduid_home=preferences.getString("shareduidd","");
-      sharedhomeloc=intent.getStringExtra("user_city");
+
         home_tspinner.setText(sharedhomeloc);
         String users_updatedloc_servm="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+sharedhomeloc;
         new JSONTask().execute(users_updatedloc_servm);
-        updatelastseen(firstuid);
-        Toast.makeText(getApplicationContext(),firstuid,Toast.LENGTH_SHORT).show();
-
-        Toast.makeText(getApplicationContext(),"my id was"+categuid,Toast.LENGTH_SHORT).show();
-
-
+        updatelastseen(categuid);
+//        Toast.makeText(getApplicationContext(),firstuid,Toast.LENGTH_SHORT).show();
+//
+//        Toast.makeText(getApplicationContext(),"my id was"+categuid,Toast.LENGTH_SHORT).show();
+//
+//
 
         rq=Volley.newRequestQueue(this);
         sliderimg=new ArrayList<>();
@@ -153,7 +169,7 @@ public class Categories extends AppCompatActivity
 
         home_navusername = (TextView)header.findViewById(R.id.nav_username);
         nav_head_image=(ImageView) header.findViewById(R.id.nav_head_image);
-        home_navusername.setText(user_uname);
+        home_navusername.setText(name_nav);
 
         if(user_profilepic==null)
         {
@@ -169,20 +185,20 @@ public class Categories extends AppCompatActivity
     }
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        String selected = parent.getItemAtPosition(position).toString();
-        Toast.makeText(getApplicationContext(), "you selected location is "+selected, Toast.LENGTH_SHORT).show();
-        String users_updatedloc_servm="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+locationuser;
-        new JSONTask().execute(users_updatedloc_servm);
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+//    @Override
+//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//        String selected = parent.getItemAtPosition(position).toString();
+//        Toast.makeText(getApplicationContext(), "you selected location is "+selected, Toast.LENGTH_SHORT).show();
+//        String users_updatedloc_servm="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+locationuser;
+//        new JSONTask().execute(users_updatedloc_servm);
+//
+//    }
+//
+//    @Override
+//    public void onNothingSelected(AdapterView<?> parent) {
+//
+//    }
 
 
     @Override
@@ -215,6 +231,7 @@ public class Categories extends AppCompatActivity
             startActivity(intent1);
 
         } else if (id == R.id.nav_services) {
+            startActivity(new Intent(Categories.this,MySelService.class));
 
         } else if (id == R.id.nav_notifications) {
 
@@ -227,9 +244,6 @@ public class Categories extends AppCompatActivity
 
         } else if (id == R.id.nav_account) {
             Intent intent=new Intent(Categories.this,ProfileActivity.class);
-            intent.putExtra("profile_uid",firstuid);
-            intent.putExtra("prof_address",sharedhomeloc);
-            intent.putExtra("user_uimageprofile",user_profilepic);
             startActivity(intent);
 
         } else if (id == R.id.nav_feedback) {
@@ -257,6 +271,8 @@ public class Categories extends AppCompatActivity
         }else if (id == R.id.nav_logout) {
             Intent intent=new Intent(Categories.this,LoginActivity.class);
             logmeout(firstuid);
+            session.setLogin(false);
+            db.deleteUsers();
             PreferenceManager.getDefaultSharedPreferences(getBaseContext()).
                     edit().clear().apply();
             startActivity(intent);
@@ -280,27 +296,14 @@ public class Categories extends AppCompatActivity
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                     sweetAlertDialog.dismiss();
 
-               // new SweetAlertDialog(Categories.this,SweetAlertDialog.SUCCESS_TYPE).setContentText("cancled").show();
-
-                   // Intent intent=new Intent(Categories.this,Categories.class);
-//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
-//                    SharedPreferences.Editor editor = preferences.edit();
-//                    editor.putString("useruidentire",s3);
-//                    editor.putString("user_city", cityName);
-//                    //   editor.putString("user_area", addressn);
-//                    //   editor.putString("sharedaddress",addressn);
-//                    // editor.putString("sharedprofileimages",user_sharedimage);
-//                    editor.apply();
-                    //startActivity(intent);
-
                 }
             }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    session.setLogin(false);
+                    db.deleteUsers();
                     Intent intent=new Intent(Categories.this,LoginActivity.class);
                     startActivity(intent);
-                    // new SweetAlertDialog(MainActivity.this).setContentText("Exited").show();
-
                 }
             }).show();
 
@@ -374,15 +377,15 @@ public class Categories extends AppCompatActivity
                       //  SharedPreferences preferences = getSharedPreferences("Preferences", 0);
                      //   SharedPreferences.Editor editor = preferences.edit();
                         Intent intent = new Intent(Categories.this, Second.class);
-
-                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Categories.this);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("presentlocationstore",hcityName);
-                        editor.putString("presentlocationlat",Double.toString(lath_cat));
-                        editor.putString("presentlocationlng",Double.toString(lng_cat));
-
-
-                        editor.apply();
+//
+//                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Categories.this);
+//                        SharedPreferences.Editor editor = preferences.edit();
+//                        editor.putString("presentlocationstore",hcityName);
+//                        editor.putString("presentlocationlat",Double.toString(lath_cat));
+//                        editor.putString("presentlocationlng",Double.toString(lng_cat));
+//
+//
+//                        editor.apply();
 
                         intent.putExtra("categoryname",categorieslist.getService_categ_name());
                          intent.putExtra("categorysid", categorieslist.getService_categ_uid());
@@ -584,7 +587,7 @@ public void autocompletesearch()
             holder.textone.setText(ccitacc.getPromotion_title());
 
             FlipperView view = new FlipperView(getBaseContext());
-         //Picasso.with(context).load(ccitacc.getPromotion_fullimage()).fit().error(R.drawable.load).fit().into(flipperLayout);
+        //Picasso.with(context).load(ccitacc.getPromotion_fullimage()).fit().error(R.drawable.load).fit().into(flipperLayout);
             view.setImageUrl(ccitacc.getPromotion_thumbnail());
             flipperLayout.addFlipperView(view);
                     view.setOnFlipperClickListener(new FlipperView.OnFlipperClickListener() {

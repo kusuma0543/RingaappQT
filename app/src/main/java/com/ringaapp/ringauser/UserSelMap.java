@@ -2,7 +2,6 @@ package com.ringaapp.ringauser;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -10,12 +9,11 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +42,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,18 +76,28 @@ private Button mylocationnav;
     List<Address> addressess;
     String postlCode;
     String adminarea;
-    String alld;
+    String alld,usermapemail,usermapmobile;
+    private SessionManager session;
+    private SQLiteHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_sel_map);
-Intent intk=getIntent();
-uidthree=intk.getStringExtra("oneuid");
+        Intent intk=getIntent();
+        uidthree=intk.getStringExtra("oneuid");
+        usermapemail=intk.getStringExtra("usrmapemail");
+        usermapmobile=intk.getStringExtra("usrmapmobile");
+
         Toast.makeText(getApplicationContext(),uidthree,Toast.LENGTH_SHORT).show();
 
         list29 = (ListView) findViewById(R.id.listview);
         ridenow=(Button) findViewById(R.id.ride);
         mylocationnav=findViewById(R.id.mylocnav);
+
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+
         mylocationnav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -387,21 +397,29 @@ uidthree=intk.getStringExtra("oneuid");
 
                         String uname1 = users.getString("user_name");
                         String uname2 = users.getString("user_profile_image");
+
+
+
+
                         Intent intentmm=new Intent(UserSelMap.this,Categories.class);
-                        intentmm.putExtra("oneuid",s1);
-                        intentmm.putExtra("user_city",cityName);
+//                        intentmm.putExtra("oneuid",s1);
+//                        intentmm.putExtra("user_city",cityName);
+//
+//                         intentmm.putExtra("user_unamehome",uname1);
+//                        intentmm.putExtra("updtaedimage",uname2);
+//                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(UserSelMap.this);
+//                        SharedPreferences.Editor editor = preferences.edit();
+//                        editor.putString("usersseladdressfull",alld);
+//                        editor.putString("usersellatitude",Double.toString(mCenterLatLong.latitude));
+//                        editor.putString("usersellongitude",Double.toString(mCenterLatLong.longitude));
+//
+//                        editor.putString("user_city", cityName);
 
-                      intentmm.putExtra("user_unamehome",uname1);
-                        intentmm.putExtra("updtaedimage",uname2);
-                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(UserSelMap.this);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("usersseladdressfull",alld);
-                        editor.putString("usersellatitude",Double.toString(mCenterLatLong.latitude));
-                        editor.putString("usersellongitude",Double.toString(mCenterLatLong.longitude));
+                        session.setLogin(true);
 
-                        editor.putString("user_city", cityName);
+                        db.addUser(uname1, usermapemail, s1, usermapmobile,alld,cityName,Double.toString(mCenterLatLong.latitude),Double.toString(mCenterLatLong.longitude));
 
-                        editor.apply();
+                     //   editor.apply();
                         startActivity(intentmm);
 
                     }

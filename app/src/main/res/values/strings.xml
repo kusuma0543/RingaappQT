@@ -32,5 +32,8 @@
     <string name="title_activity_booking_confirmation">BookingConfirmation</string>
     <string name="title_activity_serv_booking_confirmation">ServBookingConfirmation</string>
     <string name="signup">SIGNUP</string>
+    <string name="title_activity_my_sel_services">MySelServices</string>
+    <string name="title_activity_my_sel_service">MySelService</string>
+    <string name="title_activity_service_tracking">ServiceTracking</string>
 
 </resources>

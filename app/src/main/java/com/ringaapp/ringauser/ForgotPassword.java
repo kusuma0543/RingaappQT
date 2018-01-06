@@ -15,7 +15,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,8 @@ public class ForgotPassword extends AppCompatActivity {
 private EditText edforgotpswd;
     private Button butforgotpswd_otp;
     private String sforgot_mobile;
-
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,10 @@ private EditText edforgotpswd;
 
         edforgotpswd=(EditText) findViewById(R.id.edforgotpswd);
         butforgotpswd_otp=(Button) findViewById(R.id.butforgorpswd_otp);
+
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+
         edforgotpswd.setOnFocusChangeListener( new View.OnFocusChangeListener(){
 
             public void onFocusChange( View view, boolean hasfocus){

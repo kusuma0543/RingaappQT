@@ -46,9 +46,9 @@ public abstract class AbsRuntimePermission extends Activity {
                     }
                 }).show();
             } else {
-             ActivityCompat.requestPermissions(this, requestedPermissions, requestCode);
+                ActivityCompat.requestPermissions(this, requestedPermissions, requestCode);
 
-               // Toast.makeText(getApplicationContext(),"thanku",Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(),"thanku",Toast.LENGTH_SHORT).show();
 
             }
         } else {
@@ -68,7 +68,7 @@ public abstract class AbsRuntimePermission extends Activity {
         }
 
         if( (grantResults.length > 0) && PackageManager.PERMISSION_GRANTED == permissionCheck) {
-           cont=1;
+            cont=1;
 
         } else {
             //Display message when contain some Dangerous permisson not accept

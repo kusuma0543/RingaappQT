@@ -21,7 +21,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONException;
@@ -38,7 +39,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private Button butsingnup_signup;
     private CheckBox checkbox;
 
-
+    private SessionManager session;
+    private SQLiteHandler db;
     CatLoadingView mView;
 
 
@@ -66,7 +68,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
         butsingnup_signup.setOnClickListener(this);
 
         edsignup_name.setOnFocusChangeListener( new View.OnFocusChangeListener(){

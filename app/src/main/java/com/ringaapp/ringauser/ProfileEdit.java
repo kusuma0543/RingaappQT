@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -23,12 +22,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
 import java.util.HashMap;
 
 
@@ -51,6 +49,8 @@ public class ProfileEdit extends AppCompatActivity {
     private Uri filePath;
     private Bitmap bitmap;
     String result;
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +80,10 @@ public class ProfileEdit extends AppCompatActivity {
         et_profileeditemail=(EditText) findViewById(R.id.profileedit_tvemail) ;
         shome_groupone=(RadioGroup) findViewById(R.id.radiogroup_gender);
         profileedit_image=(ImageView) findViewById(R.id.profileedit_image);
+
+
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
 
         final Intent intent=getIntent();
         profie_name=intent.getStringExtra("profileedit_name");

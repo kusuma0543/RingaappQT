@@ -18,6 +18,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -32,6 +34,8 @@ private TextView profile_tvusername,profile_tvnumber,profile_tvemail,profile_tva
     String shareduids;
     ImageView imageuser;
     Context context;
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +65,21 @@ private TextView profile_tvusername,profile_tvnumber,profile_tvemail,profile_tva
         profile_tvaddress=(TextView) findViewById(R.id.profile_tvaddress);
         imageuser=(ImageView) findViewById(R.id.imageuser);
 
-        final Intent intent=getIntent();
-        profi_address=intent.getStringExtra("prof_address");
-        shareduids= intent.getStringExtra("profile_uid");
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
 
-        profi_image=intent.getStringExtra("user_uimageprofile");
+
+        final HashMap<String, String> user = db.getUserDetails();
+        profi_address=user.get("user_city");
+        shareduids=user.get("uid");
+
+      //  final Intent intent=getIntent();
+//        profi_address=intent.getStringExtra("prof_address");
+//        shareduids= intent.getStringExtra("profile_uid");
+//
+//        profi_image=intent.getStringExtra("user_uimageprofile");
         profile_tvaddress.setText(profi_address);
+
         logininto(shareduids);
         Toast.makeText(getApplicationContext(),shareduids,Toast.LENGTH_SHORT).show();
 

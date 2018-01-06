@@ -145,12 +145,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringauser.Second" />
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".ProfileActivity"
@@ -228,6 +222,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringauser.ConfirmBooking" />
+        </activity>
+        <activity
+            android:name=".MySelService"
+            android:label="@string/title_activity_second"
+            android:parentActivityName=".Categories"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringauser.Categories" />
+        </activity>
+        <activity
+            android:name=".ServiceTracking"
+            android:label="@string/title_activity_second"
+            android:parentActivityName=".MySelService"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringauser.MySelService" />
         </activity>
     </application>
 

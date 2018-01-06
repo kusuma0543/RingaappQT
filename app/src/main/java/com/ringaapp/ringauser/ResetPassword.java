@@ -18,7 +18,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +33,8 @@ private EditText edresetpswd,edconfirmpswd;
     private String sreset_mobile,sreset_password;
     String fori;
     SharedPreferences.Editor editor;
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,8 @@ private EditText edresetpswd,edconfirmpswd;
         edresetpswd=(EditText) findViewById(R.id.edresetpswd);
         edconfirmpswd=(EditText) findViewById(R.id.edconfirnpswd);
         butreset_otp=(Button ) findViewById(R.id.butreset_otp);
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
@@ -52,7 +57,6 @@ private EditText edresetpswd,edconfirmpswd;
             Toast.makeText(getApplicationContext(),"no dta",Toast.LENGTH_SHORT).show();
         }
 
-        //Intent intent=getIntent();
         edresetpswd.setOnFocusChangeListener( new View.OnFocusChangeListener(){
 
             public void onFocusChange( View view, boolean hasfocus){

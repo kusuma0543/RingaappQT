@@ -243,7 +243,32 @@ public class ServiceProviderDetails extends AppCompatActivity {
     public void insertmes(final String ss1, final String ss2,final String ss3,final String ss4, final String ss6,final String ss7,final String ss8) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_booking, new Response.Listener<String>() {
             public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean abc = jObj.getBoolean("exits");
 
+                    if (abc)
+                    {
+                        JSONObject users = jObj.getJSONObject("users_detail");
+                        String user_bookingid = users.getString("booking_uid");
+
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ServiceProviderDetails.this);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("userbookidentire",user_bookingid);
+
+                        editor.apply();
+
+                        finish();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Please check number and Password",Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
         }, new Response.ErrorListener() {

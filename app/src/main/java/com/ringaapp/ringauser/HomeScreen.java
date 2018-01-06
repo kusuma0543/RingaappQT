@@ -7,27 +7,37 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
+
 public class HomeScreen extends AbsRuntimePermission {
 
     Button home_butsignin,home_butsignup;
 private static final int REQUEST_PERMISSION = 10;
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         requestAppPermissions(new String[]{
-                        android.Manifest.permission.READ_SMS,
+                        Manifest.permission.READ_SMS,
 
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
 
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
 
-                Manifest.permission.READ_CALENDAR,
-                Manifest.permission.CALL_PHONE,
-            },
+                        Manifest.permission.READ_CALENDAR,
+                        Manifest.permission.CALL_PHONE,
+                },
 
-                        R.string.msg,REQUEST_PERMISSION);
-
+                R.string.msg,REQUEST_PERMISSION);
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+        if (session.isLoggedIn()) {
+            Intent intent = new Intent(HomeScreen.this, Categories.class);
+            startActivity(intent);
+        }
         home_butsignin=(Button) findViewById(R.id.butsingin);
         home_butsignup=(Button) findViewById(R.id.butsignup);
         home_butsignin.setOnClickListener(new View.OnClickListener() {

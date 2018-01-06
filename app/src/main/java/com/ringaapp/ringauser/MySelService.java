@@ -6,27 +6,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
-import com.ringaapp.ringauser.dbhandlers.SessionManager;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,20 +35,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Second extends AppCompatActivity {
+public class MySelService extends AppCompatActivity {
+    String myseruseruid;
+    private ListView userserv_listview;
     private ProgressDialog dialog;
-    private ListView second_listview;
-    SharedPreferences preferences;
-    private EditText second_edittext;
-    String homeloca, categid;
-    private SessionManager session;
-    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_my_sel_service);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("My Services");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,74 +64,24 @@ public class Second extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
-
-        dialog = new ProgressDialog(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        myseruseruid=preferences.getString("useruidentire","");
+        dialog=new ProgressDialog(this);
         dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
-
-        second_listview = (ListView) findViewById(R.id.second_listview);
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("categoryname");
-        categid = intent.getStringExtra("categorysid");
-        homeloca=intent.getStringExtra("homeloc");
-
-        setTitle(name);
-        second_edittext=(EditText) findViewById(R.id.edsubcat_search);
-        second_edittext.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(second_edittext.getWindowToken(), 0);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        second_edittext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId==EditorInfo.IME_ACTION_DONE){
-                    String getsearch=second_edittext.getText().toString();
-
-                    String URLLL = GlobalUrl.users_subcatrettwo
-                            +"?service_categ_uid="+categid+"&district_place="+homeloca+"&searchitem="+getsearch;
-
-
-                   // Toast.makeText(getApplicationContext(), URLLL, Toast.LENGTH_SHORT).show();
-                    new kilomilo().execute(URLLL);                }
-                return false;
-            }
-        });
-
-
-
-
-
-
-
-        String URLL = "http://quaticstech.in/projecti1andro/android_users_subcayret.php?service_categ_uid="+categid+"&district_place="+homeloca;
+        userserv_listview=findViewById(R.id.user_selservices);
+        String URLL = GlobalUrl.user_myservices+"?user_uid="+myseruseruid;
         new kilomilo().execute(URLL);
-
-
-
-
     }
-
     public class MovieAdap extends ArrayAdapter {
-        private List<subcatelist> movieModelList;
+        private List<myservices> movieModelList;
         private int resource;
         Context context;
         private LayoutInflater inflater;
 
-        MovieAdap(Context context, int resource, List<subcatelist> objects) {
+        MovieAdap(Context context, int resource, List<myservices> objects) {
             super(context, resource, objects);
             movieModelList = objects;
             this.context = context;
@@ -159,40 +101,44 @@ public class Second extends AppCompatActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            final ViewHolder holder;
+            final MovieAdap.ViewHolder holder;
             if (convertView == null) {
                 convertView = inflater.inflate(resource, null);
-                holder = new ViewHolder();
+                holder = new MovieAdap.ViewHolder();
 
-                holder.textone = (TextView) convertView.findViewById(R.id.second_texttitle);
-                holder.menuimage = (ImageView)convertView.findViewById(R.id.second_imageview);
+                holder.textone = (TextView) convertView.findViewById(R.id.userservice_name);
+                holder.textthree = (TextView)convertView.findViewById(R.id.userservice_subcateg);
+                holder.textfour = (TextView)convertView.findViewById(R.id.userservice_address);
+
                 convertView.setTag(holder);
             }//ino
             else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (MovieAdap.ViewHolder) convertView.getTag();
             }
-            subcatelist ccitacc = movieModelList.get(position);
-            holder.textone.setText(ccitacc.getService_subcateg_name());
-
-            Picasso.with(context).load(ccitacc.getService_subcateg_fullimage()).fit().error(R.drawable.load).fit().into(holder.menuimage);
-
+            myservices ccitacc = movieModelList.get(position);
+            holder.textthree.setText(ccitacc.getService_subcateg_name());
+            holder.textone.setText(ccitacc.getPartner_name());
+            String n=ccitacc.getPartner_locality();
+            String nn=ccitacc.getPartner_cityname();
+            holder.textfour.setText(n+","+nn);
             return convertView;
         }
 
         class ViewHolder {
-            public TextView textone;
-            private ImageView menuimage;
+            public TextView textone,textthree,textfour;
+
         }
     }
 
-    public class kilomilo extends AsyncTask<String, String, List<subcatelist>> {
+    public class kilomilo extends AsyncTask<String, String, List<myservices>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            dialog.show();
         }
 
         @Override
-        protected List<subcatelist> doInBackground(String... params) {
+        protected List<myservices> doInBackground(String... params) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
@@ -209,11 +155,11 @@ public class Second extends AppCompatActivity {
                 String finalJson = buffer.toString();
                 JSONObject parentObject = new JSONObject(finalJson);
                 JSONArray parentArray = parentObject.getJSONArray("result");
-                List<subcatelist> milokilo = new ArrayList<>();
+                List<myservices> milokilo = new ArrayList<>();
                 Gson gson = new Gson();
                 for (int i = 0; i < parentArray.length(); i++) {
                     JSONObject finalObject = parentArray.getJSONObject(i);
-                    subcatelist catego = gson.fromJson(finalObject.toString(), subcatelist.class);
+                    myservices catego = gson.fromJson(finalObject.toString(), myservices.class);
                     milokilo.add(catego);
                 }
                 return milokilo;
@@ -235,8 +181,9 @@ public class Second extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(final List<subcatelist> movieMode) {
+        protected void onPostExecute(final List<myservices> movieMode) {
             super.onPostExecute(movieMode);
+            dialog.dismiss();
             if (movieMode== null)
             {
                 Toast.makeText(getApplicationContext(),"No Services available for your selection", Toast.LENGTH_SHORT).show();
@@ -244,20 +191,16 @@ public class Second extends AppCompatActivity {
             }
             else
             {
-                MovieAdap adapter = new MovieAdap(getApplicationContext(), R.layout.categorytwo, movieMode);
-                second_listview.setAdapter(adapter);
-                second_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                MovieAdap adapter = new MovieAdap(getApplicationContext(), R.layout.myservices, movieMode);
+                userserv_listview.setAdapter(adapter);
+                userserv_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        subcatelist item = movieMode.get(position);
-                        Intent intent = new Intent(Second.this,MapsActivity.class);
-                        intent.putExtra("categid",categid);
-                        intent.putExtra("subcategid",item.getService_subcateg_uid());
-                        intent.putExtra("subcategname",item.getService_subcateg_name());
-
-
-
-
+                        myservices item = movieMode.get(position);
+                        Intent intent = new Intent(MySelService.this,ServiceTracking.class);
+                        intent.putExtra("partnerhome_bookingid",item.getBooking_uid());
+                        intent.putExtra("partnerhome_subcategname",item.getService_subcateg_name());
+                        intent.putExtra("partnerhome_username",item.getPartner_uid());
                         startActivity(intent);
                     }
                 });

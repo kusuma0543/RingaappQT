@@ -23,6 +23,8 @@ class GlobalUrl {
     public static String user_profile_edit="http://quaticstech.in/projecti1andro/android_users_profileedit.php";
     public static String user_booking="http://quaticstech.in/projecti1andro/android_users_booking.php";
     public static String user_bookingdetret="http://quaticstech.in/projecti1andro/android_users_confirmbookingret.php";
+    public static String user_myservices="http://quaticstech.in/projecti1andro/android_users_myservices.php";
+    public static String user_getbookingconfirmation="http://quaticstech.in/projecti1andro/android_users_getbookingconfirmation.php";
 
     public static String user_categoriesret="http://quaticstech.in/projecti1andro/android_users_categoriesret.php";
     public static String user_spinnerdataret="http://quaticstech.in/projecti1andro/android_users_placesret.php";

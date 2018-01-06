@@ -4,17 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
@@ -35,10 +39,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,8 +56,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,LocationListener {
 String mappagelat,mappagelng,mappageloc;
@@ -64,24 +71,34 @@ String mappagelat,mappagelng,mappageloc;
   String mapsuserid;
     String sel_subcategid,selcategid;
    private Button map_butlocation;
+    String user_bookingid;
+    String  userid_book,alladdress_book,alllatitude_book,alllongitude_book,sforpartnerid,sforpartnername;
+    SharedPreferences preferences;
+    private SessionManager session;
+    private SQLiteHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-Intent intent=getIntent();
-String sel_subcategname=intent.getStringExtra("subcategname");
-selcategid=intent.getStringExtra("categid");
+            Intent intent=getIntent();
+            String sel_subcategname=intent.getStringExtra("subcategname");
+            selcategid=intent.getStringExtra("categid");
         sel_subcategid=intent.getStringExtra("subcategid");
-        Toast.makeText(getApplicationContext(), sel_subcategname, Toast.LENGTH_SHORT).show();
-//map_butlocation=(Button) findViewById(R.id.maps_butlocation);
-//map_butlocation.setOnClickListener(new View.OnClickListener() {
-//    @Override
-//    public void onClick(View v) {
-//       // setContentView(R.layout.map_serviceprov);
-//    }
-//});
+        preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
+                      //  Toast.makeText(getApplicationContext(), sel_subcategname, Toast.LENGTH_SHORT).show();
+                //map_butlocation=(Button) findViewById(R.id.maps_butlocation);
+                //map_butlocation.setOnClickListener(new View.OnClickListener() {
+                //    @Override
+                //    public void onClick(View v) {
+                //       // setContentView(R.layout.map_serviceprov);
+                //    }
+                //});
         list29=findViewById(R.id.map_listviewone);
+
+
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.maps);
@@ -147,6 +164,11 @@ selcategid=intent.getStringExtra("categid");
                 holder.textid= view.findViewById(R.id.mappage_sername);
                 holder.textname= view.findViewById(R.id.mappage_seradd);
                 holder.textvisiting=view.findViewById(R.id.visitingcahrge);
+                holder.butviewpart=view.findViewById(R.id.butviewpart);
+                holder.butbookpart=view.findViewById(R.id.butbookpart);
+                holder.forpartnerid=view.findViewById(R.id.forpartnerid);
+                holder.forpartnername=view.findViewById(R.id.forpartnername);
+                holder.text_substype=view.findViewById(R.id.textsubs_type);
                 view.setTag(holder);
             }
             else {
@@ -156,6 +178,54 @@ selcategid=intent.getStringExtra("categid");
             holder.textid.setText(ccitac.getPartner_name());
             holder.textname.setText(ccitac.getPartner_locality());
             holder.textvisiting.setText(ccitac.getPartner_budget());
+            holder.forpartnerid.setText(ccitac.getPartner_uid());
+            holder.forpartnername.setText(ccitac.getPartner_name());
+            holder.text_substype.setText(ccitac.getPartner_suscription_type());
+
+            holder.butviewpart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String sforpartnerid=holder.forpartnerid.getText().toString();
+                    String sforpartnername=holder.forpartnername.getText().toString();
+                    Intent intentb=new Intent(MapsActivity.this,ServiceProviderDetails.class);
+                    intentb.putExtra("selservice_providerid",sforpartnerid);
+                    intentb.putExtra("selservice_providername",sforpartnername);
+
+
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("sel_subcategid",sel_subcategid);
+                    editor.putString("sel_categid",selcategid);
+                    editor.apply();
+                    startActivity(intentb);
+
+                }
+            });
+            holder.butbookpart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    sforpartnerid=holder.forpartnerid.getText().toString();
+                     sforpartnername=holder.forpartnername.getText().toString();
+
+//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
+//                     userid_book=preferences.getString("useruidentire","");
+//                     alladdress_book=preferences.getString("usersseladdressfull","");
+//                     alllatitude_book=preferences.getString("usersellatitude","");
+//                    alllongitude_book=preferences.getString("usersellongitude","");
+                    final HashMap<String, String> user = db.getUserDetails();
+                    userid_book=user.get("uid");
+                    alladdress_book=user.get("user_address");
+                    alllatitude_book=user.get("user_latitude");
+                    alllongitude_book=user.get("user_longitude");
+
+                    insertmes(userid_book,sforpartnerid,selcategid,sel_subcategid,alladdress_book,alllatitude_book,alllongitude_book);
+
+                }
+            });
+
+
+
             lat=Double.parseDouble(ccitac.getPartner_latitude());
             lng=Double.parseDouble(ccitac.getPartner_longitude());
 
@@ -194,6 +264,8 @@ selcategid=intent.getStringExtra("categid");
                     mMap.setMaxZoomPreference(15.5f);
                     mMap.setMinZoomPreference(6.5f);
 
+
+
                 }
 
                 @Override
@@ -219,7 +291,8 @@ selcategid=intent.getStringExtra("categid");
             return view;
         }
         class ViewHolder{
-            public TextView textid,textname,textvisiting;
+            public TextView textid,textname,textvisiting,butbookpart,forpartnerid,forpartnername,text_substype;
+            public Button butviewpart;
         }
     }
     public class kilomilo extends AsyncTask<String,String, List<GeoLocate>> {
@@ -287,7 +360,6 @@ selcategid=intent.getStringExtra("categid");
                         intentb.putExtra("selservice_providername",item.getPartner_name());
 
 
-                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("sel_subcategid",sel_subcategid);
                         editor.putString("sel_categid",selcategid);
@@ -316,9 +388,15 @@ selcategid=intent.getStringExtra("categid");
         LatLng sydney = new LatLng(lat,lng);
         float zoomLevel =10;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mappageloc= preferences.getString("presentlocationstore", "");
-        mappagelat= preferences.getString("presentlocationlat", "");
-        mappagelng= preferences.getString("presentlocationlng", "");
+
+        final HashMap<String, String> user = db.getUserDetails();
+        mappageloc=user.get("user_city");
+        mappagelat=user.get("user_latitude");
+        mappagelng=user.get("user_longitude");
+
+//        mappageloc= preferences.getString("presentlocationstore", "");
+//        mappagelat= preferences.getString("presentlocationlat", "");
+//        mappagelng= preferences.getString("presentlocationlng", "");
         Double maplat=Double.parseDouble(mappagelat);
         Double maplng=Double.parseDouble(mappagelng);
 
@@ -338,7 +416,7 @@ selcategid=intent.getStringExtra("categid");
 
 
 
-    Toast.makeText(getApplicationContext(),state,Toast.LENGTH_SHORT).show();
+   // Toast.makeText(getApplicationContext(),state,Toast.LENGTH_SHORT).show();
 
 
 
@@ -368,5 +446,67 @@ selcategid=intent.getStringExtra("categid");
             }
         }
         return true;
+    }
+    public void insertmes(final String ss1, final String ss2,final String ss3,final String ss4, final String ss6,final String ss7,final String ss8) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_booking, new Response.Listener<String>() {
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean abc = jObj.getBoolean("exits");
+
+                    if (abc)
+                    {
+                        JSONObject users = jObj.getJSONObject("users_detail");
+                         user_bookingid = users.getString("booking_uid");
+                        Intent intentb=new Intent(MapsActivity.this,ServBookingConfirmation.class);
+                        intentb.putExtra("selservice_providerid",sforpartnerid);
+                        intentb.putExtra("selservice_providername",sforpartnername);
+
+
+                        // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("sel_subcategid",sel_subcategid);
+                        editor.putString("sel_categid",selcategid);
+                        editor.apply();
+
+                        editor.putString("userbookidentire",user_bookingid);
+
+                        editor.apply();
+                        intentb.putExtra("bookidid",user_bookingid);
+                        startActivity(intentb);
+                        finish();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Your booking is already under process for this service",Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            { }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_uid", ss1);
+                params.put("partner_uid", ss2);
+                params.put("service_categ_uid",ss3);
+                params.put("service_subcateg_uid",ss4);
+
+                params.put("service_booking_address", ss6);
+                params.put("service_latitude",ss7);
+                params.put("service_longitude",ss8);
+
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
     }
 }
