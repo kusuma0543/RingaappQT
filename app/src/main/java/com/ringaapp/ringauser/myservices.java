@@ -14,6 +14,9 @@ public class myservices implements Parcelable{
     String partner_cityname;
     String partner_locality;
     String service_subcateg_name;
+    String service_booking_status;
+    String user_uid;
+    String service_subcateg_uid;
 
     protected myservices(Parcel in) {
         booking_uid = in.readString();
@@ -22,6 +25,9 @@ public class myservices implements Parcelable{
         partner_cityname = in.readString();
         partner_locality = in.readString();
         service_subcateg_name = in.readString();
+        service_booking_status = in.readString();
+        user_uid = in.readString();
+        service_subcateg_uid = in.readString();
     }
 
     @Override
@@ -32,6 +38,9 @@ public class myservices implements Parcelable{
         dest.writeString(partner_cityname);
         dest.writeString(partner_locality);
         dest.writeString(service_subcateg_name);
+        dest.writeString(service_booking_status);
+        dest.writeString(user_uid);
+        dest.writeString(service_subcateg_uid);
     }
 
     @Override
@@ -97,5 +106,29 @@ public class myservices implements Parcelable{
 
     public void setService_subcateg_name(String service_subcateg_name) {
         this.service_subcateg_name = service_subcateg_name;
+    }
+
+    public String getService_booking_status() {
+        return service_booking_status;
+    }
+
+    public void setService_booking_status(String service_booking_status) {
+        this.service_booking_status = service_booking_status;
+    }
+
+    public String getUser_uid() {
+        return user_uid;
+    }
+
+    public void setUser_uid(String user_uid) {
+        this.user_uid = user_uid;
+    }
+
+    public String getService_subcateg_uid() {
+        return service_subcateg_uid;
+    }
+
+    public void setService_subcateg_uid(String service_subcateg_uid) {
+        this.service_subcateg_uid = service_subcateg_uid;
     }
 }

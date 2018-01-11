@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        app:cardCornerRadius="8dp"
+
         android:layout_marginTop="1dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
@@ -19,7 +19,7 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="50dp"
     android:background="@drawable/second_cardbg"
 
     android:orientation="horizontal"
@@ -34,8 +34,8 @@ android:weightSum="2">
 
        android:paddingLeft="1dp"
        android:paddingRight="1dp"
-       android:paddingBottom="2dp"
-       android:paddingTop="2dp"/>
+       android:paddingBottom="1dp"
+       android:paddingTop="1dp"/>
 
     <TextView
         android:id="@+id/second_texttitle"
@@ -44,9 +44,11 @@ android:weightSum="2">
         android:layout_gravity="center"
         android:layout_weight="1.6"
         android:fontFamily="@font/nunito"
-android:textColor="@color/colorBlack"
-        android:paddingLeft="15dp"
-        android:textSize="20sp" />
+        android:textColor="@color/colorBlack"
+      android:paddingLeft="5dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="17sp" />
 </LinearLayout>
 
 

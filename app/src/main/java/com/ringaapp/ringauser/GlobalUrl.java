@@ -25,11 +25,15 @@ class GlobalUrl {
     public static String user_bookingdetret="http://quaticstech.in/projecti1andro/android_users_confirmbookingret.php";
     public static String user_myservices="http://quaticstech.in/projecti1andro/android_users_myservices.php";
     public static String user_getbookingconfirmation="http://quaticstech.in/projecti1andro/android_users_getbookingconfirmation.php";
+    public static String user_rating="http://quaticstech.in/projecti1andro/android_users_rating.php";
+    public static String user_givenrating="http://quaticstech.in/projecti1andro/android_users_ratinggiven.php";
+    public static String user_servicepfiledet="http://quaticstech.in/projecti1andro/secondtrail.php";
+
 
     public static String user_categoriesret="http://quaticstech.in/projecti1andro/android_users_categoriesret.php";
     public static String user_spinnerdataret="http://quaticstech.in/projecti1andro/android_users_placesret.php";
     public static String user_sliderdataret="http://quaticstech.in/projecti1andro/android_users_slider.php";
-    public static String user_mapdetails="http://quaticstech.in/projecti1andro/geolocationtracker.php";
+    public static String user_mapdetails="http://quaticstech.in/projecti1andro/trail.php";
 
 }
 

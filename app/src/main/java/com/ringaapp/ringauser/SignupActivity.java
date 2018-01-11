@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.andexert.library.RippleView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -60,13 +59,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         tvsignup_signin=(TextView) findViewById(R.id.tvsignup_signin);
 
-        final RippleView rippleView = (RippleView) findViewById(R.id.more);
-        rippleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nsignin();
-            }
-        });
 
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
@@ -160,6 +152,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         {
 
             case R.id.butsignup_signup:
+                mView = new CatLoadingView();
+
+                mView.show(getSupportFragmentManager(), "");
                 nsignin();
 
                 break;
@@ -174,13 +169,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         emailInput = edsignup_mail.getText().toString().trim();
         if (edsignup_mail.getText().toString().equals("") && edsignup_mobile.getText().toString().equals("")) {
-            Toast.makeText(getApplicationContext(), "Please enter fields", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please Enter All fields", Toast.LENGTH_LONG).show();
         }
 else
         {
             if (edsignup_name.getText().toString().equals(""))
             {
-                Toast.makeText(SignupActivity.this, "Please enter your Name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "Please Enter Your Name", Toast.LENGTH_SHORT).show();
 
             }
             else {
@@ -194,11 +189,12 @@ else
                             if (checkbox.isChecked()) {
                                 if (edsignup_pswd.getText().toString().equals(""))
                                 {
-                                    Toast.makeText(getApplicationContext(), "Enter Valid Password",
+                                    Toast.makeText(getApplicationContext(), "Please Enter Valid Password",
                                             Toast.LENGTH_SHORT).show();
                                 }
                                 else
                                 {
+                                    mView.dismiss();
                                     sname = edsignup_name.getText().toString();
                                     semail = edsignup_mail.getText().toString();
                                     smobile = edsignup_mobile.getText().toString();
@@ -218,7 +214,7 @@ else
 
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "Enter Valid Mobile Number",
+                            Toast.makeText(getApplicationContext(), "Please Enter Valid Mobile Number",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -230,7 +226,7 @@ else
 
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "Invalid email address",
+                    Toast.makeText(getApplicationContext(), "Please Invalid email address",
                             Toast.LENGTH_SHORT).show();
                 }
             }

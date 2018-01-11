@@ -98,7 +98,7 @@ private String sphone,spassword;
             @Override
             public void onClick(View view) {
                 if (edlogin_mobile.getText().toString().equals("") && edlogin_pswd.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please enter fields", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Please Enter all fields", Toast.LENGTH_LONG).show();
 
                 }
                 else
@@ -157,6 +157,7 @@ private String sphone,spassword;
 
                     if (abc)
                     {
+                        mView.dismiss();
                         JSONObject users = jObj.getJSONObject("user_det");
                         String uname1 = users.getString("user_mobile_number");
 

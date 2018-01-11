@@ -1,9 +1,12 @@
 package com.ringaapp.ringauser;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -25,6 +28,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringauser.dbhandlers.SessionManager;
 
@@ -35,9 +39,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import swarajsaaj.smscodereader.interfaces.OTPListener;
 
-public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeListener,View.OnClickListener,View.OnKeyListener,TextWatcher, OTPListener {
+
+public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeListener,View.OnClickListener,View.OnKeyListener,TextWatcher {
     private EditText mPinFirstDigitEditText;
     private EditText mPinSecondDigitEditText;
     private EditText mPinThirdDigitEditText;
@@ -59,78 +63,91 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otpverify);
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         // pref=getApplication().getSharedPreferences("Options", MODE_PRIVATE);
 
-        last_number=intent.getStringExtra("mobile_number");
-        fromforgot=intent.getStringExtra("fromforgot");
+        last_number = intent.getStringExtra("mobile_number");
+        fromforgot = intent.getStringExtra("fromforgot");
 
         // int_mobile=pref.getString("mobile_number", "");
 
+        if (isConnectedToNetwork()) {
 
-        mPinFirstDigitEditText = (EditText) findViewById(R.id.pinone);
-        mPinSecondDigitEditText = (EditText) findViewById(R.id.pintwo);
-        mPinThirdDigitEditText = (EditText) findViewById(R.id.pinthree);
-        mPinForthDigitEditText = (EditText) findViewById(R.id.pinfour);
-        mPinHiddenEditText = (EditText) findViewById(R.id.pin_hidden_edittext);
-        tvotp_mobile=(TextView) findViewById(R.id.tvotp_mobile);
-        // int_mobile=intent.getStringExtra("mobile_number");
-        tvotp_mobile.setText(last_number);
-        k=(TextView) findViewById(R.id.k);
-        secondk=(TextView) findViewById(R.id.secondk);
-        tvotp_resend=(TextView) findViewById(R.id.tvotp_resend);
-        tvotp_resend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                didTapButton(v);
-            }
-        });
-        final TextView countdown = (TextView) findViewById(R.id.countdown);
-        butotp_verify=(Button) findViewById(R.id.butotp_verify);
+            mPinFirstDigitEditText = (EditText) findViewById(R.id.pinone);
+            mPinSecondDigitEditText = (EditText) findViewById(R.id.pintwo);
+            mPinThirdDigitEditText = (EditText) findViewById(R.id.pinthree);
+            mPinForthDigitEditText = (EditText) findViewById(R.id.pinfour);
+            mPinHiddenEditText = (EditText) findViewById(R.id.pin_hidden_edittext);
+            tvotp_mobile = (TextView) findViewById(R.id.tvotp_mobile);
+            // int_mobile=intent.getStringExtra("mobile_number");
+            tvotp_mobile.setText(last_number);
+            k = (TextView) findViewById(R.id.k);
+            secondk = (TextView) findViewById(R.id.secondk);
+            tvotp_resend = (TextView) findViewById(R.id.tvotp_resend);
+            tvotp_resend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    didTapButton(v);
+                }
+            });
+            final TextView countdown = (TextView) findViewById(R.id.countdown);
+            butotp_verify = (Button) findViewById(R.id.butotp_verify);
 
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
 
-        bb= new CountDownTimer(50000,1000) { // adjust the milli seconds here
-            public void onTick(long millisUntilFinished) {
-                countdown.setText(""+String.format(FORMAT,
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-            }
-
-
-            public void onFinish() {
-                bb.cancel();
-                countdown.setVisibility(View.GONE);
-                k.setVisibility(View.GONE);
-                secondk.setVisibility(View.GONE);
+            bb = new CountDownTimer(50000, 1000) { // adjust the milli seconds here
+                public void onTick(long millisUntilFinished) {
+                    countdown.setText("" + String.format(FORMAT,
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                }
 
 
-            }
-
-        }.start();
-
-
-
-
-        setPINListeners();
-
-        butotp_verify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String s1=mPinFirstDigitEditText.getText().toString().trim();
-                String s2=mPinSecondDigitEditText.getText().toString().trim();
-                String s3=mPinThirdDigitEditText.getText().toString().trim();
-                String s4=mPinForthDigitEditText.getText().toString().trim();
-                String s=s1+s2+s3+s4;
-                otp_check(last_number,s);
+                public void onFinish() {
+                    bb.cancel();
+                    countdown.setVisibility(View.GONE);
+                    k.setVisibility(View.GONE);
+                    secondk.setVisibility(View.GONE);
 
 
-            }
-        });
+                }
+
+            }.start();
+
+
+            setPINListeners();
+
+            butotp_verify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    String s1 = mPinFirstDigitEditText.getText().toString().trim();
+                    String s2 = mPinSecondDigitEditText.getText().toString().trim();
+                    String s3 = mPinThirdDigitEditText.getText().toString().trim();
+                    String s4 = mPinForthDigitEditText.getText().toString().trim();
+                    String s = s1 + s2 + s3 + s4;
+                    otp_check(last_number, s);
+
+
+                }
+            });
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(OTPVerifys.this,OTPVerifys.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
     }
     public final void didTapButton(View view) {
 
@@ -305,11 +322,6 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
         imm.showSoftInput(editText, 0);
     }
 
-    @Override
-    public void otpReceived(String messageText) {
-
-    }
-
 
     @Override
     public void afterTextChanged(Editable editable) {
@@ -407,6 +419,11 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 }

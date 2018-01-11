@@ -1,7 +1,10 @@
 package com.ringaapp.ringauser;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -20,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringauser.dbhandlers.SessionManager;
@@ -47,7 +51,7 @@ public class ServBookingConfirmation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serv_booking_confirmation);
-        Toolbar toolbar =  findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (getSupportActionBar() != null) {
@@ -66,20 +70,22 @@ public class ServBookingConfirmation extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        confirmcity= preferences.getString("user_city", "");
-       confirmuid=preferences.getString("useruidentire","");
-         userbookingid=preferences.getString("userbookidentire","");
-        Toast.makeText(this, userbookingid, Toast.LENGTH_SHORT).show();
 
-        test_image=findViewById(R.id.test_image);
-        booking_countdown=findViewById(R.id.booking_countdown);
-        alldirecttohome_but=findViewById(R.id.directto_home);
+        if (isConnectedToNetwork()) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            confirmcity = preferences.getString("user_city", "");
+            confirmuid = preferences.getString("useruidentire", "");
+            userbookingid = preferences.getString("userbookidentire", "");
+            Toast.makeText(this, userbookingid, Toast.LENGTH_SHORT).show();
 
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
+            test_image = findViewById(R.id.test_image);
+            booking_countdown = findViewById(R.id.booking_countdown);
+            alldirecttohome_but = findViewById(R.id.directto_home);
 
-        scheduleSendLocation();
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
+
+            scheduleSendLocation();
 
 //        timer = new CountDownTimer(10000, 10) {
 //
@@ -98,62 +104,76 @@ public class ServBookingConfirmation extends AppCompatActivity {
 //        }.start();
 
 
-        booking_c= new CountDownTimer(250000,1000) { // adjust the milli seconds here
-            public void onTick(long millisUntilFinished) {
-                booking_countdown.setText(""+String.format(FORMAT,
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-            }
+            booking_c = new CountDownTimer(250000, 1000) { // adjust the milli seconds here
+                public void onTick(long millisUntilFinished) {
+                    booking_countdown.setText("" + String.format(FORMAT,
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                }
 
 
-            public void onFinish() {
-                booking_c.cancel();
-                handler.removeCallbacksAndMessages(null);
-                new SweetAlertDialog(ServBookingConfirmation.this, SweetAlertDialog.SUCCESS_TYPE).setTitleText("Sorry! Unable to reach Partner").setContentText("Press OK to find other partners")
-                        .setConfirmText("OK").showCancelButton(true).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Intent intent1=new Intent(ServBookingConfirmation.this,Categories.class);
+                public void onFinish() {
+                    booking_c.cancel();
+                    handler.removeCallbacksAndMessages(null);
+                    new SweetAlertDialog(ServBookingConfirmation.this, SweetAlertDialog.SUCCESS_TYPE).setTitleText("Sorry! Unable to reach Partner").setContentText("Press OK to find other partners")
+                            .setConfirmText("OK").showCancelButton(true).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            Intent intent1 = new Intent(ServBookingConfirmation.this, Categories.class);
 
-                        intent1.putExtra("oneuid",confirmuid);
+                            intent1.putExtra("oneuid", confirmuid);
 
-                        intent1.putExtra("user_city", confirmcity);
+                            intent1.putExtra("user_city", confirmcity);
 
-                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ServBookingConfirmation.this);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("useruidentire",confirmuid);
-                        editor.putString("user_city", confirmcity);
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ServBookingConfirmation.this);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("useruidentire", confirmuid);
+                            editor.putString("user_city", confirmcity);
 
-                        startActivity(intent1);
-                        finish();
+                            startActivity(intent1);
+                            finish();
 
-                    }
-                }).show();
-            }
+                        }
+                    }).show();
+                }
 
-        }.start();
+            }.start();
 
-        Glide.with(this).load(R.drawable.booking_gif).
-               into(test_image);
-        alldirecttohome_but.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent2=new Intent(ServBookingConfirmation.this,Categories.class);
+            Glide.with(this).load(R.drawable.booking_gif).
+                    into(test_image);
+            alldirecttohome_but.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent2 = new Intent(ServBookingConfirmation.this, Categories.class);
 
-                intent2.putExtra("oneuid",confirmuid);
+                    intent2.putExtra("oneuid", confirmuid);
 
-                intent2.putExtra("user_city", confirmcity);
+                    intent2.putExtra("user_city", confirmcity);
 
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ServBookingConfirmation.this);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("useruidentire",confirmuid);
-                editor.putString("user_city", confirmcity);
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ServBookingConfirmation.this);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("useruidentire", confirmuid);
+                    editor.putString("user_city", confirmcity);
 
-                startActivity(intent2);
-            }
-        });
+                    startActivity(intent2);
+                }
+            });
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(ServBookingConfirmation.this,Categories.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
     }
 
 
@@ -169,11 +189,11 @@ public class ServBookingConfirmation extends AppCompatActivity {
     public void onBackPressed()
     {
         super.onBackPressed();
-        finish();
+
     }
     public void checkingbookstatus(final String ss1) {
         String CHECKURL= GlobalUrl.user_getbookingconfirmation+"?booking_uid="+userbookingid;
-        Toast.makeText(this, userbookingid, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, userbookingid, Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, CHECKURL, new Response.Listener<String>() {
             public void onResponse(String response) {
                 try {
@@ -186,7 +206,9 @@ public class ServBookingConfirmation extends AppCompatActivity {
                         String bookingstatus = users.getString("service_partner_accepted");
                         if(bookingstatus.matches("0"))
                         {
-                            Toast.makeText(ServBookingConfirmation.this, "Waiting for Response", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(ServBookingConfirmation.this, "Waiting for Response", Toast.LENGTH_SHORT).show();
+                           // handler.removeCallbacksAndMessages(null);
+
                         }
                       else if(bookingstatus.matches("1"))
                         {
@@ -295,4 +317,10 @@ public class ServBookingConfirmation extends AppCompatActivity {
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
 }

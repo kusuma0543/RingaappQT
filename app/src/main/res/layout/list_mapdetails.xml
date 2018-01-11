@@ -25,7 +25,7 @@
         android:background="@drawable/basic_ripple"
 
         android:layout_width="match_parent"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="2dp"
 
         app:cardCornerRadius="10dp"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="110dp"
             android:orientation="horizontal"
 
             android:weightSum="2">
@@ -53,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="9dp"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -63,54 +63,61 @@
                         android:fontFamily="@font/nunito"
                         android:focusable="false"
                         android:clickable="false"
-                        android:maxLength="22"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:maxLength="20"
                         android:text="Service provider1"
                         android:textColor="#000"
                         android:textSize="18sp" />
-
                     <TextView
-                        android:id="@+id/mappage_seradd"
+                        android:id="@+id/mappage_sericename"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="3dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:maxLength="20"
                         android:fontFamily="@font/nunito"
                         android:text="Service provider1"
                         android:textColor="#000"
                         android:focusable="false"
                         android:clickable="false"
                         android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/mappage_seradd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/nunito"
+                        android:text="Service provider1"
+                        android:textColor="#000"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:maxLength="20"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:textSize="13sp" />
                     <RelativeLayout
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:weightSum="2">
                         <RatingBar
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/ratingBar"
+                            android:id="@+id/mappage_rating"
                             style="?android:attr/ratingBarStyleIndicator"
                             android:scaleX=".5"
                             android:focusable="false"
                             android:clickable="false"
-                            android:rating="3.5"
                             android:scaleY=".5"
+                            android:layout_alignParentBottom="true"
                             android:transformPivotX="0dp"
                             android:transformPivotY="0dp"
                             android:max="5"
                             android:layout_weight="2"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_weight="1"
-                            android:focusable="false"
-                            android:clickable="false"
-                            android:fontFamily="@font/nunito"
-                            android:text="          3.0"
-                            android:textSize="13sp" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -130,8 +137,7 @@
                         android:fontFamily="@font/nunito"
                         android:text="Diamond"
                         android:gravity="center"
-                        android:textStyle="bold
-"
+                        android:textStyle="bold"
                         android:textSize="12sp"
                         android:focusable="false"
                         android:clickable="false"
@@ -153,7 +159,7 @@
                         android:id="@+id/visitingcahrge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:visibility="invisible"
                         android:fontFamily="@font/nunito"
                         android:text="Rs 100 to Rs 500"
                         android:layout_gravity="center"
@@ -162,17 +168,20 @@
                         android:textColor="#000"
                         android:textSize="8sp"
                         android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/butbookpart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
+                        android:clickable="false"
+                        android:focusable="false"
                         android:fontFamily="@font/nunito"
                         android:text="Book Now"
-                        android:focusable="false"
-                        android:clickable="false"
+                        android:layout_marginTop="5dp"
                         android:textColor="@color/colorAccent"
                         android:textSize="17sp"
+
                         android:textStyle="bold" />
 
                 </LinearLayout>

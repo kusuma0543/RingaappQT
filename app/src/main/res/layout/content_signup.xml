@@ -128,14 +128,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent" />
             </LinearLayout>
-            <com.andexert.library.RippleView
-                android:id="@+id/more"
-                android:layout_width="130dp"
-                android:layout_height="?android:actionBarSize"
-                android:layout_toLeftOf="@+id/more2"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                rv_centered="true">
+
 
                 <Button
                     android:id="@+id/butsignup_signup"
@@ -149,8 +142,6 @@
                     android:textStyle="bold"
                     android:textColorHint="#fff"
                     android:textSize="18sp" />
-            </com.andexert.library.RippleView>
-
 
 
             <LinearLayout

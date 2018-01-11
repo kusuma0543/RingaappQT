@@ -32,6 +32,7 @@ public class IntrosliderActivity extends AppCompatActivity {
         onBoardingFragment.setOnRightOutListener(new PaperOnboardingOnRightOutListener() {
             @Override
             public void onRightOut() {
+
                 Intent intent=new Intent(IntrosliderActivity.this,HomeScreen.class);
                 startActivity(intent);
             }

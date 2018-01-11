@@ -8,6 +8,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,8 +45,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringauser.dbhandlers.SessionManager;
+import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,33 +74,30 @@ String mappagelat,mappagelng,mappageloc;
     int PERMISSION_ALL = 1;
     Double lat,lng;
     ListView list29;
-  String mapsuserid;
     String sel_subcategid,selcategid;
-   private Button map_butlocation;
     String user_bookingid;
     String  userid_book,alladdress_book,alllatitude_book,alllongitude_book,sforpartnerid,sforpartnername;
     SharedPreferences preferences;
     private SessionManager session;
     private SQLiteHandler db;
+    String sel_subcategname;
+    CatLoadingView mView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        if (isConnectedToNetwork()) {
+
             Intent intent=getIntent();
-            String sel_subcategname=intent.getStringExtra("subcategname");
+             sel_subcategname=intent.getStringExtra("subcategname");
             selcategid=intent.getStringExtra("categid");
-        sel_subcategid=intent.getStringExtra("subcategid");
-        preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
-                      //  Toast.makeText(getApplicationContext(), sel_subcategname, Toast.LENGTH_SHORT).show();
-                //map_butlocation=(Button) findViewById(R.id.maps_butlocation);
-                //map_butlocation.setOnClickListener(new View.OnClickListener() {
-                //    @Override
-                //    public void onClick(View v) {
-                //       // setContentView(R.layout.map_serviceprov);
-                //    }
-                //});
-        list29=findViewById(R.id.map_listviewone);
+            sel_subcategid=intent.getStringExtra("subcategid");
+            preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
+
+            mView = new CatLoadingView();
+            mView.show(getSupportFragmentManager(), "");
+            list29=findViewById(R.id.map_listviewone);
 
 
         session = new SessionManager(getApplicationContext());
@@ -109,6 +112,20 @@ String mappagelat,mappagelng,mappageloc;
 
         if(!hasPermissions(this, PERMISSIONS)){
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
+
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(MapsActivity.this,Categories.class);
+                    startActivity(intent);
+                }
+            });
         }
 
 
@@ -163,12 +180,14 @@ String mappagelat,mappagelng,mappageloc;
                 holder = new ViewHolder();
                 holder.textid= view.findViewById(R.id.mappage_sername);
                 holder.textname= view.findViewById(R.id.mappage_seradd);
-                holder.textvisiting=view.findViewById(R.id.visitingcahrge);
+              holder.textvisiting=view.findViewById(R.id.mappage_sericename);
                 holder.butviewpart=view.findViewById(R.id.butviewpart);
                 holder.butbookpart=view.findViewById(R.id.butbookpart);
                 holder.forpartnerid=view.findViewById(R.id.forpartnerid);
                 holder.forpartnername=view.findViewById(R.id.forpartnername);
                 holder.text_substype=view.findViewById(R.id.textsubs_type);
+               // holder.textcount=view.findViewById(R.id.mappage_count);
+                holder.ratingBar=view.findViewById(R.id.mappage_rating);
                 view.setTag(holder);
             }
             else {
@@ -177,11 +196,44 @@ String mappagelat,mappagelng,mappageloc;
             GeoLocate ccitac=movieModelList.get(position);
             holder.textid.setText(ccitac.getPartner_name());
             holder.textname.setText(ccitac.getPartner_locality());
-            holder.textvisiting.setText(ccitac.getPartner_budget());
+           holder.textvisiting.setText(sel_subcategname);
             holder.forpartnerid.setText(ccitac.getPartner_uid());
             holder.forpartnername.setText(ccitac.getPartner_name());
-            holder.text_substype.setText(ccitac.getPartner_suscription_type());
+            String checksubtype=ccitac.getPartner_budget();
+//            if(checksubtype.matches("Gold"))
+//            {
+//                    holder.text_substype.setBackground(getDrawable(R.drawable.goldbut));
+//                    holder.text_substype.setTextColor(getColor(R.color.colorAccent));
+//            }
+//            else if(checksubtype.matches("Silver"))
+//            {
+//                holder.text_substype.setBackground(getDrawable(R.drawable.silverbut));
+//                holder.text_substype.setTextColor(Color.WHITE);
+//            }
+//            else if(checksubtype.matches("Diamond"))
+//            {
+//                holder.text_substype.setBackground(getDrawable(R.drawable.diamondbut));
+//                holder.text_substype.setTextColor(Color.WHITE);
+//            }
+//            else if(checksubtype.matches("Free"))
+//            {
+//                holder.text_substype.setBackground(getDrawable(R.drawable.edittext_afterseslect));
+//                holder.text_substype.setTextColor(getColor(R.color.colorAccent));
+//            }
+            if(checksubtype.matches(".*\\d+.*"))
+            {
+                holder.text_substype.setBackground(getDrawable(R.drawable.edittext_afterseslect));
+                holder.text_substype.setText("Rs "+ccitac.getPartner_budget());
+                holder.text_substype.setTextColor(getColor(R.color.colorAccent));
+            }
+            else
+            {
+                holder.text_substype.setText(ccitac.getPartner_budget());
 
+            }
+            Float ratemap= Float.parseFloat(ccitac.getUser_ratings());
+            holder.ratingBar.setRating(ratemap);
+           // holder.textcount.setText(ccitac.getUser_ratings());
             holder.butviewpart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -205,21 +257,38 @@ String mappagelat,mappagelng,mappageloc;
                 @Override
                 public void onClick(View v) {
 
-                    sforpartnerid=holder.forpartnerid.getText().toString();
-                     sforpartnername=holder.forpartnername.getText().toString();
 
 //                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
 //                     userid_book=preferences.getString("useruidentire","");
 //                     alladdress_book=preferences.getString("usersseladdressfull","");
 //                     alllatitude_book=preferences.getString("usersellatitude","");
 //                    alllongitude_book=preferences.getString("usersellongitude","");
-                    final HashMap<String, String> user = db.getUserDetails();
-                    userid_book=user.get("uid");
-                    alladdress_book=user.get("user_address");
-                    alllatitude_book=user.get("user_latitude");
-                    alllongitude_book=user.get("user_longitude");
 
-                    insertmes(userid_book,sforpartnerid,selcategid,sel_subcategid,alladdress_book,alllatitude_book,alllongitude_book);
+
+                    new SweetAlertDialog(MapsActivity.this, SweetAlertDialog.NORMAL_TYPE).setTitleText("Confirm Your Booking?")
+
+                            .setConfirmText("Confirm").setCancelText("Back").
+                            showCancelButton(true).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismiss();
+
+                        }
+                    }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sforpartnerid=holder.forpartnerid.getText().toString();
+                            sforpartnername=holder.forpartnername.getText().toString();
+                            final HashMap<String, String> user = db.getUserDetails();
+                            userid_book=user.get("uid");
+                            alladdress_book=user.get("user_address");
+                            alllatitude_book=user.get("user_latitude");
+                            alllongitude_book=user.get("user_longitude");
+
+                            insertmes(userid_book,sforpartnerid,selcategid,sel_subcategid,alladdress_book,alllatitude_book,alllongitude_book);
+                        }
+                    }).show();
+
 
                 }
             });
@@ -254,7 +323,7 @@ String mappagelat,mappagelng,mappageloc;
                     LatLng sydneys = place.getLatLng();
                     Double dlat=sydneys.latitude;
                     Double dlng=sydneys.longitude;
-                    new kilomilo().execute(GlobalUrl.user_mapdetails+"?partner_latitude="+dlat+"&partner_longitude="+dlng);
+                    new kilomilo().execute(GlobalUrl.user_mapdetails+"?partner_latitude="+dlat+"&partner_longitude="+dlng+"&subcategid="+sel_subcategid);
 
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydneys, 6.5f));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
@@ -291,14 +360,16 @@ String mappagelat,mappagelng,mappageloc;
             return view;
         }
         class ViewHolder{
-            public TextView textid,textname,textvisiting,butbookpart,forpartnerid,forpartnername,text_substype;
+            public TextView textid,textname,textvisiting,butbookpart,forpartnerid,forpartnername,text_substype,textcount;
             public Button butviewpart;
+            public RatingBar ratingBar;
         }
     }
     public class kilomilo extends AsyncTask<String,String, List<GeoLocate>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
         }
         @Override
         protected List<GeoLocate> doInBackground(String... params) {
@@ -345,6 +416,7 @@ String mappagelat,mappagelng,mappageloc;
         @Override
         protected void onPostExecute(final List<GeoLocate> movieMode) {
             super.onPostExecute(movieMode);
+        mView.dismiss();
             if (movieMode == null) {
                 Toast.makeText(getApplicationContext(), "No Services available for your selection", Toast.LENGTH_SHORT).show();
 
@@ -400,7 +472,7 @@ String mappagelat,mappagelng,mappageloc;
         Double maplat=Double.parseDouble(mappagelat);
         Double maplng=Double.parseDouble(mappagelng);
 
-        new kilomilo().execute(GlobalUrl.user_mapdetails+"?partner_latitude="+mappagelat+"&partner_longitude="+mappagelng);
+        new kilomilo().execute(GlobalUrl.user_mapdetails+"?partner_latitude="+mappagelat+"&partner_longitude="+mappagelng+"&subcategid="+sel_subcategid);
 
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
@@ -508,5 +580,10 @@ String mappagelat,mappagelng,mappageloc;
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,6 +48,7 @@ import com.google.gson.Gson;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringauser.dbhandlers.SessionManager;
+import com.roger.catloadinglibrary.CatLoadingView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -67,6 +70,8 @@ import java.util.Map;
 import technolifestyle.com.imageslider.FlipperLayout;
 import technolifestyle.com.imageslider.FlipperView;
 
+//import com.squareup.picasso.Picasso;
+
 public class Categories extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Double lath_cat,lng_cat;
@@ -84,18 +89,23 @@ public class Categories extends AppCompatActivity
     private SessionManager session;
     private SQLiteHandler db;
 
+    CatLoadingView mView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("INSTA");
-        dialog = new ProgressDialog(this);
-        dialog = new ProgressDialog(this);
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(false);
-        dialog.setMessage("Loading. Please wait...");
+        toolbar.setTitle("RINGA");
+
+
+        mView = new CatLoadingView();
+        mView.show(getSupportFragmentManager(), "");
+
+
+
+        if (isConnectedToNetwork()) {
 
         home_tspinner=(TextView) findViewById(R.id.home_tspinner);
         home_gridview=(GridView) findViewById(R.id.home_gridview);
@@ -109,42 +119,19 @@ public class Categories extends AppCompatActivity
 
         String URLL = "http://quaticstech.in/projecti1andro/android_users_slider.php";
         new kilomilo().execute(URLL);
-        Intent intent=getIntent();
-
-//        firstuid=intent.getStringExtra("oneuid");
-//        String user_uname=intent.getStringExtra("user_unamehome");
-//        user_profilepic=intent.getStringExtra("updtaedimage");
-//        sharedhomeloc=intent.getStringExtra("user_city");
-
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        sharedhomeloc= preferences.getString("user_city", "");
-//        categuid=preferences.getString("useruidentire","");
-//        lath_cat=Double.parseDouble(preferences.getString("usersellatitude",""));
-//        lng_cat=Double.parseDouble(preferences.getString("usersellongitude",""));
-
 
         final HashMap<String, String> user = db.getUserDetails();
         sharedhomeloc=user.get("user_city");
         categuid=user.get("uid");
         name_nav=user.get("name");
-//        lath_cat=Double.parseDouble(user.get("user_latitude"));
-  //      lng_cat=Double.parseDouble(user.get("user_longitude"));
-
 
         autocompletesearch();
-
-        //        user_profilepic=preferences.getString("sharedprofileimages","");
-//        shareduid_home=preferences.getString("shareduidd","");
 
         home_tspinner.setText(sharedhomeloc);
         String users_updatedloc_servm="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+sharedhomeloc;
         new JSONTask().execute(users_updatedloc_servm);
         updatelastseen(categuid);
-//        Toast.makeText(getApplicationContext(),firstuid,Toast.LENGTH_SHORT).show();
-//
-//        Toast.makeText(getApplicationContext(),"my id was"+categuid,Toast.LENGTH_SHORT).show();
-//
-//
+
 
         rq=Volley.newRequestQueue(this);
         sliderimg=new ArrayList<>();
@@ -170,35 +157,31 @@ public class Categories extends AppCompatActivity
         home_navusername = (TextView)header.findViewById(R.id.nav_username);
         nav_head_image=(ImageView) header.findViewById(R.id.nav_head_image);
         home_navusername.setText(name_nav);
-
-        if(user_profilepic==null)
-        {
-            Picasso.with(this).load(R.drawable.ic_person_black_24dp).fit().error(R.drawable.ic_person_black_24dp).fit().into(nav_head_image);
+//
+//        if(user_profilepic==null)
+//        {
+//           // Picasso.with(this).load(R.drawable.ic_person_black_24dp).fit().error(R.drawable.ic_person_black_24dp).fit().into(nav_head_image);
+//            Glide.with(context)
+//                    .load(R.drawable.ic_person_black_24dp)
+//                    .error(R.drawable.ic_person_black_24dp)
+//                    .fitCenter()
+//                    .into(nav_head_image);
+//
+//        }
+//        else
+//        {
+//           // Picasso.with(this).load(user_profilepic).fit().error(R.drawable.ic_person_black_24dp).fit().into(nav_head_image);
+//
+//        }
 
         }
-        else
-        {
-           // Picasso.with(this).load(user_profilepic).fit().error(R.drawable.ic_person_black_24dp).fit().into(nav_head_image);
+        else {
 
+                Intent i = new Intent(Categories.this, Categories.class);
+                startActivity(i);
+                finish();
         }
-
     }
-
-
-//    @Override
-//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//        String selected = parent.getItemAtPosition(position).toString();
-//        Toast.makeText(getApplicationContext(), "you selected location is "+selected, Toast.LENGTH_SHORT).show();
-//        String users_updatedloc_servm="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+locationuser;
-//        new JSONTask().execute(users_updatedloc_servm);
-//
-//    }
-//
-//    @Override
-//    public void onNothingSelected(AdapterView<?> parent) {
-//
-//    }
 
 
     @Override
@@ -210,9 +193,6 @@ public class Categories extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
 
         return super.onOptionsItemSelected(item);
     }
@@ -240,9 +220,7 @@ public class Categories extends AppCompatActivity
         } else if (id == R.id.nav_call) {
 
 
-        } else if (id == R.id.nav_chat) {
-
-        } else if (id == R.id.nav_account) {
+        }  else if (id == R.id.nav_account) {
             Intent intent=new Intent(Categories.this,ProfileActivity.class);
             startActivity(intent);
 
@@ -316,7 +294,7 @@ public class Categories extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.show();
+
         }
         @Override
         protected List<Categorieslist> doInBackground(String... params) {
@@ -366,7 +344,7 @@ public class Categories extends AppCompatActivity
         @Override
         protected void onPostExecute(final List<Categorieslist> movieModelList) {
             super.onPostExecute(movieModelList);
-            dialog.dismiss();
+            mView.dismiss();
             if(movieModelList != null) {
                 MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.list_categorie, movieModelList);
                 home_gridview.setAdapter(adapter);
@@ -374,18 +352,8 @@ public class Categories extends AppCompatActivity
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Categorieslist categorieslist = movieModelList.get(position);
-                      //  SharedPreferences preferences = getSharedPreferences("Preferences", 0);
-                     //   SharedPreferences.Editor editor = preferences.edit();
+
                         Intent intent = new Intent(Categories.this, Second.class);
-//
-//                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Categories.this);
-//                        SharedPreferences.Editor editor = preferences.edit();
-//                        editor.putString("presentlocationstore",hcityName);
-//                        editor.putString("presentlocationlat",Double.toString(lath_cat));
-//                        editor.putString("presentlocationlng",Double.toString(lng_cat));
-//
-//
-//                        editor.apply();
 
                         intent.putExtra("categoryname",categorieslist.getService_categ_name());
                          intent.putExtra("categorysid", categorieslist.getService_categ_uid());
@@ -440,7 +408,12 @@ public class Categories extends AppCompatActivity
                 holder = (ViewHolder) convertView.getTag();
             }
             Categorieslist categorieslist= movieModelList.get(position);
-            Picasso.with(context).load(categorieslist.getService_categ_fullimage()).fit().error(R.drawable.load).fit().into(holder.menuimage);
+//            Glide.with(context)
+//                    .load(categorieslist.getService_categ_fullimage())
+//                    .error(R.drawable.load)
+//
+//                    .into(holder.menuimage);
+           Picasso.with(context).load(categorieslist.getService_categ_fullimage()).fit().error(R.drawable.load).fit().into(holder.menuimage);
             holder.menuname.setText(categorieslist.getService_categ_name());
 
 
@@ -502,49 +475,50 @@ public class Categories extends AppCompatActivity
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
-public void autocompletesearch()
-{
-    PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-            getFragmentManager().findFragmentById(R.id.place_autocomplete_fragments);
-    AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-            .setCountry("IN")
-            .build();
+    public void autocompletesearch()
+    {
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragments);
+        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                .setCountry("IN")
+                .build();
 
-    autocompleteFragment.setFilter(typeFilter);
-    autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-        @Override
-        public void onPlaceSelected(Place place) {
-           LatLng latilongi=place.getLatLng();
-            lath_cat=latilongi.latitude;
-          lng_cat=latilongi.longitude;
-        Toast.makeText(getApplicationContext(), "Place: " + place.getLatLng(), Toast.LENGTH_SHORT).show();
-            Geocoder geocoder = new Geocoder(Categories.this, Locale.getDefault());
-            try {
-                List<Address> addresses = geocoder.getFromLocation(lath_cat, lng_cat, 1);
+        autocompleteFragment.setFilter(typeFilter);
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+               LatLng latilongi=place.getLatLng();
+                lath_cat=latilongi.latitude;
+                lng_cat=latilongi.longitude;
+                Toast.makeText(getApplicationContext(), "Place: " + place.getLatLng(), Toast.LENGTH_SHORT).show();
+                Geocoder geocoder = new Geocoder(Categories.this, Locale.getDefault());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(lath_cat, lng_cat, 1);
 
-                hcityName = addresses.get(0).getLocality();
-                String users_updatedloc_serv="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+hcityName;
-                new JSONTask().execute(users_updatedloc_serv);
+                    hcityName = addresses.get(0).getLocality();
+                    String users_updatedloc_serv="http://quaticstech.in/projecti1andro/android_users_spiner.php?district_place="+hcityName;
+                    new JSONTask().execute(users_updatedloc_serv);
 
 
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                home_tspinner.setText(hcityName);
+
+
             }
 
-            home_tspinner.setText(hcityName);
+            @Override
+            public void onError(Status status) {
 
+                Toast.makeText(getApplicationContext(), "An error occurred: " + status, Toast.LENGTH_SHORT).show();
 
-        }
-
-        @Override
-        public void onError(Status status) {
-
-            Toast.makeText(getApplicationContext(), "An error occurred: " + status, Toast.LENGTH_SHORT).show();
-
-        }
-    });
-}
+            }
+        });
+    }
     public class MovieAdap extends ArrayAdapter {
         private List<Bannerlist> movieModelList;
         private int resource;
@@ -673,5 +647,10 @@ public void autocompletesearch()
                 adapter.notifyDataSetChanged();
             }
         }
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

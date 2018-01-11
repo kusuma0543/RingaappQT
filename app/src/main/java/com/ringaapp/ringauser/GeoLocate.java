@@ -17,6 +17,8 @@ String partner_latitude;
 String partner_longitude;
 String partner_budget;
 String partner_suscription_type;
+String user_feedback;
+String user_ratings;
 
     protected GeoLocate(Parcel in) {
         partner_uid = in.readString();
@@ -28,6 +30,8 @@ String partner_suscription_type;
         partner_longitude = in.readString();
         partner_budget = in.readString();
         partner_suscription_type = in.readString();
+        user_feedback = in.readString();
+        user_ratings = in.readString();
     }
 
     @Override
@@ -41,6 +45,8 @@ String partner_suscription_type;
         dest.writeString(partner_longitude);
         dest.writeString(partner_budget);
         dest.writeString(partner_suscription_type);
+        dest.writeString(user_feedback);
+        dest.writeString(user_ratings);
     }
 
     @Override
@@ -130,6 +136,22 @@ String partner_suscription_type;
 
     public void setPartner_suscription_type(String partner_suscription_type) {
         this.partner_suscription_type = partner_suscription_type;
+    }
+
+    public String getUser_feedback() {
+        return user_feedback;
+    }
+
+    public void setUser_feedback(String user_feedback) {
+        this.user_feedback = user_feedback;
+    }
+
+    public String getUser_ratings() {
+        return user_ratings;
+    }
+
+    public void setUser_ratings(String user_ratings) {
+        this.user_ratings = user_ratings;
     }
 }
 

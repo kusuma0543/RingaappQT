@@ -3,6 +3,8 @@ package com.ringaapp.ringauser;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringauser.dbhandlers.SessionManager;
 import com.squareup.picasso.Picasso;
@@ -59,47 +62,63 @@ private TextView profile_tvusername,profile_tvnumber,profile_tvemail,profile_tva
                 onBackPressed();
             }
         });
-        profile_tvusername=(TextView) findViewById(R.id.profile_tvusername);
-        profile_tvnumber=(TextView) findViewById(R.id.profile_tvnumber);
-        profile_tvemail=(TextView) findViewById(R.id.profile_tvemail);
-        profile_tvaddress=(TextView) findViewById(R.id.profile_tvaddress);
-        imageuser=(ImageView) findViewById(R.id.imageuser);
 
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
+        if (isConnectedToNetwork()) {
+            profile_tvusername = (TextView) findViewById(R.id.profile_tvusername);
+            profile_tvnumber = (TextView) findViewById(R.id.profile_tvnumber);
+            profile_tvemail = (TextView) findViewById(R.id.profile_tvemail);
+            profile_tvaddress = (TextView) findViewById(R.id.profile_tvaddress);
+            imageuser = (ImageView) findViewById(R.id.imageuser);
+
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
 
 
-        final HashMap<String, String> user = db.getUserDetails();
-        profi_address=user.get("user_city");
-        shareduids=user.get("uid");
+            final HashMap<String, String> user = db.getUserDetails();
+            profi_address = user.get("user_city");
+            shareduids = user.get("uid");
 
-      //  final Intent intent=getIntent();
+            //  final Intent intent=getIntent();
 //        profi_address=intent.getStringExtra("prof_address");
 //        shareduids= intent.getStringExtra("profile_uid");
 //
 //        profi_image=intent.getStringExtra("user_uimageprofile");
-        profile_tvaddress.setText(profi_address);
+            profile_tvaddress.setText(profi_address);
 
-        logininto(shareduids);
-        Toast.makeText(getApplicationContext(),shareduids,Toast.LENGTH_SHORT).show();
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.profile_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            logininto(shareduids);
+            Toast.makeText(getApplicationContext(), shareduids, Toast.LENGTH_SHORT).show();
 
 
-                Intent intent1=new Intent(ProfileActivity.this,ProfileEdit.class);
-                intent1.putExtra("profileedit_name",profi_name);
-                intent1.putExtra("profileedit_email",profi_email);
-                intent1.putExtra("profileedit_mobile",profi_mobile);
-                intent1.putExtra("profileedit_uid",profi_uid);
-                intent1.putExtra("profileeditlocation",profi_address);
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.profile_fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                startActivity(intent1);
-            }
-        });
+
+                    Intent intent1 = new Intent(ProfileActivity.this, ProfileEdit.class);
+                    intent1.putExtra("profileedit_name", profi_name);
+                    intent1.putExtra("profileedit_email", profi_email);
+                    intent1.putExtra("profileedit_mobile", profi_mobile);
+                    intent1.putExtra("profileedit_uid", profi_uid);
+                    intent1.putExtra("profileeditlocation", profi_address);
+
+                    startActivity(intent1);
+                }
+            });
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(ProfileActivity.this,ProfileActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
     }
     public void logininto(final String sphone1) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.users_profiledeth, new Response.Listener<String>() {
@@ -120,14 +139,25 @@ private TextView profile_tvusername,profile_tvnumber,profile_tvemail,profile_tva
                         profi_image=users.getString("user_profile_image");
                         if(profi_image.equals(""))
                         {
-                            Picasso.with(context).load(R.drawable.ic_person_black_24dp).fit().error(R.drawable.ic_person_black_24dp).fit().into(imageuser);
+                         Picasso.with(context).load(R.drawable.ic_person_black_24dp).fit().error(R.drawable.ic_person_black_24dp).fit().into(imageuser);
+
+//                            Glide.with(context)
+//                                    .load(R.drawable.ic_person_black_24dp)
+//                                    .error(R.drawable.ic_person_black_24dp)
+//                                    .fitCenter()
+//                                    .into(imageuser);
+
 
                         }
                         else
                         {
-                            Picasso.with(context).load(profi_image).fit().error(R.drawable.load).fit().into(imageuser);
+                         Picasso.with(context).load(profi_image).fit().error(R.drawable.load).fit().into(imageuser);
 
-
+//                            Glide.with(context)
+//                                    .load(R.drawable.ic_person_black_24dp)
+//                                    .error(R.drawable.ic_person_black_24dp)
+//                                    .fitCenter()
+//                                    .into(imageuser);
                         }
 
                         profile_tvusername.setText(profi_name);
@@ -178,6 +208,11 @@ private TextView profile_tvusername,profile_tvnumber,profile_tvemail,profile_tva
 
         startActivity(intent1);
         finish();
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 }

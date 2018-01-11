@@ -19,13 +19,13 @@
         android:translationZ="9dp"
         app:cardUseCompatPadding="true">
         <ImageView
-            android:id="@+id/tracking_start"
+            android:id="@+id/tracking_ongoing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/tracking_start"
             android:visibility="visible"/>
         <ImageView
-            android:id="@+id/tracking_ongoing"
+            android:id="@+id/tracking_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
             android:visibility="invisible"
@@ -46,22 +46,26 @@
 
         android:orientation="vertical">
         <TextView
+            android:id="@+id/textfeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Feedback"
             android:fontFamily="@font/nunito"
             android:textStyle="bold"
             android:textSize="16sp"
+            android:visibility="invisible"
             android:textColor="@color/colorBlack"/>
         <EditText
-            android:id="@+id/confirm_partnerdescription"
+            android:id="@+id/track_feedback"
             android:background="@drawable/imagebutton_border"
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:textColor="@color/colorBlack"
             android:padding="10dp"
+            android:textSize="14sp"
             android:gravity="start"
+            android:visibility="invisible"
             android:layout_height="match_parent" />
 
     </LinearLayout>
@@ -74,6 +78,7 @@
 
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/textrating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ratings:"
@@ -82,21 +87,25 @@
             android:fontFamily="@font/nunito"
             android:textStyle="bold"
             android:textSize="16sp"
+            android:visibility="invisible"
             android:textColor="@color/colorBlack"/>
         <RatingBar
+            android:id="@+id/ratingBar1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tracking_ratingbar"
-            style="?android:attr/ratingBarStyleIndicator"
             android:scaleX=".8"
-            android:layout_margin="5dp"
+            android:stepSize="1"
             android:scaleY=".8"
             android:transformPivotX="0dp"
             android:transformPivotY="0dp"
             android:max="5"
-            android:layout_weight="2"/>
+            android:visibility="invisible"
+            android:layout_weight="2"
+            />
+
     </LinearLayout>
     <Button
+        android:id="@+id/submitbut"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -104,6 +113,7 @@
         android:background="@drawable/rounded_editsecond"
         android:fontFamily="@font/nunito"
         android:hint="Submit"
+        android:visibility="invisible"
         android:textStyle="bold"
         android:textColorHint="#fff"
         android:textSize="18sp" />

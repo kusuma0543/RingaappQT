@@ -3,14 +3,13 @@ package com.ringaapp.ringauser;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
+import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringauser.dbhandlers.SessionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,16 +35,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MySelService extends AppCompatActivity {
     String myseruseruid;
     private ListView userserv_listview;
     private ProgressDialog dialog;
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_sel_service);
+
+        if (isConnectedToNetwork()) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("My Services");
@@ -64,16 +71,35 @@ public class MySelService extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        myseruseruid=preferences.getString("useruidentire","");
-        dialog=new ProgressDialog(this);
-        dialog = new ProgressDialog(this);
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(false);
-        dialog.setMessage("Loading. Please wait...");
-        userserv_listview=findViewById(R.id.user_selservices);
-        String URLL = GlobalUrl.user_myservices+"?user_uid="+myseruseruid;
-        new kilomilo().execute(URLL);
+
+
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
+
+            final HashMap<String, String> user = db.getUserDetails();
+            myseruseruid = user.get("uid");
+
+            dialog = new ProgressDialog(this);
+            dialog = new ProgressDialog(this);
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.setMessage("Loading. Please wait...");
+            userserv_listview = findViewById(R.id.user_selservices);
+            String URLL = GlobalUrl.user_myservices + "?user_uid=" + myseruseruid;
+            new kilomilo().execute(URLL);
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(MySelService.this,MySelService.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
     public class MovieAdap extends ArrayAdapter {
         private List<myservices> movieModelList;
@@ -109,6 +135,7 @@ public class MySelService extends AppCompatActivity {
                 holder.textone = (TextView) convertView.findViewById(R.id.userservice_name);
                 holder.textthree = (TextView)convertView.findViewById(R.id.userservice_subcateg);
                 holder.textfour = (TextView)convertView.findViewById(R.id.userservice_address);
+                holder.textstatus = (TextView)convertView.findViewById(R.id.tvstatus);
 
                 convertView.setTag(holder);
             }//ino
@@ -118,6 +145,8 @@ public class MySelService extends AppCompatActivity {
             myservices ccitacc = movieModelList.get(position);
             holder.textthree.setText(ccitacc.getService_subcateg_name());
             holder.textone.setText(ccitacc.getPartner_name());
+            holder.textstatus.setText(ccitacc.getService_booking_status());
+            holder.textstatus.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
             String n=ccitacc.getPartner_locality();
             String nn=ccitacc.getPartner_cityname();
             holder.textfour.setText(n+","+nn);
@@ -125,7 +154,7 @@ public class MySelService extends AppCompatActivity {
         }
 
         class ViewHolder {
-            public TextView textone,textthree,textfour;
+            public TextView textone,textthree,textfour,textstatus;
 
         }
     }
@@ -198,9 +227,10 @@ public class MySelService extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         myservices item = movieMode.get(position);
                         Intent intent = new Intent(MySelService.this,ServiceTracking.class);
-                        intent.putExtra("partnerhome_bookingid",item.getBooking_uid());
-                        intent.putExtra("partnerhome_subcategname",item.getService_subcateg_name());
-                        intent.putExtra("partnerhome_username",item.getPartner_uid());
+                        intent.putExtra("partnerhome_partneruid",item.getPartner_uid());
+                        intent.putExtra("partnerhome_useruid",item.getBooking_uid());
+                        intent.putExtra("partnerhome_subcateguid",item.getService_subcateg_uid());
+                        intent.putExtra("partnerhome_statusjob",item.getService_booking_status());
                         startActivity(intent);
                     }
                 });
@@ -213,5 +243,10 @@ public class MySelService extends AppCompatActivity {
     {
         super.onBackPressed();
         finish();
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

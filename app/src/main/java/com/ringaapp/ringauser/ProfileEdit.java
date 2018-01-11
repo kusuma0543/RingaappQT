@@ -1,9 +1,12 @@
 package com.ringaapp.ringauser;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +25,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringauser.dbhandlers.SessionManager;
 
@@ -74,35 +78,51 @@ public class ProfileEdit extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        tv_profileeditmobile=(TextView) findViewById(R.id.profileedit_tvnumber);
-        tv_profileeditaddress=(TextView) findViewById(R.id.profileedit_tvaddress) ;
-        et_profileeditname=(EditText) findViewById(R.id.profileedit_tvname) ;
-        et_profileeditemail=(EditText) findViewById(R.id.profileedit_tvemail) ;
-        shome_groupone=(RadioGroup) findViewById(R.id.radiogroup_gender);
-        profileedit_image=(ImageView) findViewById(R.id.profileedit_image);
+
+        if (isConnectedToNetwork()) {
+            tv_profileeditmobile = (TextView) findViewById(R.id.profileedit_tvnumber);
+            tv_profileeditaddress = (TextView) findViewById(R.id.profileedit_tvaddress);
+            et_profileeditname = (EditText) findViewById(R.id.profileedit_tvname);
+            et_profileeditemail = (EditText) findViewById(R.id.profileedit_tvemail);
+            shome_groupone = (RadioGroup) findViewById(R.id.radiogroup_gender);
+            profileedit_image = (ImageView) findViewById(R.id.profileedit_image);
 
 
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
 
-        final Intent intent=getIntent();
-        profie_name=intent.getStringExtra("profileedit_name");
-        profie_email=intent.getStringExtra("profileedit_email");
-        profie_mobile=intent.getStringExtra("profileedit_mobile");
-        profie_uid=intent.getStringExtra("profileedit_uid");
-        profie_address=intent.getStringExtra("profileeditlocation");
-        tv_profileeditmobile.setText(profie_mobile);
-        tv_profileeditaddress.setText(profie_address);
-        Toast.makeText(getApplicationContext(),profie_uid,Toast.LENGTH_SHORT).show();
+            final Intent intent = getIntent();
+            profie_name = intent.getStringExtra("profileedit_name");
+            profie_email = intent.getStringExtra("profileedit_email");
+            profie_mobile = intent.getStringExtra("profileedit_mobile");
+            profie_uid = intent.getStringExtra("profileedit_uid");
+            profie_address = intent.getStringExtra("profileeditlocation");
+            tv_profileeditmobile.setText(profie_mobile);
+            tv_profileeditaddress.setText(profie_address);
+            Toast.makeText(getApplicationContext(), profie_uid, Toast.LENGTH_SHORT).show();
 
-        profileedit_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFileChooser();
-            }
-        });
+            profileedit_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showFileChooser();
+                }
+            });
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(ProfileEdit.this,Categories.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
     }
     private void showFileChooser() {
@@ -252,6 +272,11 @@ public class ProfileEdit extends AppCompatActivity {
             //  Toast.makeText(getApplicationContext(), "please relogin to save your changes", Toast.LENGTH_SHORT).show();
             startActivity(intent1);
         }
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 }

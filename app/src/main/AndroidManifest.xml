@@ -26,6 +26,7 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+
     <application
         android:name=".AppController"
         android:allowBackup="true"
@@ -205,15 +206,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringauser.MapsActivity" />
         </activity>
-        <activity
-            android:name=".ConfirmBooking"
-            android:label="@string/title_activity_second"
-            android:parentActivityName=".Categories"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringauser.ServiceProviderDetails" />
-        </activity>
+
         <activity
             android:name=".ServBookingConfirmation"
             android:label="@string/title_activity_second"
@@ -221,7 +214,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringauser.ConfirmBooking" />
+                android:value="com.ringaapp.ringauser.MapsActivity" />
         </activity>
         <activity
             android:name=".MySelService"

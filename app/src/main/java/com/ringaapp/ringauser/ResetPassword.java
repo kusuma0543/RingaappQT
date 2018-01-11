@@ -1,8 +1,11 @@
 package com.ringaapp.ringauser;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,89 +45,90 @@ private EditText edresetpswd,edconfirmpswd;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        edresetpswd=(EditText) findViewById(R.id.edresetpswd);
-        edconfirmpswd=(EditText) findViewById(R.id.edconfirnpswd);
-        butreset_otp=(Button ) findViewById(R.id.butreset_otp);
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
-        Bundle extras = getIntent().getExtras();
-        if (extras != null)
-        {
-            sreset_mobile = extras.getString("mobile_number");
-        }
-        else
-        {
-            Toast.makeText(getApplicationContext(),"no dta",Toast.LENGTH_SHORT).show();
-        }
 
-        edresetpswd.setOnFocusChangeListener( new View.OnFocusChangeListener(){
-
-            public void onFocusChange( View view, boolean hasfocus){
-                if(hasfocus){
-                    edresetpswd.setTextColor(Color.RED);
-
-                    edresetpswd.setBackgroundResource( R.drawable.edittext_afterseslect);
-                    edconfirmpswd.setTextColor(Color.BLACK);
-
-                }
-
-            }
-        });
-        edconfirmpswd.setOnFocusChangeListener( new View.OnFocusChangeListener(){
-
-            public void onFocusChange( View view, boolean hasfocus){
-                if(hasfocus){
-                    edconfirmpswd.setTextColor(Color.RED);
-
-                    edconfirmpswd.setBackgroundResource( R.drawable.edittext_afterseslect);
-                    edresetpswd.setTextColor(Color.BLACK);
-                }
-            }
-        });
-        edconfirmpswd.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        if (isConnectedToNetwork()) {
+            edresetpswd = (EditText) findViewById(R.id.edresetpswd);
+            edconfirmpswd = (EditText) findViewById(R.id.edconfirnpswd);
+            butreset_otp = (Button) findViewById(R.id.butreset_otp);
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                sreset_mobile = extras.getString("mobile_number");
+            } else {
+                Toast.makeText(getApplicationContext(), "no dta", Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            edresetpswd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            }
+                public void onFocusChange(View view, boolean hasfocus) {
+                    if (hasfocus) {
+                        edresetpswd.setTextColor(Color.RED);
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String passwrd = edresetpswd.getText().toString();
-                String cpasswrd = edconfirmpswd.getText().toString();
-                if (editable.length() > 0 && passwrd.length() > 0) {
-                    if(!cpasswrd .equals(passwrd )){
-                        Toast.makeText(ResetPassword.this,"Please match your passwords",Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        butreset_otp.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (edresetpswd.getText().toString().equals("")&&edconfirmpswd.getText().toString().equals(""))
-                                {
-                                    Toast.makeText(getApplicationContext(), "Please enter Password", Toast.LENGTH_LONG).show();
+                        edresetpswd.setBackgroundResource(R.drawable.edittext_afterseslect);
+                        edconfirmpswd.setTextColor(Color.BLACK);
 
-                                }
-                                else
-                                {
-                                    sreset_password=edconfirmpswd.getText().toString();
-                                    resetpassword(sreset_mobile,sreset_password);
-                                }
-
-
-                            }
-                        });
                     }
 
                 }
-            }
-        });
+            });
+            edconfirmpswd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
+                public void onFocusChange(View view, boolean hasfocus) {
+                    if (hasfocus) {
+                        edconfirmpswd.setTextColor(Color.RED);
+
+                        edconfirmpswd.setBackgroundResource(R.drawable.edittext_afterseslect);
+                        edresetpswd.setTextColor(Color.BLACK);
+                    }
+                }
+            });
+            edconfirmpswd.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String passwrd = edresetpswd.getText().toString();
+                    String cpasswrd = edconfirmpswd.getText().toString();
+                    if (editable.length() > 0 && passwrd.length() > 0) {
+                        if (!cpasswrd.equals(passwrd)) {
+                            Toast.makeText(ResetPassword.this, "Please match your passwords", Toast.LENGTH_SHORT).show();
+                        } else {
+                            butreset_otp.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (edresetpswd.getText().toString().equals("") && edconfirmpswd.getText().toString().equals("")) {
+                                        Toast.makeText(getApplicationContext(), "Please enter Password", Toast.LENGTH_LONG).show();
+
+                                    } else {
+                                        sreset_password = edconfirmpswd.getText().toString();
+                                        resetpassword(sreset_mobile, sreset_password);
+                                    }
+
+
+                                }
+                            });
+                        }
+
+                    }
+                }
+            });
+
+        }
+        else {
+
+            Intent i = new Intent(ResetPassword.this, ResetPassword.class);
+            startActivity(i);
+            finish();
+        }
     }
 
 
@@ -182,5 +186,10 @@ intent.putExtra("user_uname",uname3);
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
