@@ -1,80 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:id="@+id/home_screen_conti"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ringaapp.ringauser.Categories"
     tools:showIn="@layout/app_bar_categories">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="8dp"
-      >
-        <LinearLayout
+
+
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/hello_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+          
+            android:layout_margin="6dp"
 
+            app:cardCornerRadius="4dp"
+            app:cardElevation="2dp"
+android:layout_weight="2"
+            app:cardUseCompatPadding="true">
 
-            <Button
-                android:id="@+id/homebut_search"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="9dp"
-                android:layout_weight="0.7"
-                android:background="@drawable/edittext_afterseslect"
-                android:drawableLeft="@drawable/search"
-                android:fontFamily="@font/nunito"
-                android:hint="Search for services"
-                android:paddingLeft="10dp"
-                android:paddingRight="15dp"
-                android:shadowColor="@color/colorAccent"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
-
-            <Button
-                android:id="@+id/homebut_buy"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="3dp"
-                android:layout_weight="1.3"
-                android:background="@drawable/edittext_afterseslect"
-                android:drawableLeft="@drawable/buy"
-                android:fontFamily="@font/nunito"
-                android:hint="   SELL"
-                android:paddingLeft="10dp"
-                android:shadowColor="@color/colorPrimary"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
-                android:textSize="22sp" />
-        </LinearLayout>
-
-    </RelativeLayout>
+                android:weightSum="3"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_weight="1"
+                    android:padding="2dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_search_black_24dp"
+                    android:backgroundTint="#8c8c8c"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/edsubcat_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:background="@null"
+                    android:text="Search all Services"
+                    android:layout_weight="2"
+                    android:textSize="13sp"
+                    android:padding="2dp"
+                    android:layout_margin="5dp"
+                    android:singleLine="true"
+                    android:textAlignment="textStart"
+                    android:textColor="#8c8c8c"
+                     />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <!--<ImageButton-->
+            <!--android:id="@+id/homebut_search"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="2"-->
+            <!--android:layout_gravity="start"-->
+            <!--android:background="@drawable/service_home"-->
+            <!--/>-->
+<!--<SearchView-->
+    <!--android:id="@+id/homebut_search"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content">-->
+    <!---->
+<!--</SearchView>-->
+        <!--<ImageButton-->
+            <!--android:id="@+id/postad_partner"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_gravity="end"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@drawable/postad_home"-->
+            <!--/>-->
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="9dp"
-        android:fontFamily="@font/nunito"
-        android:text="Recommended Services"
-        android:textColor="@color/colorAccent"
-        android:textSize="17dp" />
-    <android.support.v7.widget.CardView
-        android:id="@+id/cv_add"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        app:cardCornerRadius="6dp"
-        app:cardElevation="4dp"
-        app:cardUseCompatPadding="true">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+    android:fontFamily="@font/nunito_semibold"
+    android:id="@+id/recom_text"
+        android:layout_below="@+id/hello_card"
+    android:text="Recommended Services"
+    android:textColor="@color/colorAccent"
+    android:textSize="19sp" />
+    <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/cv_add"-->
+<!--android:layout_below="@+id/recom_text"-->
+        <!--android:layout_marginTop="2dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--app:cardCornerRadius="1dp"-->
+        <!--app:cardElevation="4dp"-->
+        <!--app:cardUseCompatPadding="true">-->
 
         <ListView
             android:id="@+id/s"
@@ -85,32 +110,62 @@
             android:visibility="invisible" />
 
         <technolifestyle.com.imageslider.FlipperLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-
+            android:layout_below="@+id/recom_text"
             android:id="@+id/flipper_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
 
+            android:layout_margin="6dp"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:scaleType="centerInside"
-            android:background="#000000">
+            android:background="#000000"
+            android:scaleType="centerInside">
 
         </technolifestyle.com.imageslider.FlipperLayout>
 
-    </android.support.v7.widget.CardView>
-    <GridView android:layout_height="match_parent"
+    <!--</android.support.v7.widget.CardView>-->
+
+    <!--<ListView-->
+            <!--android:id="@+id/s"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:divider="@null"-->
+            <!--android:dividerHeight="0dp"-->
+            <!--android:visibility="invisible" />-->
+
+        <!--<technolifestyle.com.imageslider.FlipperLayout-->
+            <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--xmlns:tools="http://schemas.android.com/tools"-->
+            <!--android:id="@+id/flipper_layout"-->
+<!--android:layout_below="@+id/recom_text"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp"-->
+
+<!--android:background="#000000"-->
+
+           <!--&gt;-->
+
+        <!--</technolifestyle.com.imageslider.FlipperLayout>-->
+
+
+    <GridView
+        android:layout_below="@+id/flipper_layout"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/home_gridview"
-         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
 
-        android:verticalSpacing="20dp"
-        android:horizontalSpacing="5dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
+        android:layout_margin="6dp"
+        android:layout_alignParentBottom="true"
+        android:verticalSpacing="3dp"
+        android:scrollbars="none"
+        android:horizontalSpacing="2dp"
         android:numColumns="3"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp"/>
-</LinearLayout>
+        android:layout_marginTop="5dp"/>
+
+
+
+
+
+
+
+</RelativeLayout>

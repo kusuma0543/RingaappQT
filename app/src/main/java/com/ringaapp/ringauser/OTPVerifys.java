@@ -39,9 +39,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import swarajsaaj.smscodereader.interfaces.OTPListener;
+import swarajsaaj.smscodereader.receivers.OtpReader;
 
 
-public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeListener,View.OnClickListener,View.OnKeyListener,TextWatcher {
+public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeListener,View.OnClickListener,View.OnKeyListener,TextWatcher,OTPListener {
     private EditText mPinFirstDigitEditText;
     private EditText mPinSecondDigitEditText;
     private EditText mPinThirdDigitEditText;
@@ -147,7 +149,7 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
                 }
             });
         }
-
+        OtpReader.bind(this,"RINGAA");
     }
     public final void didTapButton(View view) {
 
@@ -419,6 +421,14 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    @Override
+    public void otpReceived(String smsText) {
+        //Do whatever you want to do with the text
+        String otpnumbers=smsText.replaceAll("[^0-9]", "");
+        otp_check(last_number, otpnumbers);
+        //  Toast.makeText(this,otpnumbers,Toast.LENGTH_LONG).show();
+        //Log.d("Otp",smsText);
     }
     private boolean isConnectedToNetwork() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

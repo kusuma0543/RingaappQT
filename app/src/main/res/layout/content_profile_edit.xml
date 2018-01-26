@@ -43,14 +43,14 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_redperson"
-                android:fontFamily="@font/nunito" />
+                android:fontFamily="@font/nunito_semibold" />
 
             <EditText
                 android:id="@+id/profileedit_tvname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:hint="Enter your Name"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -69,14 +69,14 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_call_black_24dp"
-                android:fontFamily="@font/nunito" />
+                android:fontFamily="@font/nunito_semibold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="+91"
                 android:textSize="20sp" />
 
@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="9939409823409"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -103,14 +103,14 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_mail_black_24dp"
-                android:fontFamily="@font/nunito" />
+                android:fontFamily="@font/nunito_semibold" />
 
             <EditText
                 android:id="@+id/profileedit_tvemail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:hint="Enter Email"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -128,14 +128,14 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_location_on_black_24dp"
-                android:fontFamily="@font/nunito" />
+                android:fontFamily="@font/nunito_semibold" />
 
             <TextView
                 android:id="@+id/profileedit_tvaddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="Address"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -160,7 +160,7 @@ android:weightSum="3"
                     android:id="@+id/sradio_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito"
+                    android:fontFamily="@font/nunito_semibold"
                     android:layout_weight="1"
                     android:text="Male" />
 
@@ -169,7 +169,7 @@ android:weightSum="3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 android:layout_weight="1"
-                    android:fontFamily="@font/nunito"
+                    android:fontFamily="@font/nunito_semibold"
                     android:text="Female" />
 
                 <RadioButton
@@ -177,7 +177,7 @@ android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 android:layout_weight="1"
-                    android:fontFamily="@font/nunito"
+                    android:fontFamily="@font/nunito_semibold"
                     android:text="Trans" />
             </RadioGroup>
         </LinearLayout>

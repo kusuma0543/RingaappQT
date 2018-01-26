@@ -6,10 +6,13 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -119,6 +122,27 @@ private TextView profile_tvusername,profile_tvnumber,profile_tvemail,profile_tva
             });
         }
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_about_scroll, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_ringa) {
+
+            startActivity(new Intent(ProfileActivity.this,Categories.class));
+        }
+
+
+        return true;
     }
     public void logininto(final String sphone1) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.users_profiledeth, new Response.Listener<String>() {

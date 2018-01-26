@@ -11,13 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jetradar.desertplaceholder.DesertPlaceholder;
@@ -38,12 +39,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class MySelService extends AppCompatActivity {
     String myseruseruid;
     private ListView userserv_listview;
     private ProgressDialog dialog;
     private SessionManager session;
     private SQLiteHandler db;
+    TextView normal_text;
+    GifImageView underser_gif;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,30 +57,28 @@ public class MySelService extends AppCompatActivity {
         if (isConnectedToNetwork()) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("My Services");
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
+            if(getSupportActionBar()!=null)
+            {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
             }
-        });
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-
+            toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
             session = new SessionManager(getApplicationContext());
             db = new SQLiteHandler(getApplicationContext());
-
+            normal_text=findViewById(R.id.textview_subcat);
+            underser_gif=findViewById(R.id.gif_view);
             final HashMap<String, String> user = db.getUserDetails();
             myseruseruid = user.get("uid");
 
@@ -158,7 +161,27 @@ public class MySelService extends AppCompatActivity {
 
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        getMenuInflater().inflate(R.menu.menu_about_scroll, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_ringa) {
+
+            startActivity(new Intent(MySelService.this,Categories.class));
+        }
+
+
+        return true;
+    }
     public class kilomilo extends AsyncTask<String, String, List<myservices>> {
         @Override
         protected void onPreExecute() {
@@ -213,12 +236,7 @@ public class MySelService extends AppCompatActivity {
         protected void onPostExecute(final List<myservices> movieMode) {
             super.onPostExecute(movieMode);
             dialog.dismiss();
-            if (movieMode== null)
-            {
-                Toast.makeText(getApplicationContext(),"No Services available for your selection", Toast.LENGTH_SHORT).show();
-
-            }
-            else
+            if((movieMode != null) && (movieMode.size()>0) )
             {
                 MovieAdap adapter = new MovieAdap(getApplicationContext(), R.layout.myservices, movieMode);
                 userserv_listview.setAdapter(adapter);
@@ -235,6 +253,15 @@ public class MySelService extends AppCompatActivity {
                     }
                 });
                 adapter.notifyDataSetChanged();
+
+
+            }
+            else
+            {
+                userserv_listview.setVisibility(View.INVISIBLE);
+                underser_gif.setVisibility(View.VISIBLE);
+                normal_text.setVisibility(View.VISIBLE);
+
             }
         }
     }

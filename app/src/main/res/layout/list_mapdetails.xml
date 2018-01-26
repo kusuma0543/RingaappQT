@@ -17,196 +17,203 @@
         android:layout_width="wrap_content"
         android:visibility="invisible"
         android:layout_height="wrap_content" />
-    <android.support.v7.widget.CardView android:layout_marginTop="10dp"
+    <TextView
+        android:id="@+id/getrating"
+        android:elevation="10dp"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.CardView
+
         android:id="@+id/cardView"
-        android:layout_marginLeft="7dp"
-
-        android:layout_marginRight="7dp"
-        android:background="@drawable/basic_ripple"
-
         android:layout_width="match_parent"
-        android:layout_marginBottom="2dp"
-
-        app:cardCornerRadius="10dp"
         android:layout_height="wrap_content"
-        android:elevation="11dp"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-       app:cardElevation="11dp"
-     >
+        android:layout_margin="3dp"
 
-        <FrameLayout
-            android:background="@drawable/basic_ripple"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/basic_ripple"
+        android:elevation="2dp"
+        app:cardCornerRadius="5dp">
+
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="120dp"
             android:orientation="horizontal"
-
+            android:layout_gravity="center"
+            android:gravity="center"
             android:weightSum="2">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:padding="3dp"
+                android:weightSum="3"
                 android:orientation="horizontal">
+
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="9dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_weight="2"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/mappage_sername"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito"
-                        android:focusable="false"
                         android:clickable="false"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:maxLength="20"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:maxLength="15"
                         android:text="Service provider1"
                         android:textColor="#000"
                         android:textSize="18sp" />
+
                     <TextView
                         android:id="@+id/mappage_sericename"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
+                        android:clickable="false"
                         android:ellipsize="end"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:maxLength="18"
                         android:maxLines="1"
-                        android:maxLength="20"
-                        android:fontFamily="@font/nunito"
                         android:text="Service provider1"
                         android:textColor="#000"
-                        android:focusable="false"
-                        android:clickable="false"
                         android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/mappage_seradd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:fontFamily="@font/nunito"
+                        android:clickable="false"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:maxLength="20"
+                        android:maxLines="1"
                         android:text="Service provider1"
                         android:textColor="#000"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:maxLength="20"
-                        android:focusable="false"
-                        android:clickable="false"
                         android:textSize="13sp" />
-                    <RelativeLayout
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="5dp"
-                        android:weightSum="2">
+
+
                         <RatingBar
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/mappage_rating"
                             style="?android:attr/ratingBarStyleIndicator"
-                            android:scaleX=".5"
-                            android:focusable="false"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:clickable="false"
-                            android:scaleY=".5"
-                            android:layout_alignParentBottom="true"
-                            android:transformPivotX="0dp"
-                            android:transformPivotY="0dp"
+                            android:focusable="false"
                             android:max="5"
-                            android:layout_weight="2"/>
+                            android:scaleX=".5"
+                            android:layout_marginTop="6dp"
+                            android:scaleY=".5"
+                            android:transformPivotX="0dp"
+                            android:transformPivotY="0dp" />
 
-                    </RelativeLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textsubs_type"
-                        android:layout_width="80dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edittext_afterseslect"
-                        android:fontFamily="@font/nunito"
-                        android:text="Diamond"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        android:textSize="12sp"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:textColor="@color/colorAccent" />
-                    <TextView
+                        android:id="@+id/visit_charge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
-                        android:fontFamily="@font/nunito"
-                        android:text="Visiting Charges"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:focusable="false"
                         android:clickable="false"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:gravity="center"
+                        android:text="Visiting Charge"
                         android:textColor="#000"
-                        android:textSize="8sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
+
                     <TextView
-                        android:id="@+id/visitingcahrge"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/textsubs_type"
+                        android:layout_width="85dp"
                         android:layout_height="wrap_content"
-                        android:visibility="invisible"
-                        android:fontFamily="@font/nunito"
-                        android:text="Rs 100 to Rs 500"
                         android:layout_gravity="center"
-                        android:focusable="false"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/map_rupee"
                         android:clickable="false"
-                        android:textColor="#000"
-                        android:textSize="8sp"
+                        android:focusable="false"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:gravity="center"
+                        android:padding="2dp"
+
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
+
 
                     <TextView
                         android:id="@+id/butbookpart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/colorPrimary"
                         android:clickable="false"
                         android:focusable="false"
-                        android:fontFamily="@font/nunito"
-                        android:text="Book Now"
-                        android:layout_marginTop="5dp"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="17sp"
-
+                        android:fontFamily="@font/nunito_semibold"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text=" Book Now "
+                        android:textColor="#fff"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="6dp"
-                    android:background="#696565"/>
+                    android:layout_margin="3dp"
+                    android:background="#696565" />
 
             </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
-            <Button
-                android:id="@+id/butviewpart"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
 
-                android:layout_gravity="center|center_horizontal"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="1dp"
                 android:gravity="center"
+                android:orientation="vertical">
 
-                android:background="@drawable/ic_remove_red_eye_black_24dp"
-                android:fontFamily="@font/nunito" />
-</LinearLayout>
+                <Button
+                    android:id="@+id/butviewpart"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_remove_red_eye_black_24dp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="View"
+                    android:textColor="@color/colorPrimary"
+
+                    />
+            </LinearLayout>
         </LinearLayout>
 
 

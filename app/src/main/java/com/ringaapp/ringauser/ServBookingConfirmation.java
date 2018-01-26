@@ -11,9 +11,10 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.bumptech.glide.Glide;
 import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class ServBookingConfirmation extends AppCompatActivity {
-    private ImageView test_image;
+
     public TextView booking_countdown;
     private Button alldirecttohome_but;
     CountDownTimer booking_c;
@@ -76,9 +76,8 @@ public class ServBookingConfirmation extends AppCompatActivity {
             confirmcity = preferences.getString("user_city", "");
             confirmuid = preferences.getString("useruidentire", "");
             userbookingid = preferences.getString("userbookidentire", "");
-            Toast.makeText(this, userbookingid, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, userbookingid, Toast.LENGTH_SHORT).show();
 
-            test_image = findViewById(R.id.test_image);
             booking_countdown = findViewById(R.id.booking_countdown);
             alldirecttohome_but = findViewById(R.id.directto_home);
 
@@ -141,8 +140,7 @@ public class ServBookingConfirmation extends AppCompatActivity {
 
             }.start();
 
-            Glide.with(this).load(R.drawable.booking_gif).
-                    into(test_image);
+
             alldirecttohome_but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -176,7 +174,27 @@ public class ServBookingConfirmation extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        getMenuInflater().inflate(R.menu.menu_about_scroll, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_ringa) {
+
+            startActivity(new Intent(ServBookingConfirmation.this,Categories.class));
+        }
+
+
+        return true;
+    }
     public void scheduleSendLocation() {
 
         handler.postDelayed(new Runnable() {
@@ -295,7 +313,7 @@ public class ServBookingConfirmation extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(),"Please check number and Password",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Please wait for confirmation!",Toast.LENGTH_SHORT).show();
 
                     }
                 } catch (JSONException e) {

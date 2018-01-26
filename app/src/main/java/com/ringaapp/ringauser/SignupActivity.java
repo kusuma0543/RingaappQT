@@ -1,5 +1,6 @@
 package com.ringaapp.ringauser;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,6 +8,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,7 +25,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringauser.dbhandlers.SessionManager;
-import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,12 +39,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private TextView tvsignup_tc,tvsignup_signin;
     private Button butsingnup_signup;
     private CheckBox checkbox;
-
+private  TextView show_pass;
     private SessionManager session;
     private SQLiteHandler db;
-    CatLoadingView mView;
+ ProgressDialog dialog;
 
-
+    private Boolean isClicked = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +61,26 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         tvsignup_signin=(TextView) findViewById(R.id.tvsignup_signin);
 
-
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
         butsingnup_signup.setOnClickListener(this);
+        show_pass= findViewById(R.id.show_password);
 
+        show_pass.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        isClicked = isClicked ? false : true;
+        if (isClicked) {
+            show_pass.setText("Hide");
+            edsignup_pswd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+        } else {
+            show_pass.setText("Show");
+            edsignup_pswd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+        }
+    }
+});
         edsignup_name.setOnFocusChangeListener( new View.OnFocusChangeListener(){
 
             public void onFocusChange( View view, boolean hasfocus){
@@ -152,9 +169,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         {
 
             case R.id.butsignup_signup:
-                mView = new CatLoadingView();
 
-                mView.show(getSupportFragmentManager(), "");
+                dialog = new ProgressDialog(this);
+                dialog = new ProgressDialog(this);
+                dialog.setIndeterminate(true);
+                dialog.setCancelable(false);
+                dialog.setMessage("Loading. Please wait...");
+                dialog.show();
                 nsignin();
 
                 break;
@@ -169,12 +190,17 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         emailInput = edsignup_mail.getText().toString().trim();
         if (edsignup_mail.getText().toString().equals("") && edsignup_mobile.getText().toString().equals("")) {
+            dialog.dismiss();
+
             Toast.makeText(getApplicationContext(), "Please Enter All fields", Toast.LENGTH_LONG).show();
         }
-else
+        else
         {
+            dialog.dismiss();
             if (edsignup_name.getText().toString().equals(""))
             {
+                dialog.dismiss();
+
                 Toast.makeText(SignupActivity.this, "Please Enter Your Name", Toast.LENGTH_SHORT).show();
 
             }
@@ -191,16 +217,17 @@ else
                                 {
                                     Toast.makeText(getApplicationContext(), "Please Enter Valid Password",
                                             Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
                                 }
                                 else
                                 {
-                                    mView.dismiss();
+
                                     sname = edsignup_name.getText().toString();
                                     semail = edsignup_mail.getText().toString();
                                     smobile = edsignup_mobile.getText().toString();
                                     spassword = edsignup_pswd.getText().toString();
                                     insertme(sname, semail, smobile, spassword);
-                                    Toast.makeText(SignupActivity.this, "THANK YOU!!!", Toast.LENGTH_SHORT).show();
+
                                     Intent intent = new Intent(SignupActivity.this, OTPVerify.class);
                                     intent.putExtra("mobile_number",smobile);
 
@@ -210,17 +237,18 @@ else
 
                             } else {
                                 Toast.makeText(SignupActivity.this, "Please check the Terms & Comditions m", Toast.LENGTH_SHORT).show();
-
+                                dialog.dismiss();
 
                             }
                         } else {
                             Toast.makeText(getApplicationContext(), "Please Enter Valid Mobile Number",
                                     Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
                         }
 
                     } else {
                         Toast.makeText(SignupActivity.this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
-
+                        dialog.dismiss();
 
                     }
 
@@ -228,6 +256,7 @@ else
                 } else {
                     Toast.makeText(getApplicationContext(), "Please Invalid email address",
                             Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
             }
         }
@@ -251,6 +280,7 @@ else
 
                     if (abc)
                     {
+                        dialog.dismiss();
                         JSONObject users = jObj.getJSONObject("users_detail");
                        String uname1 = users.getString("user_mobile_number");
 

@@ -40,7 +40,7 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="40dp"
                 android:background="@drawable/rounded_edittextred"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:hint="Name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
@@ -56,7 +56,7 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_edittextred"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:hint="Mail Id"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
@@ -72,7 +72,7 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_edittextred"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:hint="Mobile Number"
                 android:inputType="number"
                 android:maxLength="10"
@@ -88,15 +88,25 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_edittextred"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:hint="Password"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:paddingLeft="15dp"
                 android:singleLine="true"
                 android:textColor="@color/colorAccent"
                 android:textColorHint="@color/colorHint"
                 android:textSize="18sp" />
+            <TextView
+                android:id="@+id/show_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show"
+                android:layout_margin="3dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorAccent"
+                android:layout_gravity="end"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -113,7 +123,7 @@
                     android:layout_toRightOf="@+id/checkBox1"
                     android:textColor="@color/colorHint"
 
-                    android:fontFamily="@font/nunito"
+                    android:fontFamily="@font/nunito_semibold"
                     android:text="I agree to your" />
 
                 <TextView
@@ -122,9 +132,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:fontFamily="@font/nunito"
+                    android:fontFamily="@font/nunito_semibold"
                     android:gravity="start"
-                    android:text=" terms &amp; Conditions "
+                    android:text=" Terms &amp; Conditions "
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent" />
             </LinearLayout>
@@ -137,8 +147,8 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded_editsecond"
-                    android:fontFamily="@font/nunito"
-                    android:hint="SIGN UP"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:hint="Sign Up"
                     android:textStyle="bold"
                     android:textColorHint="#fff"
                     android:textSize="18sp" />
@@ -158,10 +168,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:fontFamily="@font/nunito"
+                    android:fontFamily="@font/nunito_semibold"
                     android:gravity="center"
                     android:textColorHint="@color/colorHint"
-
                     android:text="Aleady have an Account?" />
 
                 <TextView
@@ -169,9 +178,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:fontFamily="@font/nunito"
+                    android:fontFamily="@font/nunito_semibold"
                     android:gravity="center"
-                    android:text="SIGN IN"
+                    android:text="Sign In"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent" />
 

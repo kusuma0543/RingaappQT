@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/home"
-            android:title="Home" />
-        <item
-            android:id="@+id/nav_search"
-            android:icon="@drawable/search_nav"
-            android:title="Search" />
 
-    </group>
 
     <item android:title="My Dashboard">
         <menu>
             <item
+                android:id="@+id/nav_search"
+                android:icon="@drawable/search_nav"
+                android:title="Search" />
+            <item
                 android:id="@+id/nav_services"
                 android:icon="@drawable/my_services"
-                android:title="My Services" />
-            <item
-                android:id="@+id/nav_notifications"
-                android:icon="@drawable/notification"
-                android:title="Notifications" />
+                android:title="Your Bookings" />
+
             <item
                 android:id="@+id/nav_favourites"
                 android:icon="@drawable/favorite"
@@ -39,7 +30,7 @@
             <item
                 android:id="@+id/nav_feedback"
                 android:icon="@drawable/feedback"
-                android:title="Feedbaack" />
+                android:title="Feedback" />
             <item
                 android:id="@+id/nav_rateus"
                 android:icon="@drawable/rate_us"
@@ -51,18 +42,19 @@
         </menu>
     </item>
 
-            <item
-                android:id="@+id/nav_call"
-                android:icon="@drawable/call"
-                android:title="Support" />
+
 
 
     <item android:title="About Us">
         <menu>
             <item
+                android:id="@+id/nav_support"
+                android:icon="@drawable/call"
+                android:title="Support" />
+            <item
                 android:id="@+id/nav_whorwe"
                 android:icon="@drawable/about_us"
-                android:title="Who are We?" />
+                android:title="About Us" />
 
         </menu>
     </item>

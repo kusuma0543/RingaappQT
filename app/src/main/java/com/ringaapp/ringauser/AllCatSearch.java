@@ -1,5 +1,7 @@
 package com.ringaapp.ringauser;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,8 +11,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -18,13 +24,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.roger.catloadinglibrary.CatLoadingView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -40,14 +44,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class AllCatSearch extends AppCompatActivity  {
-    CatLoadingView mView;
-    private ListView second_listview;
+   ProgressDialog dialog;
+    private GridView second_listview;
     SharedPreferences preferences;
     private EditText second_edittext;
 String homeloca;
 
-
+TextView normal_text;
+GifImageView underser_gif;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,15 +79,20 @@ String homeloca;
             }
         });
 
-
+normal_text=findViewById(R.id.textview_subcat);
+underser_gif=findViewById(R.id.gif_view);
         if (isConnectedToNetwork()) {
             Intent intent = getIntent();
             homeloca = intent.getStringExtra("sharedhomelocm");
 
-            mView = new CatLoadingView();
-            mView.show(getSupportFragmentManager(), "");
 
-            second_listview = (ListView) findViewById(R.id.second_listview);
+            dialog = new ProgressDialog(this);
+            dialog = new ProgressDialog(this);
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.setMessage("Loading. Please wait...");
+            dialog.show();
+            second_listview = (GridView) findViewById(R.id.second_listview);
             second_edittext = (EditText) findViewById(R.id.edsubcat_search);
             second_edittext.setOnEditorActionListener(new EditText.OnEditorActionListener() {
                 @Override
@@ -100,13 +112,33 @@ String homeloca;
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
                         String getsearch = second_edittext.getText().toString();
                         String URLLL = GlobalUrl.users_allcatsearchtwo + "?district_place=" + homeloca + "&searchitem=" + getsearch;
-                        Toast.makeText(getApplicationContext(), URLLL, Toast.LENGTH_SHORT).show();
+
                         new kilomilo().execute(URLLL);
                     }
                     return false;
                 }
             });
-            String URLL = GlobalUrl.users_allcatsearch + "?district_place=" + homeloca;
+            second_edittext.addTextChangedListener(new TextWatcher()
+            {
+                @Override
+                public void afterTextChanged(Editable mEdit)
+                {
+                    String getsearch = mEdit.toString();
+                    String URLLL = GlobalUrl.users_allcatsearchtwo + "?district_place=" + homeloca + "&searchitem=" + getsearch;
+
+                    new kilomilo().execute(URLLL);
+                }
+
+                public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+
+                public void onTextChanged(CharSequence s, int start, int before, int count){
+
+
+                }
+
+            });
+           String URLL = GlobalUrl.users_allcatsearch + "?district_place=" + homeloca;
+            //String URLL = GlobalUrl.users_allcatsearchtwo + "?district_place=" + homeloca + "&searchitem=" + "ssasdssaadsa";
             new kilomilo().execute(URLL);
         }
         else {
@@ -118,7 +150,27 @@ String homeloca;
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        getMenuInflater().inflate(R.menu.menu_about_scroll, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_ringa) {
+
+            startActivity(new Intent(AllCatSearch.this,Categories.class));
+        }
+
+
+        return true;
+    }
 
     public class MovieAdap extends ArrayAdapter {
         private List<subcatelist> movieModelList;
@@ -151,8 +203,8 @@ String homeloca;
                 convertView = inflater.inflate(resource, null);
                 holder = new MovieAdap.ViewHolder();
 
-                holder.textone = (TextView) convertView.findViewById(R.id.second_texttitle);
-                holder.menuimage = (ImageView) convertView.findViewById(R.id.second_imageview);
+                holder.textone =  convertView.findViewById(R.id.second_texttitle);
+                holder.menuimage =  convertView.findViewById(R.id.second_imageview);
                 convertView.setTag(holder);
             }//ino
             else {
@@ -162,11 +214,7 @@ String homeloca;
             holder.textone.setText(ccitacc.getService_subcateg_name());
 
            Picasso.with(context).load(ccitacc.getService_subcateg_fullimage()).fit().into(holder.menuimage);
-//            Glide.with(context)
-//                    .load(ccitacc.getService_subcateg_fullimage())
-//                    .error(R.drawable.load)
-//                    .fitCenter()
-//                    .into(holder.menuimage);
+
             return convertView;
         }
 
@@ -176,6 +224,7 @@ String homeloca;
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class kilomilo extends AsyncTask<String, String, List<subcatelist>> {
         @Override
         protected void onPreExecute() {
@@ -229,8 +278,9 @@ String homeloca;
         @Override
         protected void onPostExecute(final List<subcatelist> movieMode) {
             super.onPostExecute(movieMode);
-            mView.dismiss();
-            if(movieMode != null){
+            dialog.dismiss();
+            if((movieMode != null) && (movieMode.size()>0) ){
+
                 MovieAdap adapter= new MovieAdap(getApplicationContext(), R.layout.categorytwo, movieMode);
                 second_listview.setAdapter(adapter);
                 second_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -238,7 +288,6 @@ String homeloca;
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         subcatelist item = movieMode.get(position);
                         Intent intent = new Intent(AllCatSearch.this, MapsActivity.class);
-
                         intent.putExtra("categid",item.getService_categ_uid());
                         intent.putExtra("subcategid",item.getService_subcateg_uid());
                         intent.putExtra("subcategname",item.getService_subcateg_name());
@@ -249,10 +298,14 @@ String homeloca;
                 });
                 adapter.notifyDataSetChanged();
 
-            } else {
+            }
+
+            else {
                 second_listview.setVisibility(View.INVISIBLE);
-                second_edittext.setVisibility(View.VISIBLE);
-                Toast.makeText(getApplicationContext(),"No results found!",Toast.LENGTH_SHORT).show();
+                underser_gif.setVisibility(View.VISIBLE);
+                normal_text.setVisibility(View.VISIBLE);
+
+
             }
         }
     }

@@ -11,19 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ImageView
+
+        <pl.droidsonroids.gif.GifImageView
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/phone_otp"
-            android:layout_gravity="center" />
+            android:src="@drawable/archery_otp"
+            android:layout_gravity="center"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:fontFamily="@font/nunito"
+            android:fontFamily="@font/nunito_semibold"
             android:text="Verification code sent to your mobile"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -33,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/nunito"
+            android:fontFamily="@font/nunito_semibold"
             android:text="number"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -49,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:gravity="right"
                 android:text="+91-"
                 android:textSize="18sp"
@@ -61,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:gravity="left"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -84,7 +86,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/ggg"
                 android:contentDescription="@string/pin_content_desc"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:hint="*"
                 android:inputType="number"
                 android:paddingLeft="30dp" />
@@ -96,7 +98,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/ggg"
                 android:contentDescription="@string/pin_content_desc"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:hint="*"
                 android:inputType="number"
                 android:paddingLeft="34dp" />
@@ -108,7 +110,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/ggg"
                 android:contentDescription="@string/pin_content_desc"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:hint="*"
                 android:inputType="number"
                 android:paddingLeft="30dp" />
@@ -120,7 +122,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/ggg"
                 android:contentDescription="@string/pin_content_desc"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
 
                 android:hint="*"
                 android:inputType="number"
@@ -136,7 +138,7 @@
             android:background="@null"
             android:contentDescription="@string/pin_content_desc"
             android:cursorVisible="false"
-            android:fontFamily="@font/nunito"
+            android:fontFamily="@font/nunito_semibold"
             android:gravity="center_horizontal"
             android:maxLength="5"
             android:password="true"
@@ -154,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:gravity="right"
                 android:text="Didn't receive the code ? "
                 android:textSize="15sp"
@@ -166,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:gravity="left"
                 android:text="RESEND"
                 android:textColor="@color/colorAccent"
@@ -182,7 +184,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
             android:background="@drawable/rounded_editsecond"
-            android:fontFamily="@font/nunito"
+            android:fontFamily="@font/nunito_semibold"
             android:hint="VERIFY"
             android:textStyle="bold"
             android:textColorHint="#fff"
@@ -194,7 +196,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="19dp"
-            android:fontFamily="@font/nunito"
+            android:fontFamily="@font/nunito_semibold"
             android:text="Please wait auto detecting code"
             android:textSize="15sp" />
         <LinearLayout
@@ -211,7 +213,7 @@
                 android:layout_centerInParent="true"
 
                 android:layout_weight="1"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:gravity="end"
                 android:textColor="@color/colorAccent"
                 android:textSize="15sp" />
@@ -222,7 +224,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="  seconds"
                 android:textSize="15sp" />
             </LinearLayout>
@@ -231,6 +233,6 @@
             android:id="@+id/jiji"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito" />
+            android:fontFamily="@font/nunito_semibold" />
     </LinearLayout>
 </RelativeLayout>

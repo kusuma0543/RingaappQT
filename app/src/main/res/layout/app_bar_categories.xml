@@ -2,7 +2,9 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:htext="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
     tools:context="com.ringaapp.ringauser.Categories">
 
@@ -14,72 +16,76 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="77dp"
-            app:title="RINGA"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/nunito_semibold"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="70dp"
-                android:layout_marginLeft="60dp"
-              android:orientation="vertical">
-
-              <fragment
-                  android:id="@+id/place_autocomplete_fragments"
-                  android:layout_width="match_parent"
-                  android:layout_height="20dp"
-                  android:layout_marginTop="6dp"
-                  android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-                  />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:gravity="center"
-
-    android:orientation="horizontal"
-    android:weightSum="2">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="0"
-        android:fontFamily="@font/nunito"
-        android:gravity="center"
 
 
-        android:text="YOUR CITY"
-        android:textColor="#fff"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/home_tspinner"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="right|center"
-
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="9dp"
-        android:layout_weight="1.3"
-        android:background="@color/colorPrimary"
-        android:fontFamily="@font/nunito"
-        android:paddingLeft="20dp"
-        android:text="kkk"
-        android:textColor="#FFF"
+            <ImageView
+                android:id="@+id/search_image_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_search_white"
+                android:backgroundTint="#fff"
+android:layout_margin="5dp"
+                />
 
 
-        android:textStyle="bold"
-        android:visibility="visible"></TextView>
+          <TextView
+              android:id="@+id/home_tspinner"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="end"
+              android:background="@color/colorPrimary"
+              android:fontFamily="@font/nunito_semibold"
+              android:drawableRight="@drawable/ic_down_arrow"
+              android:drawableTint="#fff"
+              android:layout_margin="1dp"
+              android:textColor="#FFF"
+              android:textSize="14sp"
+              android:textStyle="bold"
+              />
 
-</LinearLayout>
-                  </LinearLayout>
 
 
             </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_categories" />
+    <include
+
+        layout="@layout/content_categories" />
+    <FrameLayout
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/postad_partner"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:elevation="10dp"
+             />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="10dp"
+            android:text="POST \nAD"
+
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
 
 
 </android.support.design.widget.CoordinatorLayout>

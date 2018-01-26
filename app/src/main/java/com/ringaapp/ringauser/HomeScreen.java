@@ -20,18 +20,8 @@ private static final int REQUEST_PERMISSION = 10;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        requestAppPermissions(new String[]{
-                        Manifest.permission.READ_SMS,
-
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-
-                        Manifest.permission.READ_CALENDAR,
-                        Manifest.permission.CALL_PHONE,
-                },
-
-                R.string.msg,REQUEST_PERMISSION);
+        requestAppPermissions(new String[]{Manifest.permission.READ_SMS, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_CALENDAR,
+                        Manifest.permission.CALL_PHONE,}, R.string.msg,REQUEST_PERMISSION);
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
         if (session.isLoggedIn()) {

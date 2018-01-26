@@ -172,9 +172,7 @@ private Button mylocationnav;
                 @Override
                 public void onPlaceSelected(Place place) {
 
-                    Toast.makeText(getApplicationContext(), "Place: " + place.getName(), Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(getApplicationContext(), "Place: " + place.getLatLng(), Toast.LENGTH_SHORT).show();
                     mMap.clear();
                     LatLng sydneys = place.getLatLng();
 
@@ -188,7 +186,7 @@ private Button mylocationnav;
                 @Override
                 public void onError(Status status) {
 
-                    Toast.makeText(getApplicationContext(), "An error occurred: " + status, Toast.LENGTH_SHORT).show();
+
 
                 }
             });
@@ -256,9 +254,7 @@ private Button mylocationnav;
                         address = addresses.get(0).getSubLocality();
                         cityName = addresses.get(0).getLocality();
                         stateName = addresses.get(0).getAdminArea();
-                        Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
 
 
                     } catch (IOException e) {
@@ -322,9 +318,11 @@ private Button mylocationnav;
     protected void displayAddressOutput() {
         try {
             if (mAreaOutput != null)
-
-
+            {
                 Toast.makeText(getApplicationContext(),"mAddressOutput",Toast.LENGTH_SHORT).show();
+            }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

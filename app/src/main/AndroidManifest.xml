@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ringaapp.ringauser">
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
-
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -26,10 +22,8 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
     <application
         android:name=".AppController"
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -40,16 +34,25 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <!-- <meta-data -->
-        <!-- android:name="com.google.android.geo.API_KEY" -->
-        <!-- android:value="@string/google_maps_key" -->
-        <!-- /> -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/FinestWebViewTheme.Light" />
+
+        <receiver android:name="swarajsaaj.smscodereader.receivers.OtpReader"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".HomeScreen"
@@ -145,7 +148,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringauser.Second" />
-
         </activity>
         <activity
             android:name=".ProfileActivity"
@@ -206,7 +208,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringauser.MapsActivity" />
         </activity>
-
         <activity
             android:name=".ServBookingConfirmation"
             android:label="@string/title_activity_second"
@@ -218,7 +219,7 @@
         </activity>
         <activity
             android:name=".MySelService"
-            android:label="@string/title_activity_second"
+            android:label="Your Bookings"
             android:parentActivityName=".Categories"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -233,6 +234,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringauser.MySelService" />
+        </activity>
+        <activity
+            android:name=".AboutScroll"
+            android:label="@string/title_activity_about_scroll"
+            android:parentActivityName=".Categories"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringauser.Categories" />
         </activity>
     </application>
 

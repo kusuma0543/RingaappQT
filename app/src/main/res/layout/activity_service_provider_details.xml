@@ -21,22 +21,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_service_provider_details" />
+    <include layout="@layout/check_serv_det" />
 
 
-    <Button
-        android:id="@+id/serprov_bookbut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
 
-
-        android:layout_marginTop="20dp"
-        android:background="@drawable/filter_shape"
-        android:fontFamily="@font/nunito"
-        android:gravity="center"
-        android:text="BOOK NOW"
-        android:textColor="#FFF"
-        android:textSize="17sp"
-        android:textStyle="bold" />
 </android.support.design.widget.CoordinatorLayout>

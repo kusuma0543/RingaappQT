@@ -1,5 +1,6 @@
 package com.ringaapp.ringauser;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,7 +50,6 @@ import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.ringaapp.ringauser.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringauser.dbhandlers.SessionManager;
-import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,22 +81,33 @@ String mappagelat,mappagelng,mappageloc;
     private SessionManager session;
     private SQLiteHandler db;
     String sel_subcategname;
-    CatLoadingView mView;
+String mapcategoryname_user;
+    private ProgressDialog dialog;
+    String getting_rating_countl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+
         if (isConnectedToNetwork()) {
 
             Intent intent=getIntent();
              sel_subcategname=intent.getStringExtra("subcategname");
             selcategid=intent.getStringExtra("categid");
             sel_subcategid=intent.getStringExtra("subcategid");
+            mapcategoryname_user=intent.getStringExtra("categoryname_user");
             preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
 
-            mView = new CatLoadingView();
-            mView.show(getSupportFragmentManager(), "");
+
+            dialog = new ProgressDialog(this);
+            dialog = new ProgressDialog(this);
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.setMessage("Loading. Please wait...");
+            dialog.show();
+
             list29=findViewById(R.id.map_listviewone);
 
 
@@ -186,51 +197,40 @@ String mappagelat,mappagelng,mappageloc;
                 holder.forpartnerid=view.findViewById(R.id.forpartnerid);
                 holder.forpartnername=view.findViewById(R.id.forpartnername);
                 holder.text_substype=view.findViewById(R.id.textsubs_type);
-               // holder.textcount=view.findViewById(R.id.mappage_count);
                 holder.ratingBar=view.findViewById(R.id.mappage_rating);
+                holder.getrating=view.findViewById(R.id.getrating);
                 view.setTag(holder);
             }
             else {
                 holder = (ViewHolder) view.getTag();
             }
-            GeoLocate ccitac=movieModelList.get(position);
+            final GeoLocate ccitac=movieModelList.get(position);
             holder.textid.setText(ccitac.getPartner_name());
             holder.textname.setText(ccitac.getPartner_locality());
-           holder.textvisiting.setText(sel_subcategname);
+            holder.textvisiting.setText(sel_subcategname);
             holder.forpartnerid.setText(ccitac.getPartner_uid());
             holder.forpartnername.setText(ccitac.getPartner_name());
-            String checksubtype=ccitac.getPartner_budget();
-//            if(checksubtype.matches("Gold"))
-//            {
-//                    holder.text_substype.setBackground(getDrawable(R.drawable.goldbut));
-//                    holder.text_substype.setTextColor(getColor(R.color.colorAccent));
-//            }
-//            else if(checksubtype.matches("Silver"))
-//            {
-//                holder.text_substype.setBackground(getDrawable(R.drawable.silverbut));
-//                holder.text_substype.setTextColor(Color.WHITE);
-//            }
-//            else if(checksubtype.matches("Diamond"))
-//            {
-//                holder.text_substype.setBackground(getDrawable(R.drawable.diamondbut));
-//                holder.text_substype.setTextColor(Color.WHITE);
-//            }
-//            else if(checksubtype.matches("Free"))
-//            {
-//                holder.text_substype.setBackground(getDrawable(R.drawable.edittext_afterseslect));
-//                holder.text_substype.setTextColor(getColor(R.color.colorAccent));
-//            }
-            if(checksubtype.matches(".*\\d+.*"))
-            {
-                holder.text_substype.setBackground(getDrawable(R.drawable.edittext_afterseslect));
-                holder.text_substype.setText("Rs "+ccitac.getPartner_budget());
-                holder.text_substype.setTextColor(getColor(R.color.colorAccent));
-            }
-            else
-            {
-                holder.text_substype.setText(ccitac.getPartner_budget());
+            holder.getrating.setText(ccitac.getUser_rating_count());
 
-            }
+
+
+            holder.text_substype.setBackground(getDrawable(R.drawable.edittext_afterseslect));
+            holder.text_substype.setTextColor(getColor(R.color.colorAccent));
+            String checkmysub=ccitac.getPartner_budget();
+            getting_rating_countl=holder.getrating.getText().toString();
+            String rupaiya="\u20B9."+checkmysub;
+                if (checkmysub.contains("Free"))
+                {
+
+                    holder.text_substype.setText(ccitac.getPartner_budget());
+                }
+                else
+                {
+                    holder.text_substype.setText(rupaiya);
+                }
+
+
+
             Float ratemap= Float.parseFloat(ccitac.getUser_ratings());
             holder.ratingBar.setRating(ratemap);
            // holder.textcount.setText(ccitac.getUser_ratings());
@@ -242,12 +242,17 @@ String mappagelat,mappagelng,mappageloc;
                     Intent intentb=new Intent(MapsActivity.this,ServiceProviderDetails.class);
                     intentb.putExtra("selservice_providerid",sforpartnerid);
                     intentb.putExtra("selservice_providername",sforpartnername);
-
+                    intentb.putExtra("visitingcahrgeofpartner",ccitac.getPartner_budget());
+                    intentb.putExtra("totalrating",ccitac.getUser_ratings());
+                    intentb.putExtra("partner_lastseendate",ccitac.getPartner_lastseen());
+                    intentb.putExtra("partner_ratingcount",getting_rating_countl);
 
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("sel_subcategid",sel_subcategid);
                     editor.putString("sel_categid",selcategid);
+                    editor.putString("sel_subcategnameuser",sel_subcategname);
+                    editor.putString("categoryname_user",mapcategoryname_user);
                     editor.apply();
                     startActivity(intentb);
 
@@ -256,13 +261,6 @@ String mappagelat,mappagelng,mappageloc;
             holder.butbookpart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
-//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MapsActivity.this);
-//                     userid_book=preferences.getString("useruidentire","");
-//                     alladdress_book=preferences.getString("usersseladdressfull","");
-//                     alllatitude_book=preferences.getString("usersellatitude","");
-//                    alllongitude_book=preferences.getString("usersellongitude","");
 
 
                     new SweetAlertDialog(MapsActivity.this, SweetAlertDialog.NORMAL_TYPE).setTitleText("Confirm Your Booking?")
@@ -345,22 +343,16 @@ String mappagelat,mappagelng,mappageloc;
                 }
             });
 
-
-            //  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),6.5f));
-
             mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
             mMap.setMaxZoomPreference(14.5f);
             mMap.setMinZoomPreference(6.5f);
-
-
-
-            // TrackGPS location;
 
             mMap.getUiSettings().setZoomControlsEnabled(true);
             return view;
         }
         class ViewHolder{
-            public TextView textid,textname,textvisiting,butbookpart,forpartnerid,forpartnername,text_substype,textcount;
+            public TextView textid,textname,textvisiting,butbookpart,forpartnerid,
+                    forpartnername,text_substype,getrating;
             public Button butviewpart;
             public RatingBar ratingBar;
         }
@@ -416,7 +408,7 @@ String mappagelat,mappagelng,mappageloc;
         @Override
         protected void onPostExecute(final List<GeoLocate> movieMode) {
             super.onPostExecute(movieMode);
-        mView.dismiss();
+      dialog.dismiss();
             if (movieMode == null) {
                 Toast.makeText(getApplicationContext(), "No Services available for your selection", Toast.LENGTH_SHORT).show();
 
@@ -430,6 +422,8 @@ String mappagelat,mappagelng,mappageloc;
                         Intent intentb = new Intent(MapsActivity.this, ServiceProviderDetails.class);
                         intentb.putExtra("selservice_providerid",item.getPartner_uid());
                         intentb.putExtra("selservice_providername",item.getPartner_name());
+                        intentb.putExtra("visitingcahrgeofpartner",item.getPartner_budget());
+                        intentb.putExtra("totalrating",item.getUser_ratings());
 
 
                         SharedPreferences.Editor editor = preferences.edit();
@@ -466,13 +460,10 @@ String mappagelat,mappagelng,mappageloc;
         mappagelat=user.get("user_latitude");
         mappagelng=user.get("user_longitude");
 
-//        mappageloc= preferences.getString("presentlocationstore", "");
-//        mappagelat= preferences.getString("presentlocationlat", "");
-//        mappagelng= preferences.getString("presentlocationlng", "");
         Double maplat=Double.parseDouble(mappagelat);
         Double maplng=Double.parseDouble(mappagelng);
-
-        new kilomilo().execute(GlobalUrl.user_mapdetails+"?partner_latitude="+mappagelat+"&partner_longitude="+mappagelng+"&subcategid="+sel_subcategid);
+String checkurl=GlobalUrl.user_mapdetails+"?partner_latitude="+mappagelat+"&partner_longitude="+mappagelng+"&subcategid="+sel_subcategid;
+        new kilomilo().execute(checkurl);
 
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
@@ -500,8 +491,6 @@ String mappagelat,mappagelng,mappageloc;
         mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
         mMap.setMaxZoomPreference(15.5f);
         mMap.setMinZoomPreference(6.5f);
-
-
 
 
 
@@ -540,9 +529,7 @@ String mappagelat,mappagelng,mappageloc;
                         editor.putString("sel_subcategid",sel_subcategid);
                         editor.putString("sel_categid",selcategid);
                         editor.apply();
-
                         editor.putString("userbookidentire",user_bookingid);
-
                         editor.apply();
                         intentb.putExtra("bookidid",user_bookingid);
                         startActivity(intentb);

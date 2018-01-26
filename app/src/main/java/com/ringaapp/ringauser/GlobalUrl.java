@@ -28,6 +28,9 @@ class GlobalUrl {
     public static String user_rating="http://quaticstech.in/projecti1andro/android_users_rating.php";
     public static String user_givenrating="http://quaticstech.in/projecti1andro/android_users_ratinggiven.php";
     public static String user_servicepfiledet="http://quaticstech.in/projecti1andro/secondtrail.php";
+    public static String user_favadd="http://quaticstech.in/projecti1andro/android_users_fav.php";
+    public static String user_favdel="http://quaticstech.in/projecti1andro/android_users_delfav.php";
+    public static String user_favget="http://quaticstech.in/projecti1andro/android_users_getfav.php";
 
 
     public static String user_categoriesret="http://quaticstech.in/projecti1andro/android_users_categoriesret.php";

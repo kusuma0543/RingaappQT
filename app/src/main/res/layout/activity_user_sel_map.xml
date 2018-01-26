@@ -59,7 +59,7 @@ android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
 
         android:background="@drawable/usr_selborderbut"
-        android:fontFamily="@font/nunito"
+        android:fontFamily="@font/nunito_semibold"
         android:text="Pick A Place"
 
         android:textColor="#FFF"

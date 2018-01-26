@@ -42,7 +42,7 @@
                 android:focusable="false"
                 android:textStyle="bold"
                 android:maxLength="10"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:textSize="22sp" />
 
             <TextView
@@ -65,7 +65,7 @@
                 android:textColor="#000"
                 android:clickable="false"
                 android:focusable="false"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:textSize="18sp" />
             <TextView
                 android:id="@+id/userservice_address"
@@ -78,7 +78,7 @@
                 android:focusable="false"
                 android:inputType="textCapSentences"
                 android:capitalize="sentences"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:textSize="14sp" />
 
             <View
@@ -106,7 +106,7 @@
                     android:focusable="false"
                     android:textSize="15sp"
                     android:layout_marginLeft="10dp"
-                    android:fontFamily="@font/nunito"
+                    android:fontFamily="@font/nunito_semibold"
                     android:textColor="@color/colorAccent"
                  />
 
@@ -116,7 +116,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
 
-                    android:fontFamily="@font/nunito"
+                    android:fontFamily="@font/nunito_semibold"
                  android:background="@drawable/call"
                     android:layout_marginLeft="60dp"
                     android:clickable="false"

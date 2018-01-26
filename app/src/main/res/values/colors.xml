@@ -8,9 +8,10 @@
     <color name="colorText">#B4B4B5</color>
     <color name="colorBlack">#000</color>
 
-
-
     <color name="blue_btn_bg_color">#D32F2F</color>
     <color name="blue_btn_bg_pressed_color">#ca7676</color>
+
+    <color name="gray_btn_bg_color">#f9b3b3</color>
+    <color name="gray_btn_bg_pressed_color">#f48e8e</color>
 
 </resources>

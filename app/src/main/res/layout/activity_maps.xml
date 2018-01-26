@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+>
 
-    android:background="#fafafa">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -11,7 +11,7 @@
         android:id="@+id/maps"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
 
         tools:context="com.ringaapp.ringauser.MapsActivity" >
     </fragment><FrameLayout
@@ -31,29 +31,27 @@
         />
 </FrameLayout>
 <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_width="wrap_content"
+    android:layout_height="30dp"
     android:layout_below="@+id/maps"
-    android:layout_marginLeft="7dp"
-    android:layout_marginRight="3dp"
-    android:layout_marginTop="2dp"
-
+ android:layout_margin="5dp"
     android:orientation="horizontal"
     android:id="@+id/filter_deta"
-    android:weightSum="5">
+    android:weightSum="4">
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="@drawable/ic_filter_list_black_24dp"/>
+        android:background="@drawable/ic_filter_list_black_24dp"
+        android:contentDescription="TODO" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="0"
-        android:fontFamily="@font/nunito"
+        android:fontFamily="@font/nunito_semibold"
         android:gravity="center"
         android:text="Filter By"
         android:textColor="@color/colorAccent"
@@ -63,11 +61,11 @@
         android:id="@+id/maps_butlocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="7dp"
+        android:layout_margin="3dp"
         android:layout_weight="1"
         android:background="@drawable/filter_shape"
 android:textSize="13sp"
-        android:fontFamily="@font/nunito"
+        android:fontFamily="@font/nunito_semibold"
         android:text="Location"
         android:textColor="#FFFF" />
 
@@ -75,12 +73,13 @@ android:textSize="13sp"
         android:id="@+id/map_butrating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="7dp"
+        android:layout_margin="3dp"
+        android:padding="1dp"
+        android:gravity="center"
         android:layout_weight="1"
         android:textSize="13sp"
-
         android:background="@drawable/filter_shape"
-        android:fontFamily="@font/nunito"
+        android:fontFamily="@font/nunito_semibold"
         android:text="Rating"
         android:textColor="#FFFF" />
 
@@ -88,25 +87,29 @@ android:textSize="13sp"
         android:id="@+id/map_butranking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="7dp"
+        android:layout_margin="3dp"
+        android:padding="1dp"
+      android:gravity="center"
         android:textSize="13sp"
-
         android:layout_weight="1"
         android:background="@drawable/filter_shape"
-        android:fontFamily="@font/nunito"
+        android:fontFamily="@font/nunito_semibold"
         android:text="Pricing"
         android:textColor="#FFFF" />
 </LinearLayout>
 
     <ListView
-        android:layout_below="@+id/relative_second"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/map_listviewone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="1dp"
+
+        android:layout_margin="2dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/filter_deta"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:layout_marginTop="310dp"
-        >
+        android:scrollbars="none">
 
     </ListView>
 

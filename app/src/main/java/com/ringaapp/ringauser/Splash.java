@@ -20,18 +20,18 @@ public class Splash extends AppCompatActivity {
         if (isConnectedToNetwork()) {
             setContentView(R.layout.activity_splash);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            if (!prefs.getBoolean("firstTime", false)) {
-                Intent i = new Intent(Splash.this, IntrosliderActivity.class);
-                startActivity(i);
-                finish();
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("firstTime", true);
-                editor.commit();
-            } else {
+//            if (!prefs.getBoolean("firstTime", false)) {
+//                Intent i = new Intent(Splash.this, IntrosliderActivity.class);
+//                startActivity(i);
+//                finish();
+//                SharedPreferences.Editor editor = prefs.edit();
+//                editor.putBoolean("firstTime", true);
+//                editor.commit();
+//            } else {
                 Intent i = new Intent(Splash.this, HomeScreen.class);
                 startActivity(i);
                 finish();
-            }
+         //   }
 
         }
         else

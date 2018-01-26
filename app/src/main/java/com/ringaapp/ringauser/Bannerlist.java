@@ -12,12 +12,15 @@ public class Bannerlist implements Parcelable{
     String promotion_title;
     String promotion_fullimage;
     String promotion_thumbnail;
+String promotion_res;
+
 
     protected Bannerlist(Parcel in) {
         rid = in.readString();
         promotion_title = in.readString();
         promotion_fullimage = in.readString();
         promotion_thumbnail = in.readString();
+        promotion_res = in.readString();
     }
 
     public static final Creator<Bannerlist> CREATOR = new Creator<Bannerlist>() {
@@ -64,16 +67,25 @@ public class Bannerlist implements Parcelable{
         this.promotion_thumbnail = promotion_thumbnail;
     }
 
+    public String getPromotion_res() {
+        return promotion_res;
+    }
+
+    public void setPromotion_res(String promotion_res) {
+        this.promotion_res = promotion_res;
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(rid);
-        dest.writeString(promotion_title);
-        dest.writeString(promotion_fullimage);
-        dest.writeString(promotion_thumbnail);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(rid);
+        parcel.writeString(promotion_title);
+        parcel.writeString(promotion_fullimage);
+        parcel.writeString(promotion_thumbnail);
+        parcel.writeString(promotion_res);
     }
 }

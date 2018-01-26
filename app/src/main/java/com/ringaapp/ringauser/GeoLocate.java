@@ -19,6 +19,8 @@ String partner_budget;
 String partner_suscription_type;
 String user_feedback;
 String user_ratings;
+String partner_lastseen;
+String user_rating_count;
 
     protected GeoLocate(Parcel in) {
         partner_uid = in.readString();
@@ -32,6 +34,8 @@ String user_ratings;
         partner_suscription_type = in.readString();
         user_feedback = in.readString();
         user_ratings = in.readString();
+        partner_lastseen = in.readString();
+        user_rating_count = in.readString();
     }
 
     @Override
@@ -47,6 +51,8 @@ String user_ratings;
         dest.writeString(partner_suscription_type);
         dest.writeString(user_feedback);
         dest.writeString(user_ratings);
+        dest.writeString(partner_lastseen);
+        dest.writeString(user_rating_count);
     }
 
     @Override
@@ -152,6 +158,22 @@ String user_ratings;
 
     public void setUser_ratings(String user_ratings) {
         this.user_ratings = user_ratings;
+    }
+
+    public String getPartner_lastseen() {
+        return partner_lastseen;
+    }
+
+    public void setPartner_lastseen(String partner_lastseen) {
+        this.partner_lastseen = partner_lastseen;
+    }
+
+    public String getUser_rating_count() {
+        return user_rating_count;
+    }
+
+    public void setUser_rating_count(String user_rating_count) {
+        this.user_rating_count = user_rating_count;
     }
 }
 

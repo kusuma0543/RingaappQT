@@ -34,12 +34,15 @@ public class ServiceTracking extends AppCompatActivity {
     private RatingBar ratingBar;
     private ImageView imageongoing,imagestart,imagedone;
     private String textpartneruid,textuseruid,texsubcateg,textstatusjob,gettrackrating,gettrackfeedback,users_uid;
+    String fav_rid;
     private SessionManager session;
     private SQLiteHandler db;
     private Button submitbut;
     private EditText trackfeedback;
     private TextView textfeed,textrating;
     Float dbrate;
+    ImageView click_tofacv;
+    String favon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,15 @@ public class ServiceTracking extends AppCompatActivity {
         trackfeedback = findViewById(R.id.track_feedback);
         textfeed = findViewById(R.id.textfeed);
         textrating = findViewById(R.id.textrating);
+        click_tofacv=findViewById(R.id.click_tofav);
+        try
+        {
+            getfav(fav_rid);
+        }catch (Exception e)
+        {
+
+        }
+
 
         if (isConnectedToNetwork()) {
             session = new SessionManager(getApplicationContext());
@@ -70,15 +82,58 @@ public class ServiceTracking extends AppCompatActivity {
             textuseruid = intent1.getStringExtra("partnerhome_useruid");
             texsubcateg = intent1.getStringExtra("partnerhome_subcateguid");
             textstatusjob = intent1.getStringExtra("partnerhome_statusjob");
+
+
+            final boolean[] showingF = {true};
+try
+{if (favon.equals("Y"))
+{
+    click_tofacv.setImageResource(R.drawable.ic_favorite_black_24dp);
+    showingF[0]=false;
+}
+else
+{
+    click_tofacv.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+    showingF[0]=true;
+}
+
+}catch (Exception e)
+{
+
+}
+
             if (textstatusjob.matches("In Progress")) {
                 imageongoing.setVisibility(View.INVISIBLE);
                 imagedone.setVisibility(View.INVISIBLE);
 
                 imagestart.setVisibility(View.VISIBLE);
+
+
             } else if (textstatusjob.matches("Done")) {
                 ratinggiven(textpartneruid, textuseruid);
+                click_tofacv.setVisibility(View.VISIBLE);
+
 
             }
+            click_tofacv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(showingF[0] == true)
+                    {
+                        insertuserfav(users_uid,textuseruid);
+                        click_tofacv.setImageResource(R.drawable.ic_favorite_black_24dp);
+                        showingF[0] = false;
+
+                    }
+                    else{
+                      delfav(fav_rid);
+                        showingF[0] = true;
+                        click_tofacv.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+
+                    }
+
+                }
+            });
 
             submitbut.setOnClickListener(new View.OnClickListener() {
 
@@ -110,6 +165,67 @@ public class ServiceTracking extends AppCompatActivity {
         }
 
     }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        getMenuInflater().inflate(R.menu.categories, menu);
+//        if (textstatusjob.matches("In Progress")) {
+//
+//
+//
+//        } else if (textstatusjob.matches("Done")) {
+//
+//            MenuItem item = menu.findItem(R.id.action_fav);
+//            item.setVisible(true);
+
+//
+//            final boolean[] showingF = {true};
+//
+//            if (favon.equals("Y"))
+//            {
+//                favori.setImageResource(R.drawable.like);
+//                showingF[0]=false;
+//            }
+//            else
+//            {
+//                favori.setImageResource(R.drawable.unlike);
+//                showingF[0]=true;
+//            }
+
+
+//        }
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        int id = item.getItemId();
+//
+//        if (id == R.id.action_fav) {
+//
+//
+//
+//            if(showingF[0] == true)
+//            {
+//                insertuserfav(users_uid,textuseruid);
+//                favori.setImageResource(R.drawable.like);
+//                showingF[0] = false;
+//
+//            }
+//            else{
+//                favdel(uid,sidin);
+//                showingF[0] = true;
+//                favori.setImageResource(R.drawable.unlike);
+//
+//            }
+//
+//
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
     public void insertratingdet(final String sphone1,final String sphone2,final String sphone3,final String sphone4,final String sphone5,final String sphone6) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_rating, new Response.Listener<String>() {
             @Override
@@ -235,5 +351,136 @@ public class ServiceTracking extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+
+    public void insertuserfav(final String sphone1,final String sphone2) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_favadd, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean abc = jObj.getBoolean("exits");
+
+                    if (abc)
+                    {
+                        JSONObject users = jObj.getJSONObject("users_detail");
+                       fav_rid= users.getString("fid");
+                       favon=users.getString("favon");
+                        if (favon==null|| favon.isEmpty())
+                        {
+                            favon="N";
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Please check number and Password",Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> insert = new HashMap<String, String>();
+                insert.put("user_uid", sphone1);
+                insert.put("user_booking_uid", sphone2);
+
+                return insert;
+
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+
+    }
+    public void delfav(final String sphone1) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_favdel, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> insert = new HashMap<String, String>();
+                insert.put("fid", sphone1);
+
+
+                return insert;
+
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+
+    }
+    public void getfav(final String sphone1) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_favdel, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean abc = jObj.getBoolean("exits");
+
+                    if (abc)
+                    {
+                        JSONObject users = jObj.getJSONObject("users_detail");
+                        fav_rid= users.getString("fid");
+                        favon=users.getString("favon");
+                        if (favon==null|| favon.isEmpty())
+                        {
+                            favon="N";
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Please check number and Password",Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> insert = new HashMap<String, String>();
+                insert.put("fid", sphone1);
+
+
+                return insert;
+
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+
     }
 }
