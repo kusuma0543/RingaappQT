@@ -1,33 +1,35 @@
 {
   "project_info": {
-    "project_number": "777908087113",
-    "project_id": "instagsigniin"
+    "project_number": "337205350237",
+    "firebase_url": "https://ringaapp-android-e1e66.firebaseio.com",
+    "project_id": "ringaapp-android-e1e66",
+    "storage_bucket": "ringaapp-android-e1e66.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:777908087113:android:1a584836c078d420",
+        "mobilesdk_app_id": "1:337205350237:android:fec44bf4e1265f9b",
         "android_client_info": {
           "package_name": "com.ringaapp.ringauser"
         }
       },
       "oauth_client": [
         {
-          "client_id": "777908087113-erhhrka2uai3mppoqkdrdvi8ugm4o42p.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "777908087113-ldfdat1an5ol5fs92a2pt3pt6vnmb5bk.apps.googleusercontent.com",
+          "client_id": "337205350237-d6rvm3afao4fcql4m2m2sn40jkagr2gk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ringaapp.ringauser",
-            "certificate_hash": "9a6c6a5f43ca808fce07f1dc754407be5f161539"
+            "certificate_hash": "3d432a589fc2095cde77ebd8b90a53392aa14f71"
           }
+        },
+        {
+          "client_id": "337205350237-8pcjnmr16hh2ltcek47v1g84ev8a1lng.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDlqOYLM3thrGULfOm24PmyJ6bcbxYpU1k"
+          "current_key": "AIzaSyA5q0zXM9D23PD6IrMpvdHGYx-7pWcp2GY"
         }
       ],
       "services": {
@@ -35,11 +37,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337205350237-8pcjnmr16hh2ltcek47v1g84ev8a1lng.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

@@ -72,6 +72,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import pl.droidsonroids.gif.GifImageView;
 import technolifestyle.com.imageslider.FlipperLayout;
 import technolifestyle.com.imageslider.FlipperView;
 
@@ -84,7 +85,7 @@ public class Categories extends AppCompatActivity
     private TextView home_tspinner, home_navusername;
     private ProgressDialog dialog;
     private CardView homebut_search;
-    private FloatingActionButton homebut_buy;
+         GifImageView homebut_buy;
     public String sharedhomeloc, hcityName, firstuid, categuid, name_nav;
     private ImageView search_image;
     RequestQueue rq;
@@ -149,21 +150,7 @@ public class Categories extends AppCompatActivity
             homebut_buy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new SweetAlertDialog(Categories.this, SweetAlertDialog.WARNING_TYPE).setTitleText("Hurray! Be a Partner").setContentText("To Post an AD and Service you need to be an RingaApp Partner")
-                            .setConfirmText("Yes.Let Me in!").setCancelText("Cancel").showCancelButton(true).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismiss();
-
-                        }
-                    }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse("market://details?id=com.whatsapp"));
-                            startActivity(intent);
-                        }
-                    }).show();
+                    callmetopostadd();
 
 
                 }
@@ -244,7 +231,25 @@ public class Categories extends AppCompatActivity
     }
 
 
+    public void callmetopostadd()
+    {
+        new SweetAlertDialog(Categories.this, SweetAlertDialog.WARNING_TYPE).setTitleText("Hurray! Be a Partner").setContentText("To Post an AD and Service you need to be an RingaApp Partner")
+                .setConfirmText("Yes.Let Me in!").setCancelText("Cancel").showCancelButton(true).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                sweetAlertDialog.dismiss();
 
+            }
+        }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("market://details?id=com.whatsapp"));
+                startActivity(intent);
+            }
+        }).show();
+
+    }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -281,9 +286,14 @@ public class Categories extends AppCompatActivity
             intent.putExtra(Intent.EXTRA_TEXT, "send your feedback here... ");
             startActivity(Intent.createChooser(intent, "Choose an Email client :"));
 
-        }else if (id == R.id.nav_rateus) {
+        }
+        else if (id == R.id.nav_rateus) {
 
-        }else if (id == R.id.nav_share) {
+        }
+       else if (id == R.id.nav_postad) {
+        callmetopostadd();
+       }
+        else if (id == R.id.nav_share) {
 
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
