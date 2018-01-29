@@ -40,25 +40,26 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <service
-            android:name=".FireBaseJavaClass">
+
+        <service android:name=".FireBaseJavaClass">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".FireBaseServiceClass">
+        <service android:name=".FireBaseServiceClass">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/FinestWebViewTheme.Light" />
 
-        <receiver android:name="swarajsaaj.smscodereader.receivers.OtpReader"
+        <receiver
+            android:name="swarajsaaj.smscodereader.receivers.OtpReader"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
@@ -114,12 +115,6 @@
             <!-- </intent-filter> -->
 
         </activity>
-
-
-
-
-
-
         <activity
             android:name=".IntrosliderActivity"
             android:label="@string/title_activity_introslider"
@@ -255,6 +250,15 @@
         </activity>
         <activity
             android:name=".AboutScroll"
+            android:label="@string/title_activity_about_scroll"
+            android:parentActivityName=".Categories"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringauser.Categories" />
+        </activity>
+        <activity
+            android:name=".MyFavs"
             android:label="@string/title_activity_about_scroll"
             android:parentActivityName=".Categories"
             android:theme="@style/AppTheme.NoActionBar">

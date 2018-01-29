@@ -394,13 +394,15 @@
             </LinearLayout>
 
         </ScrollView>
-        <pl.droidsonroids.gif.GifImageView
+        <Button
             android:id="@+id/serprov_bookbut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-
-            android:src="@drawable/serv_det_bookingbut"
+            android:text="BOOK Now"
+            android:textColor="@color/Color_White"
+            android:fontFamily="@font/nunito_semibold"
+            android:background="@drawable/filter_shape"
 
             />
 

@@ -17,6 +17,8 @@ public class myservices implements Parcelable{
     String service_booking_status;
     String user_uid;
     String service_subcateg_uid;
+    String service_booking_createddate;
+    String partner_mobilenumber;
 
     protected myservices(Parcel in) {
         booking_uid = in.readString();
@@ -28,6 +30,8 @@ public class myservices implements Parcelable{
         service_booking_status = in.readString();
         user_uid = in.readString();
         service_subcateg_uid = in.readString();
+        service_booking_createddate = in.readString();
+        partner_mobilenumber = in.readString();
     }
 
     @Override
@@ -41,6 +45,8 @@ public class myservices implements Parcelable{
         dest.writeString(service_booking_status);
         dest.writeString(user_uid);
         dest.writeString(service_subcateg_uid);
+        dest.writeString(service_booking_createddate);
+        dest.writeString(partner_mobilenumber);
     }
 
     @Override
@@ -130,5 +136,21 @@ public class myservices implements Parcelable{
 
     public void setService_subcateg_uid(String service_subcateg_uid) {
         this.service_subcateg_uid = service_subcateg_uid;
+    }
+
+    public String getService_booking_createddate() {
+        return service_booking_createddate;
+    }
+
+    public void setService_booking_createddate(String service_booking_createddate) {
+        this.service_booking_createddate = service_booking_createddate;
+    }
+
+    public String getPartner_mobilenumber() {
+        return partner_mobilenumber;
+    }
+
+    public void setPartner_mobilenumber(String partner_mobilenumber) {
+        this.partner_mobilenumber = partner_mobilenumber;
     }
 }

@@ -1,68 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/app_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ringaapp.ringauser.HomeScreen"
+    tools:context=".HomeScreen"
     tools:showIn="@layout/activity_home_screen">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/app_bg"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_marginTop="160dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="290dp"
+                android:layout_height="110dp"
+                android:paddingTop="5dp"
+                android:layout_marginLeft="35dp"
+                android:src="@drawable/logis_ap"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/butsingin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:fontFamily="@font/nunito_semibold"
+            android:hint="SIGN IN"
+            android:textStyle="bold"
+            android:padding="10dip"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="21sp" />
+
+        <Button
+            android:id="@+id/butsignup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_editetxtnobg"
+            android:fontFamily="@font/nunito_semibold"
+            android:hint="SIGN UP"
+            android:textStyle="bold"
+            android:padding="10dip"
+            android:textColorHint="#FFF"
+            android:textSize="21sp" />
+    </LinearLayout>
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:paddingTop="5dp"
-        android:src="@drawable/logis_ap"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+</RelativeLayout>
 
-
-    <Button
-        android:id="@+id/butsingin"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="208dp"
-        android:background="@drawable/rounded_edittext"
-        android:fontFamily="@font/nunito_semibold"
-        android:padding="10dip"
-        android:text="SIGN IN"
-        android:textColor="@color/colorAccent"
-        android:textColorHint="@color/colorPrimary"
-        android:textSize="21sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <Button
-        android:id="@+id/butsignup"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="168dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_editetxtnobg"
-        android:fontFamily="@font/nunito_semibold"
-        android:padding="10dip"
-        android:text="@string/signup"
-        android:textColor="@color/colorBackgound"
-        android:textColorHint="#FFF"
-        android:textSize="21sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/butsingin"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/butsingin"
-        app:layout_constraintTop_toBottomOf="@+id/butsingin" />
-
-
-</android.support.constraint.ConstraintLayout>

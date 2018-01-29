@@ -3,12 +3,16 @@ package com.ringaapp.ringauser;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -49,9 +53,9 @@ import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
 
-public class MySelService extends AppCompatActivity {
+public class MyFavs extends AppCompatActivity {
     String myseruseruid;
-    private ListView userserv_listview;
+    private ListView user_myfavslist;
     private ProgressDialog dialog;
     private SessionManager session;
     private SQLiteHandler db;
@@ -61,7 +65,7 @@ public class MySelService extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_sel_service);
+        setContentView(R.layout.activity_my_favs);
 
         if (isConnectedToNetwork()) {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -95,29 +99,52 @@ public class MySelService extends AppCompatActivity {
             dialog.setIndeterminate(true);
             dialog.setCancelable(false);
             dialog.setMessage("Loading. Please wait...");
-            userserv_listview = findViewById(R.id.user_selservices);
-            String URLL = GlobalUrl.user_myservices + "?user_uid=" + myseruseruid;
+            user_myfavslist = findViewById(R.id.user_myfavlist);
+            String URLL = GlobalUrl.user_showfav + "?user_uid=" + myseruseruid;
             new kilomilo().execute(URLL);
-        } else {
+        }
+        else {
             setContentView(R.layout.content_ifnointernet);
             DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
             desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(MySelService.this, MySelService.class);
+                    Intent intent = new Intent(MyFavs.this, MyFavs.class);
                     startActivity(intent);
                 }
             });
         }
+
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_about_scroll, menu);
+
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_ringa) {
+
+            startActivity(new Intent(MyFavs.this,Categories.class));
+        }
+
+
+        return true;
+    }
     public class MovieAdap extends ArrayAdapter {
-        private List<myservices> movieModelList;
+        private List<showfav> movieModelList;
         private int resource;
         Context context;
         private LayoutInflater inflater;
 
-        MovieAdap(Context context, int resource, List<myservices> objects) {
+        MovieAdap(Context context, int resource, List<showfav> objects) {
             super(context, resource, objects);
             movieModelList = objects;
             this.context = context;
@@ -155,14 +182,13 @@ public class MySelService extends AppCompatActivity {
             else {
                 holder = (MovieAdap.ViewHolder) convertView.getTag();
             }
-            final myservices ccitacc = movieModelList.get(position);
+            final showfav ccitacc = movieModelList.get(position);
             holder.textthree.setText(ccitacc.getService_subcateg_name());
             holder.textone.setText(ccitacc.getPartner_name());
             holder.textstatus.setText(ccitacc.getService_booking_status());
             holder.textstatus.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-            String n = ccitacc.getPartner_locality();
-            String nn = ccitacc.getPartner_cityname();
-            holder.textfour.setText(n + "," + nn);
+
+          //  holder.textfour.setText(n + "," + nn);
             holder.text_getmobile_number.setText(ccitacc.getPartner_mobilenumber());
 
             long days;
@@ -190,7 +216,7 @@ public class MySelService extends AppCompatActivity {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:" + take_user_number));
                     callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    if (ActivityCompat.checkSelfPermission(MySelService.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(MyFavs.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
 
                         return;
                     }
@@ -208,28 +234,7 @@ public class MySelService extends AppCompatActivity {
 
         }
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_about_scroll, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_ringa) {
-
-            startActivity(new Intent(MySelService.this,Categories.class));
-        }
-
-
-        return true;
-    }
-    public class kilomilo extends AsyncTask<String, String, List<myservices>> {
+    public class kilomilo extends AsyncTask<String, String, List<showfav>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -237,7 +242,7 @@ public class MySelService extends AppCompatActivity {
         }
 
         @Override
-        protected List<myservices> doInBackground(String... params) {
+        protected List<showfav> doInBackground(String... params) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
@@ -254,11 +259,11 @@ public class MySelService extends AppCompatActivity {
                 String finalJson = buffer.toString();
                 JSONObject parentObject = new JSONObject(finalJson);
                 JSONArray parentArray = parentObject.getJSONArray("result");
-                List<myservices> milokilo = new ArrayList<>();
+                List<showfav> milokilo = new ArrayList<>();
                 Gson gson = new Gson();
                 for (int i = 0; i < parentArray.length(); i++) {
                     JSONObject finalObject = parentArray.getJSONObject(i);
-                    myservices catego = gson.fromJson(finalObject.toString(), myservices.class);
+                    showfav catego = gson.fromJson(finalObject.toString(), showfav.class);
                     milokilo.add(catego);
                 }
                 return milokilo;
@@ -280,32 +285,53 @@ public class MySelService extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(final List<myservices> movieMode) {
+        protected void onPostExecute(final List<showfav> movieMode) {
             super.onPostExecute(movieMode);
             dialog.dismiss();
             if((movieMode != null) && (movieMode.size()>0) )
             {
                 MovieAdap adapter = new MovieAdap(getApplicationContext(), R.layout.myservices, movieMode);
-                userserv_listview.setAdapter(adapter);
-                userserv_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                user_myfavslist.setAdapter(adapter);
+                user_myfavslist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        myservices item = movieMode.get(position);
-                        Intent intent = new Intent(MySelService.this,ServiceTracking.class);
-                        intent.putExtra("partnerhome_partneruid",item.getPartner_uid());
-                        intent.putExtra("partnerhome_useruida",item.getBooking_uid());
-                        intent.putExtra("partnerhome_subcateguid",item.getService_subcateg_uid());
-                        intent.putExtra("partnerhome_statusjob",item.getService_booking_status());
-                        startActivity(intent);
+                        showfav item = movieMode.get(position);
+//                        Intent intent = new Intent(MyFavs.this,MapsActivity.class);
+//                        intent.putExtra("categid",item.getService_categ_uid());
+//                        intent.putExtra("subcategid",item.getService_subcateg_uid());
+//                        intent.putExtra("subcategname",item.getService_subcateg_name());
+//                        intent.putExtra("categoryname_user",item.getService_categ_name());
+//                        startActivity(intent);
+
+
+
+                        Intent intentb=new Intent(MyFavs.this,ServiceProviderDetails.class);
+                        intentb.putExtra("selservice_providerid",item.getPartner_uid());
+                        intentb.putExtra("selservice_providername",item.getPartner_name());
+                        intentb.putExtra("visitingcahrgeofpartner",item.getPartner_budget());
+                        intentb.putExtra("totalrating",item.getUser_ratings());
+                        intentb.putExtra("partner_lastseendate",item.getService_booking_createddate());
+                        intentb.putExtra("partner_ratingcount",item.getUser_rating_count());
+
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MyFavs.this);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("sel_subcategid",item.getService_subcateg_uid());
+                        editor.putString("sel_categid",item.getService_categ_uid());
+                        editor.putString("sel_subcategnameuser",item.getService_subcateg_name());
+                        editor.putString("categoryname_user",item.getService_categ_name());
+                        editor.apply();
+                        startActivity(intentb);
+
                     }
                 });
+
                 adapter.notifyDataSetChanged();
 
 
             }
             else
             {
-                userserv_listview.setVisibility(View.INVISIBLE);
+                user_myfavslist.setVisibility(View.INVISIBLE);
                 underser_gif.setVisibility(View.VISIBLE);
                 normal_text.setVisibility(View.VISIBLE);
 

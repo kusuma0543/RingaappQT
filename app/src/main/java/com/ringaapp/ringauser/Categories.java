@@ -85,7 +85,7 @@ public class Categories extends AppCompatActivity
     private TextView home_tspinner, home_navusername;
     private ProgressDialog dialog;
     private CardView homebut_search;
-         GifImageView homebut_buy;
+         FloatingActionButton homebut_buy;
     public String sharedhomeloc, hcityName, firstuid, categuid, name_nav;
     private ImageView search_image;
     RequestQueue rq;
@@ -267,6 +267,7 @@ public class Categories extends AppCompatActivity
             startActivity(new Intent(Categories.this,MySelService.class));
 
         }  else if (id == R.id.nav_favourites) {
+           startActivity(new Intent(Categories.this,MyFavs.class));
 
         } else if (id == R.id.nav_support) {
            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
@@ -346,8 +347,10 @@ startActivity( new Intent(Categories.this,AboutScroll.class));
             }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
-                   // finish();
-
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
             }).show();
 

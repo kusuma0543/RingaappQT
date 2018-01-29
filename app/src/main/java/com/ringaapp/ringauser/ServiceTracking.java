@@ -43,6 +43,7 @@ public class ServiceTracking extends AppCompatActivity {
     Float dbrate;
     ImageView click_tofacv;
     String favon;
+    final boolean[] showingF = {true};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +62,7 @@ public class ServiceTracking extends AppCompatActivity {
         textfeed = findViewById(R.id.textfeed);
         textrating = findViewById(R.id.textrating);
         click_tofacv=findViewById(R.id.click_tofav);
-        try
-        {
-            getfav(fav_rid);
-        }catch (Exception e)
-        {
 
-        }
 
 
         if (isConnectedToNetwork()) {
@@ -79,28 +74,14 @@ public class ServiceTracking extends AppCompatActivity {
             imagedone = findViewById(R.id.tracking_done);
             Intent intent1 = getIntent();
             textpartneruid = intent1.getStringExtra("partnerhome_partneruid");
-            textuseruid = intent1.getStringExtra("partnerhome_useruid");
+            textuseruid = intent1.getStringExtra("partnerhome_useruida");
             texsubcateg = intent1.getStringExtra("partnerhome_subcateguid");
             textstatusjob = intent1.getStringExtra("partnerhome_statusjob");
 
+           // Toast.makeText(this, textuseruid, Toast.LENGTH_SHORT).show();
+   getfav(users_uid,textuseruid);
 
-            final boolean[] showingF = {true};
-try
-{if (favon.equals("Y"))
-{
-    click_tofacv.setImageResource(R.drawable.ic_favorite_black_24dp);
-    showingF[0]=false;
-}
-else
-{
-    click_tofacv.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-    showingF[0]=true;
-}
 
-}catch (Exception e)
-{
-
-}
 
             if (textstatusjob.matches("In Progress")) {
                 imageongoing.setVisibility(View.INVISIBLE);
@@ -144,7 +125,7 @@ else
                     } else {
                         String feedback = trackfeedback.getText().toString();
                         String rating = String.valueOf(ratingBar.getRating());
-                        insertratingdet(textpartneruid, textuseruid, texsubcateg, rating, feedback, users_uid);
+                        insertratingdet(textpartneruid, textuseruid, texsubcateg, rating, feedback);
                         onBackPressed();
                     }
                 }
@@ -226,7 +207,7 @@ else
 //
 //        return super.onOptionsItemSelected(item);
 //    }
-    public void insertratingdet(final String sphone1,final String sphone2,final String sphone3,final String sphone4,final String sphone5,final String sphone6) {
+    public void insertratingdet(final String sphone1,final String sphone2,final String sphone3,final String sphone4,final String sphone5) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_rating, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -247,7 +228,6 @@ else
                 insert.put("service_subcateg_uid", sphone3);
                 insert.put("user_ratings", sphone4);
                 insert.put("user_feedback", sphone5);
-                insert.put("user_uid", sphone6);
                 return insert;
 
             }
@@ -269,8 +249,42 @@ else
                         gettrackrating= users.getString("user_ratings");
                         gettrackfeedback=users.getString("user_feedback");
 
+                        if(gettrackfeedback.matches("no")|| equals("no"))
+                        {
+                            imageongoing.setVisibility(View.INVISIBLE);
+                            imagestart.setVisibility(View.INVISIBLE);
+                            imagedone.setVisibility(View.VISIBLE);
+                            textfeed.setVisibility(View.VISIBLE);
+                            trackfeedback.setVisibility(View.VISIBLE);
+                            textrating.setVisibility(View.VISIBLE);
+                            ratingBar.setVisibility(View.VISIBLE);
+                            submitbut.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            dbrate = Float.parseFloat(gettrackrating);
 
-                        visibilitymethod();
+                            trackfeedback.setText(gettrackfeedback);
+                            ratingBar.setRating(dbrate);
+                            imageongoing.setVisibility(View.INVISIBLE);
+                            imagestart.setVisibility(View.INVISIBLE);
+                            imagedone.setVisibility(View.VISIBLE);
+                            textfeed.setVisibility(View.VISIBLE);
+                            trackfeedback.setVisibility(View.VISIBLE);
+                            textrating.setVisibility(View.VISIBLE);
+                            ratingBar.setVisibility(View.VISIBLE);
+
+                            ratingBar.setClickable(false);
+                            ratingBar.setFocusable(false);
+                            ratingBar.setFocusableInTouchMode(false);
+
+                            trackfeedback.setFocusable(false);
+                            trackfeedback.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+                            trackfeedback.setClickable(false);
+
+
+                        }
+                       // visibilitymethod();
 
                     }
                     else
@@ -296,6 +310,7 @@ else
                 insert.put("partner_uid", sphone1);
                 insert.put("user_booking_uid", sphone2);
 
+
                 return insert;
 
             }
@@ -320,6 +335,8 @@ else
         {
             dbrate = Float.parseFloat(gettrackrating);
 
+            trackfeedback.setText(gettrackfeedback);
+            ratingBar.setRating(dbrate);
             imageongoing.setVisibility(View.INVISIBLE);
             imagestart.setVisibility(View.INVISIBLE);
             imagedone.setVisibility(View.VISIBLE);
@@ -336,8 +353,6 @@ else
             trackfeedback.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
             trackfeedback.setClickable(false);
 
-            trackfeedback.setText(gettrackfeedback);
-            ratingBar.setRating(dbrate);
 
         }
     }
@@ -431,8 +446,8 @@ else
         AppController.getInstance().addToRequestQueue(stringRequest);
 
     }
-    public void getfav(final String sphone1) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_favdel, new Response.Listener<String>() {
+    public void getfav(final String sphone1,final String sphone2) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.user_favget, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -444,10 +459,21 @@ else
                         JSONObject users = jObj.getJSONObject("users_detail");
                         fav_rid= users.getString("fid");
                         favon=users.getString("favon");
-                        if (favon==null|| favon.isEmpty())
+                        if (favon.equals("Y")||favon.matches("Y"))
                         {
-                            favon="N";
+                            click_tofacv.setImageResource(R.drawable.ic_favorite_black_24dp);
+                            showingF[0]=false;
+
                         }
+                        else {
+                            click_tofacv.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                            showingF[0]=true;
+                        }
+
+
+
+
+
 
 
 
@@ -473,7 +499,8 @@ else
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> insert = new HashMap<String, String>();
-                insert.put("fid", sphone1);
+                insert.put("user_uid", sphone1);
+                insert.put("booking_uid", sphone2);
 
 
                 return insert;

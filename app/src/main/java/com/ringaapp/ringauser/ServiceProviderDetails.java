@@ -58,7 +58,7 @@ import technolifestyle.com.imageslider.FlipperView;
 public class ServiceProviderDetails extends AppCompatActivity {
     public ListView listview_service,review_list;
     FlipperLayout flipperLayout_service;
-     GifImageView serprov_bookbut;
+    Button serprov_bookbut;
     String  userid_book,servdetcategoryname_user,categid_book,subcateg_book,alladdress_book,
             alllatitude_book,alllongitude_book,sel_subcategnameuser,s_partner_lastseen;
     RatingBar rating_servp_ratingbar;
@@ -125,6 +125,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
             sel_subcategnameuser=preferences.getString("sel_subcategnameuser","");
             servdetcategoryname_user=preferences.getString("categoryname_user","");
             final Intent intent = getIntent();
+
             final String sel_servicepid = intent.getStringExtra("selservice_providerid");
             String sel_servicepname = intent.getStringExtra("selservice_providername");
             String partner_Budget=intent.getStringExtra("visitingcahrgeofpartner");

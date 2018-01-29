@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -61,6 +63,7 @@ public class Second extends AppCompatActivity {
     private SQLiteHandler db;
     String categoryname_user;
     TextView normal_text;
+    Button normal_texts;
     GifImageView underser_gif;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +94,7 @@ public class Second extends AppCompatActivity {
         db = new SQLiteHandler(getApplicationContext());
 
         normal_text=findViewById(R.id.textview_subcat);
+        normal_texts=findViewById(R.id.textview_subcats);
         underser_gif=findViewById(R.id.gif_view);
 
         if (isConnectedToNetwork()) {
@@ -122,7 +126,16 @@ public class Second extends AppCompatActivity {
                     return false;
                 }
             });
-
+            normal_texts.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                            "mailto","ringaapp@gmail.com", null));
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Support");
+                    intent.putExtra(Intent.EXTRA_TEXT, "Mail Your service ... ");
+                    startActivity(Intent.createChooser(intent, "Choose an Email client :"));
+                }
+            });
             second_edittext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -139,6 +152,7 @@ public class Second extends AppCompatActivity {
                     return false;
                 }
             });
+
             second_edittext.addTextChangedListener(new TextWatcher()
             {
                 @Override
@@ -335,6 +349,7 @@ public class Second extends AppCompatActivity {
                 second_listview.setVisibility(View.INVISIBLE);
                 underser_gif.setVisibility(View.VISIBLE);
                 normal_text.setVisibility(View.VISIBLE);
+                normal_texts.setVisibility(View.VISIBLE);
 
 
             }

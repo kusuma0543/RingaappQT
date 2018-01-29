@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+import com.varunest.sparkbutton.SparkButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +57,9 @@ public class AllCatSearch extends AppCompatActivity  {
 String homeloca;
 
 TextView normal_text;
+TextView normal_texts;
 GifImageView underser_gif;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +84,9 @@ GifImageView underser_gif;
             }
         });
 
-normal_text=findViewById(R.id.textview_subcat);
-underser_gif=findViewById(R.id.gif_view);
+        normal_text=findViewById(R.id.textview_subcat);
+        underser_gif=findViewById(R.id.gif_view);
+
         if (isConnectedToNetwork()) {
             Intent intent = getIntent();
             homeloca = intent.getStringExtra("sharedhomelocm");
@@ -301,10 +307,10 @@ underser_gif=findViewById(R.id.gif_view);
             }
 
             else {
+
                 second_listview.setVisibility(View.INVISIBLE);
                 underser_gif.setVisibility(View.VISIBLE);
                 normal_text.setVisibility(View.VISIBLE);
-
 
             }
         }

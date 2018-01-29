@@ -31,7 +31,7 @@ class GlobalUrl {
     public static String user_favadd="http://quaticstech.in/projecti1andro/android_users_fav.php";
     public static String user_favdel="http://quaticstech.in/projecti1andro/android_users_delfav.php";
     public static String user_favget="http://quaticstech.in/projecti1andro/android_users_getfav.php";
-
+    public static String user_showfav="http://quaticstech.in/projecti1andro/android_users_showfav.php";
 
     public static String user_categoriesret="http://quaticstech.in/projecti1andro/android_users_categoriesret.php";
     public static String user_spinnerdataret="http://quaticstech.in/projecti1andro/android_users_placesret.php";
