@@ -81,7 +81,7 @@ String mappagelat,mappagelng,mappageloc;
     private SessionManager session;
     private SQLiteHandler db;
     String sel_subcategname;
-String mapcategoryname_user;
+        String mapcategoryname_user;
     private ProgressDialog dialog;
     String getting_rating_countl;
 
