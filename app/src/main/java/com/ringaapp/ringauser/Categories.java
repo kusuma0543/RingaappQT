@@ -116,7 +116,7 @@ public class Categories extends AppCompatActivity
             home_tspinner = (TextView) findViewById(R.id.home_tspinner);
             home_gridview = (GridView) findViewById(R.id.home_gridview);
             homebut_search = findViewById(R.id.hello_card);
-            homebut_buy = findViewById(R.id.postad_partner);
+           // homebut_buy = findViewById(R.id.postad_partner);
             search_image = findViewById(R.id.search_image_map);
             flipperLayout = (FlipperLayout) findViewById(R.id.flipper_layout);
             second_listview = (ListView) findViewById(R.id.s);
@@ -147,14 +147,14 @@ public class Categories extends AppCompatActivity
                     }
                 }
             });
-            homebut_buy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    callmetopostadd();
-                    //pdovpod
-
-                }
-            });
+//            homebut_buy.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                  //  callmetopostadd();
+//                    //pdovpod
+//
+//                }
+//            });
             search_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -231,25 +231,25 @@ public class Categories extends AppCompatActivity
     }
 
 
-    public void callmetopostadd()
-    {
-        new SweetAlertDialog(Categories.this, SweetAlertDialog.WARNING_TYPE).setTitleText("Hurray! Be a Partner").setContentText("To Post an AD and Service you need to be an RingaApp Partner")
-                .setConfirmText("Yes.Let Me in!").setCancelText("Cancel").showCancelButton(true).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                sweetAlertDialog.dismiss();
-
-            }
-        }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("market://details?id=com.whatsapp"));
-                startActivity(intent);
-            }
-        }).show();
-
-    }
+//    public void callmetopostadd()
+//    {
+//        new SweetAlertDialog(Categories.this, SweetAlertDialog.WARNING_TYPE).setTitleText("Hurray! Be a Partner").setContentText("To Post an AD and Service you need to be an RingaApp Partner")
+//                .setConfirmText("Yes.Let Me in!").setCancelText("Cancel").showCancelButton(true).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//            @Override
+//            public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                sweetAlertDialog.dismiss();
+//
+//            }
+//        }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//            @Override
+//            public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                intent.setData(Uri.parse("market://details?id=com.whatsapp"));
+//                startActivity(intent);
+//            }
+//        }).show();
+//
+//    }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -291,9 +291,9 @@ public class Categories extends AppCompatActivity
         else if (id == R.id.nav_rateus) {
 
         }
-       else if (id == R.id.nav_postad) {
-        callmetopostadd();
-       }
+      // else if (id == R.id.nav_postad) {
+      //  callmetopostadd();
+    //   }
         else if (id == R.id.nav_share) {
 
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);

@@ -1,8 +1,11 @@
 package com.ringaapp.ringauser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 public class TermsAndConditions extends AppCompatActivity {
@@ -14,24 +17,6 @@ public class TermsAndConditions extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(getSupportActionBar()!=null)
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
     }
     @Override
     public void onBackPressed()
@@ -39,5 +24,25 @@ public class TermsAndConditions extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        getMenuInflater().inflate(R.menu.menu_tc, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_close) {
+
+            startActivity(new Intent(TermsAndConditions.this,SignupActivity.class));
+        }
+
+
+        return true;
+    }
 }

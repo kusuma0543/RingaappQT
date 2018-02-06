@@ -324,14 +324,12 @@ String mappagelat,mappagelng,mappageloc;
                     new kilomilo().execute(GlobalUrl.user_mapdetails+"?partner_latitude="+dlat+"&partner_longitude="+dlng+"&subcategid="+sel_subcategid);
 
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydneys, 6.5f));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(16f), 2000, null);
                     mMap.addMarker(new MarkerOptions()
                             .position(sydneys).icon(BitmapDescriptorFactory.fromResource(R.drawable.ourloc
                             )));
-                    mMap.setMaxZoomPreference(15.5f);
-                    mMap.setMinZoomPreference(6.5f);
-
-
+                    mMap.setMaxZoomPreference(16.5f);
+                    mMap.setMinZoomPreference(5.5f);
 
                 }
 
@@ -343,8 +341,8 @@ String mappagelat,mappagelng,mappageloc;
                 }
             });
 
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
-            mMap.setMaxZoomPreference(14.5f);
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(14.5f), 2000, null);
+            mMap.setMaxZoomPreference(16.5f);
             mMap.setMinZoomPreference(6.5f);
 
             mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -488,8 +486,8 @@ String checkurl=GlobalUrl.user_mapdetails+"?partner_latitude="+mappagelat+"&part
                 )));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(maplat,maplng) ,6.5f));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
-        mMap.setMaxZoomPreference(15.5f);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(16.5f), 2000, null);
+        mMap.setMaxZoomPreference(16.5f);
         mMap.setMinZoomPreference(6.5f);
 
 

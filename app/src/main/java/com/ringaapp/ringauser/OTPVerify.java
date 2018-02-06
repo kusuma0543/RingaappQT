@@ -201,12 +201,15 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
                     setFocus(mPinHiddenEditText);
                     showSoftKeyboard(mPinHiddenEditText);
                 }
+
                 break;
 
             case R.id.pinfour:
                 if (hasFocus) {
                     setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(mPinHiddenEditText);
+                   // showSoftKeyboard(mPinHiddenEditText);
+                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(mPinHiddenEditText.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
                 }
                 break;
 
@@ -225,12 +228,17 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
 
                         if (mPinHiddenEditText.getText().length() == 4)
                             mPinForthDigitEditText.setText("");
+
+
+
                         else if (mPinHiddenEditText.getText().length() == 3)
                             mPinThirdDigitEditText.setText("");
                         else if (mPinHiddenEditText.getText().length() == 2)
                             mPinSecondDigitEditText.setText("");
                         else if (mPinHiddenEditText.getText().length() == 1)
                             mPinFirstDigitEditText.setText("");
+
+
 
                         if (mPinHiddenEditText.length() > 0) {
                             mPinHiddenEditText.setText(mPinHiddenEditText.getText().subSequence(0, mPinHiddenEditText.length() - 1));
@@ -268,11 +276,14 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
         if (s.length() == 0) {
             setFocusedPinBackground(mPinFirstDigitEditText);
             mPinFirstDigitEditText.setText("");
+
         } else if (s.length() == 1) {
             setFocusedPinBackground(mPinSecondDigitEditText);
             mPinFirstDigitEditText.setText(s.charAt(0) + "");
             mPinSecondDigitEditText.setText("");
             mPinThirdDigitEditText.setText("");
+
+
             mPinForthDigitEditText.setText("");
 
         } else if (s.length() == 2) {
@@ -286,6 +297,8 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
             mPinThirdDigitEditText.setText(s.charAt(2) + "");
             mPinForthDigitEditText.setText("");
         } else if (s.length() == 4) {
+         InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(mPinHiddenEditText.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
             mPinForthDigitEditText.setText(s.charAt(3) + "");
         }
     }
@@ -490,33 +503,7 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
 //                        .show();
 
             }
-    public void rideme(final String uidthree, final String s1,final String s2,final String s3,final String s4) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.users_autolocation, new Response.Listener<String>() {
-            public void onResponse(String response) {
 
-
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            { }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("user_uid",uidthree);
-                params.put("user_address_home",s1);
-                params.put("user_address_latitude", s2);
-                params.put("user_address_longitude", s3);
-                params.put("user_address_cityname", s4);
-
-
-                return params;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(stringRequest);
-    }
     private boolean isConnectedToNetwork() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

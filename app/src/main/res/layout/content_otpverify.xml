@@ -125,6 +125,12 @@
                 android:fontFamily="@font/nunito_semibold"
 
                 android:hint="*"
+                android:ems="1"
+                android:maxEms="1"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/butotp_verify"
                 android:inputType="number"
                 android:paddingLeft="30dp" />
 
