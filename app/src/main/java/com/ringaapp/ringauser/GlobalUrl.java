@@ -38,5 +38,8 @@ class GlobalUrl {
     public static String user_sliderdataret="http://quaticstech.in/projecti1andro/android_users_slider.php";
     public static String user_mapdetails="http://quaticstech.in/projecti1andro/trail.php";
 
+public static  String service_provider_url_handle="http://quaticstech.in/projecti1andro/android_users_partner_share.php";
+
+
 }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -67,10 +68,9 @@ public class ServiceProviderDetails extends AppCompatActivity {
             tv_servp_totaljobsdone,tv_servp_totalreview,tv_servp_lastupdated,tv_servp_desc;
     Button but_servp_visitingcharge;
     String alladredlocali,stotal_count;
-
+    String sel_servicepname,sel_servicepid;
     private SessionManager session;
     private SQLiteHandler db;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +99,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
 
 
         if (isConnectedToNetwork()) {
+            onNewIntent(getIntent());
             final HashMap<String, String> user = db.getUserDetails();
             userid_book = user.get("uid");
             alladdress_book = user.get("user_address");
@@ -126,14 +127,14 @@ public class ServiceProviderDetails extends AppCompatActivity {
             servdetcategoryname_user=preferences.getString("categoryname_user","");
             final Intent intent = getIntent();
 
-            final String sel_servicepid = intent.getStringExtra("selservice_providerid");
-            String sel_servicepname = intent.getStringExtra("selservice_providername");
+             sel_servicepid = intent.getStringExtra("selservice_providerid");
+             sel_servicepname = intent.getStringExtra("selservice_providername");
             String partner_Budget=intent.getStringExtra("visitingcahrgeofpartner");
             String servdet_totalreviews=intent.getStringExtra("totalrating");
             s_partner_lastseen=intent.getStringExtra("partner_lastseendate");
             stotal_count=intent.getStringExtra("partner_ratingcount");
             toolbar.setTitle(sel_servicepname);
-            getservdet(sel_servicepid);
+
 
 
 
@@ -543,7 +544,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu_about_scroll, menu);
+        getMenuInflater().inflate(R.menu.service_profile_share, menu);
 
         return true;
     }
@@ -557,7 +558,18 @@ public class ServiceProviderDetails extends AppCompatActivity {
 
             startActivity(new Intent(ServiceProviderDetails.this,Categories.class));
         }
+        else if (id == R.id.share_service) {
 
+
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            String shareBody = "I am happy with this RingaApp Best Service Partner "+sel_servicepname +".Please click the link to View & Book Now  \n http://quaticstech.in/projecti1andro/android_users_partner_share.php?partner="+ sel_servicepid+"&subcateg="+subcateg_book;
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"RINGAAPP");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(sharingIntent, " This is about service"));
+
+
+        }
 
         return true;
     }
@@ -646,4 +658,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
+
+
+
 }

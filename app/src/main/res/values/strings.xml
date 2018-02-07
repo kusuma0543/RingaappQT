@@ -127,5 +127,6 @@
     </string>
     <string name="title_activity_about_scroll">About RingaApp</string>
     <string name="title_activity_my_favs">MyFavs</string>
+    <string name="title_activity_service_provider_url">ServiceProviderUrl</string>
 
 </resources>

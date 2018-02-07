@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ringaapp.ringauser.AboutScroll">
+
+    <item
+        android:id="@+id/share_service"
+        android:orderInCategory="100"
+        android:title="Share"
+        android:icon="@drawable/share"
+        android:iconTint="@color/Color_White"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_ringa"
+        android:orderInCategory="100"
+        android:title="RingaApp"
+        android:icon="@mipmap/ic_launcher"
+        app:showAsAction="ifRoom" />
+
+</menu>
