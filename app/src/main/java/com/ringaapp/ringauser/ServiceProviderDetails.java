@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -71,6 +72,8 @@ public class ServiceProviderDetails extends AppCompatActivity {
     String sel_servicepname,sel_servicepid;
     private SessionManager session;
     private SQLiteHandler db;
+    ImageView IVshare_whatsapp,IVshare_facebook,IVshare_twitter;
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +99,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
         });
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
-
+context=this;
 
         if (isConnectedToNetwork()) {
             onNewIntent(getIntent());
@@ -118,6 +121,10 @@ public class ServiceProviderDetails extends AppCompatActivity {
             tv_servp_desc=findViewById(R.id.servpdet_desc);
             but_servp_visitingcharge=findViewById(R.id.servpdet_visitingcharge);
             rating_servp_ratingbar=findViewById(R.id.servpdet_ratingbar);
+IVshare_whatsapp=findViewById(R.id.whats_share);
+IVshare_twitter=findViewById(R.id.twitter_share);
+IVshare_facebook=findViewById(R.id.face_share);
+
 
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -187,7 +194,48 @@ public class ServiceProviderDetails extends AppCompatActivity {
                 }
             });
         }
+        IVshare_facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+                whatsappIntent.setType("text/plain");
+                whatsappIntent.setPackage("com.facebook.katana");
+                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "I am happy with this RingaApp Best Service Partner "+sel_servicepname +".Please click the link to View & Book Now  \n http://quaticstech.in/projecti1andro/android_users_partner_share.php?partner="+ sel_servicepid+"&subcateg="+subcateg_book);
+                try {
+                    startActivity(whatsappIntent);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(context, "No app installed", Toast.LENGTH_SHORT).show();        }
 
+            }
+        });
+IVshare_twitter.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+        whatsappIntent.setType("text/plain");
+        whatsappIntent.setPackage("com.twitter.android");
+        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "I am happy with this RingaApp Best Service Partner "+sel_servicepname +".Please click the link to View & Book Now  \n http://quaticstech.in/projecti1andro/android_users_partner_share.php?partner="+ sel_servicepid+"&subcateg="+subcateg_book);
+        try {
+            startActivity(whatsappIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(context, "No app installed", Toast.LENGTH_SHORT).show();        }
+
+    }
+});
+
+IVshare_whatsapp.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+        whatsappIntent.setType("text/plain");
+        whatsappIntent.setPackage("com.whatsapp");
+        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "I am happy with this RingaApp Best Service Partner "+sel_servicepname +".Please click the link to View & Book Now  \n http://quaticstech.in/projecti1andro/android_users_partner_share.php?partner="+ sel_servicepid+"&subcateg="+subcateg_book);
+        try {
+            startActivity(whatsappIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(context, "No app installed", Toast.LENGTH_SHORT).show();        }
+    }
+});
     }
     public class MovieAdap extends ArrayAdapter {
         private List<BannerlistPartner> movieModelList;

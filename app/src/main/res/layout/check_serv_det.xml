@@ -339,6 +339,49 @@
                     </technolifestyle.com.imageslider.FlipperLayout>
 
                 </android.support.v7.widget.CardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="4"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="Share Using"
+                        android:layout_weight="2"
+                        android:textSize="20sp"
+                        android:gravity="center"
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:id="@+id/face_share"
+                        android:layout_weight="1"
+                        android:src="@drawable/facebook_share"
+                        android:background="@null"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
+                    <ImageView
+                        android:id="@+id/whats_share"
+                        android:layout_weight="1"
+                        android:src="@drawable/whatsapp_share"
+                        android:background="@null"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
+                    <ImageView
+                        android:id="@+id/twitter_share"
+                        android:layout_weight="1"
+                        android:src="@drawable/twitter_share"
+                        android:background="@null"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
+                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
